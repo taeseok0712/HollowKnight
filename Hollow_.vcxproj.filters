@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="00.MainGame">
+      <UniqueIdentifier>{76cdc69f-bd7f-49e8-8d2e-3de0a61bd71d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj">
+      <UniqueIdentifier>{d2148462-d97e-4964-9dd0-5385833cffae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Manager">
+      <UniqueIdentifier>{22832516-2fc3-4109-8c06-be8d3db25683}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Defalut">
+      <UniqueIdentifier>{4dfa8885-2760-4926-9af6-1b2917067b58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Header">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="01.Obj\Player">
+      <UniqueIdentifier>{7bdf273f-9c0c-4b2c-8e4c-6d440494ae31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\Monster">
+      <UniqueIdentifier>{d77fca91-0f0c-47a4-ad91-c73599019a0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\Monster\Hush">
+      <UniqueIdentifier>{5f1a1cb4-4682-4114-9c43-8599c43462b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\Monster\Fly">
+      <UniqueIdentifier>{aaf39d5c-b18b-4210-bb51-514dd86ef0fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\Monster\SubBoss">
+      <UniqueIdentifier>{a110f416-8541-47d1-bbf3-f44d92e85f86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\Monster\Hush Knight">
+      <UniqueIdentifier>{10898514-a9da-4ee5-90c1-7222b09ce91d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{15c2ef7c-f843-4701-8791-b2d1d9c5305c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Manager\SceneMgr">
+      <UniqueIdentifier>{bc000174-0b6a-4201-8c63-3663ef00e5f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Manager\KeyMgr">
+      <UniqueIdentifier>{8a171445-3d12-4a3f-8b28-4fce62128b9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene">
+      <UniqueIdentifier>{8803ba45-f818-42df-ab41-66e787bfedb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\Logo">
+      <UniqueIdentifier>{4566f306-315b-4aea-88e6-8da3b911f04c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\Menu">
+      <UniqueIdentifier>{55060597-4e11-42cb-99b2-c76d92cfdabe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\Stage1">
+      <UniqueIdentifier>{d6ed9ecf-3299-48c7-86a8-7049719bd63a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Manager\BitMapMgr">
+      <UniqueIdentifier>{c7c7d669-dc42-4917-817b-2939f22b9263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Manager\Scroll">
+      <UniqueIdentifier>{6d5b3361-55c9-4a9e-8cfb-ce05f2d95881}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Manager\CollMgr">
+      <UniqueIdentifier>{497dc5dd-6c85-445e-aa3b-16008d50fb6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\Monster\Bug">
+      <UniqueIdentifier>{393aedfd-65d6-4e15-8a6c-03004bb99f4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Manager\Sound">
+      <UniqueIdentifier>{7819437c-0c3c-40fc-abc1-37f6a25e63cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Obj\Monster\Bittle">
+      <UniqueIdentifier>{fcd25df8-c79a-47d3-b2ad-3c9b4ce53520}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="targetver.h">
+      <Filter>99.Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>99.Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Hollow_.h">
+      <Filter>99.Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Obj.h">
+      <Filter>01.Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="Maingame.h">
+      <Filter>00.MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>01.Obj\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Enum.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Exturn.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Struct.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Funtion.h">
+      <Filter>99.Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMgr.h">
+      <Filter>03.Manager\SceneMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyMgr.h">
+      <Filter>03.Manager\KeyMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>02.Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Logo.h">
+      <Filter>02.Scene\Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>02.Scene\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="stage1.h">
+      <Filter>02.Scene\Stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractFactory.h">
+      <Filter>99.Header</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="BitmapMgr.h">
+      <Filter>03.Manager\BitMapMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBitmap.h">
+      <Filter>03.Manager\BitMapMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="MyScrollMgr.h">
+      <Filter>03.Manager\Scroll</Filter>
+    </ClInclude>
+    <ClInclude Include="Husk.h">
+      <Filter>01.Obj\Monster\Hush</Filter>
+    </ClInclude>
+    <ClInclude Include="HushKnight.h">
+      <Filter>01.Obj\Monster\Hush Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="Fly.h">
+      <Filter>01.Obj\Monster\Fly</Filter>
+    </ClInclude>
+    <ClInclude Include="Bug.h">
+      <Filter>01.Obj\Monster\Bug</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundMgr.h">
+      <Filter>03.Manager\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SubBoss.h">
+      <Filter>01.Obj\Monster\SubBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="Bittle.h">
+      <Filter>01.Obj\Monster\Bittle</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Hollow_.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="Hollow_.ico">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="..\Image\Menu\menuBackground.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Hollow_.cpp">
+      <Filter>98.Defalut</Filter>
+    </ClCompile>
+    <ClCompile Include="Obj.cpp">
+      <Filter>01.Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="Define.h">
+      <Filter>Header</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMgr.cpp">
+      <Filter>03.Manager\SceneMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyMgr.cpp">
+      <Filter>03.Manager\KeyMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>02.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Logo.cpp">
+      <Filter>02.Scene\Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>02.Scene\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="stage1.cpp">
+      <Filter>02.Scene\Stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="BitmapMgr.cpp">
+      <Filter>03.Manager\BitMapMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="MyBitmap.cpp">
+      <Filter>03.Manager\BitMapMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="MyScrollMgr.cpp">
+      <Filter>03.Manager\Scroll</Filter>
+    </ClCompile>
+    <ClCompile Include="Husk.cpp">
+      <Filter>01.Obj\Monster\Hush</Filter>
+    </ClCompile>
+    <ClCompile Include="Maingame.cpp">
+      <Filter>00.MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="HushKnight.cpp">
+      <Filter>01.Obj\Monster\Hush Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="Fly.cpp">
+      <Filter>01.Obj\Monster\Fly</Filter>
+    </ClCompile>
+    <ClCompile Include="Bug.cpp">
+      <Filter>01.Obj\Monster\Bug</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>01.Obj\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundMgr.cpp">
+      <Filter>03.Manager\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SubBoss.cpp">
+      <Filter>01.Obj\Monster\SubBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="Bittle.cpp">
+      <Filter>01.Obj\Monster\Bittle</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
