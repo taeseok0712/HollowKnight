@@ -78,6 +78,12 @@
     <Filter Include="01.Obj\Monster\Bittle">
       <UniqueIdentifier>{fcd25df8-c79a-47d3-b2ad-3c9b4ce53520}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Scene\Lobby">
+      <UniqueIdentifier>{4b3a9819-dd42-4071-a6b3-fe51c98c4d08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{260e526c-5a80-4768-8d75-46b75ff5fc08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -164,6 +170,12 @@
     <ClInclude Include="Bittle.h">
       <Filter>01.Obj\Monster\Bittle</Filter>
     </ClInclude>
+    <ClInclude Include="Lobby.h">
+      <Filter>02.Scene\Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Hollow_.rc">
@@ -244,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="Bittle.cpp">
       <Filter>01.Obj\Monster\Bittle</Filter>
+    </ClCompile>
+    <ClCompile Include="Lobby.cpp">
+      <Filter>02.Scene\Lobby</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

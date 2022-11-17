@@ -4,9 +4,24 @@
 #include "framework.h"
 #include "Hollow_.h"
 #include "Maingame.h"
+#include "Common.h"
 
-
+#define SERVERIP   "127.0.0.1"
+#define SERVERPORT 9000
+#define BUFSIZE    512
 #define MAX_LOADSTRING 100
+
+
+//서버-클라이언트 통신을 위한 전역변수
+
+SOCKET sock; // 소켓
+char buf[BUFSIZE + 1]; // 데이터 송수신 버퍼
+HANDLE hMoveEvent, hOtherPlayerMoveEvent; // 이벤트
+
+
+DWORD WINAPI ClientMain(LPVOID arg);
+
+
 
 // 전역 변수:
 HWND g_hWND;
@@ -29,6 +44,19 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: 여기에 코드를 입력합니다.
+    //서버 클라이언트 통신을 위한 윈속 초기화
+    WSADATA wsa;
+    if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
+        return 1;
+
+    // 이벤트 생성
+    hMoveEvent = CreateEvent(NULL, FALSE, TRUE, NULL);
+    hOtherPlayerMoveEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+
+    // 소켓 통신 스레드 생성
+    CreateThread(NULL, 0, ClientMain, NULL, 0, NULL);
+
+
 
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -73,6 +101,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			}
 		}
 	}
+    WSACleanup();
 
 	return (int)msg.wParam;
 }
@@ -181,4 +210,33 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     }
     return (INT_PTR)FALSE;
+}
+
+
+
+
+// TCP 클라이언트 시작 부분
+DWORD WINAPI ClientMain(LPVOID arg)
+{
+	int retval;
+
+	// 소켓 생성
+	sock = socket(AF_INET, SOCK_STREAM, 0);
+	if (sock == INVALID_SOCKET) err_quit("socket()");
+
+	// connect()
+	struct sockaddr_in serveraddr;
+	memset(&serveraddr, 0, sizeof(serveraddr));
+	serveraddr.sin_family = AF_INET;
+	serveraddr.sin_addr.s_addr = inet_addr(SERVERIP);
+	serveraddr.sin_port = htons(SERVERPORT);
+	retval = connect(sock, (struct sockaddr*)&serveraddr, sizeof(serveraddr));
+	if (retval == SOCKET_ERROR) err_quit("connect()");
+
+	// 서버와 데이터 통신
+	while (1) {
+		break;
+	}
+
+	return 0;
 }

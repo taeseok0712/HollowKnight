@@ -21,9 +21,7 @@ void CMainGame::Initialize()
 //	 더블버퍼링용 dc
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/BackBuffer.bmp", L"BackBuffer");
 
-	CSceneMgr::Get_Instance()->SceneChange(CSceneMgr::SCENE_LOGO);
-
-
+	CSceneMgr::Get_Instance()->SceneChange(CSceneMgr::SCENE_STAGE1);
 
 }
 void CMainGame::LateUpdate()

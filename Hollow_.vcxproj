@@ -157,6 +157,7 @@
     <ClInclude Include="BitmapMgr.h" />
     <ClInclude Include="Bittle.h" />
     <ClInclude Include="Bug.h" />
+    <ClInclude Include="Common.h" />
     <ClInclude Include="Enum.h" />
     <ClInclude Include="Exturn.h" />
     <ClInclude Include="Fly.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="HushKnight.h" />
     <ClInclude Include="Husk.h" />
     <ClInclude Include="KeyMgr.h" />
+    <ClInclude Include="Lobby.h" />
     <ClInclude Include="Logo.h" />
     <ClInclude Include="Maingame.h" />
     <ClInclude Include="Menu.h" />
@@ -192,6 +194,7 @@
     <ClCompile Include="HushKnight.cpp" />
     <ClCompile Include="Husk.cpp" />
     <ClCompile Include="KeyMgr.cpp" />
+    <ClCompile Include="Lobby.cpp" />
     <ClCompile Include="Logo.cpp" />
     <ClCompile Include="Maingame.cpp" />
     <ClCompile Include="Menu.cpp" />

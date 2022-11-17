@@ -3,7 +3,7 @@
 #include "Logo.h"
 #include "Menu.h"
 #include "stage1.h"
-
+#include "Lobby.h"
 IMPLEMENT_SINGLETON(CSceneMgr)
 
 CSceneMgr::CSceneMgr()
@@ -54,6 +54,9 @@ void CSceneMgr::SceneChange(SCENEID eScene)
 			break;
 		case CSceneMgr::SCENE_MENU:
 			m_pScene = new CMenu;
+			break;
+		case CSceneMgr::SCENE_LOBBY:
+			m_pScene = new CLobby;
 			break;
 		case CSceneMgr::SCENE_STAGE1:
 			m_pScene = new CStage1;
