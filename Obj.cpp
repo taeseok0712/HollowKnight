@@ -52,3 +52,15 @@ bool CObj::Check_Collision(CObj* Player, CObj* monster)
 		return false;
 	}
 }
+
+void CObj::setDead(bool in)
+{
+	this->m_bIsDead = in;
+}
+
+bool CObj::getIsDead()
+{
+	return this->m_bIsDead;
+}
+
+

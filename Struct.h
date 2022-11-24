@@ -50,3 +50,15 @@ class CObj;
 typedef list<CObj*>			OBJLIST;
 typedef OBJLIST::iterator	OBJITER;
 
+
+struct PlayerData
+{
+	INFO info;
+	int playerState;
+	//string name; //나중에 추가하기위해 일단 제외해둠
+	int playerHp; 
+	bool isDead; //요기 수정됨 alive->isDead로 수정
+	int playerDir; //플레이어가 바라보는 방향
+};
+
+

@@ -16,9 +16,6 @@
 
 SOCKET sock; // 소켓
 char buf[BUFSIZE + 1]; // 데이터 송수신 버퍼
-HANDLE hMoveEvent, hOtherPlayerMoveEvent; // 이벤트
-
-
 DWORD WINAPI ClientMain(LPVOID arg);
 
 
@@ -28,6 +25,12 @@ HWND g_hWND;
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
+
+
+PlayerData playerDataPacket;
+HANDLE h_SendDataEvent;
+HANDLE h_WriteDataEvent;
+
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -50,13 +53,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return 1;
 
     // 이벤트 생성
-    hMoveEvent = CreateEvent(NULL, FALSE, TRUE, NULL);
-    hOtherPlayerMoveEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+
+
+
+    //이벤트 생성
+    h_WriteDataEvent = CreateEvent(NULL, FALSE, TRUE, NULL);
+    h_SendDataEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+
 
     // 소켓 통신 스레드 생성
     CreateThread(NULL, 0, ClientMain, NULL, 0, NULL);
-
-
 
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -101,6 +107,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			}
 		}
 	}
+
+    CloseHandle(h_SendDataEvent);
+    CloseHandle(h_WriteDataEvent);
     WSACleanup();
 
 	return (int)msg.wParam;
@@ -221,6 +230,8 @@ DWORD WINAPI ClientMain(LPVOID arg)
 	int retval;
 
 	// 소켓 생성
+
+  
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == INVALID_SOCKET) err_quit("socket()");
 
@@ -234,8 +245,14 @@ DWORD WINAPI ClientMain(LPVOID arg)
 	if (retval == SOCKET_ERROR) err_quit("connect()");
 
 	// 서버와 데이터 통신
+    
+
+    
 	while (1) {
-		break;
+        WaitForSingleObject(h_SendDataEvent, INFINITE);
+        retval = send(sock, (char*)&playerDataPacket, sizeof(PlayerData), 0);
+        SetEvent(h_WriteDataEvent);
+		//break;
 	}
 
 	return 0;

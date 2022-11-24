@@ -79,6 +79,8 @@ void Player::Initialize()
 	b_canChange = true;
 	b_IsChange = false;
 	CSoundMgr::Get_Instance()->PlayBGM(L"S19 Crossroads Main.wav");
+
+	
 }
 
 
@@ -86,6 +88,15 @@ void Player::Initialize()
 int Player::Update()
 {
 	RECT rcTemp;
+
+	WaitForSingleObject(h_WriteDataEvent, INFINITE); // 읽기 완료 대기
+	SetEvent(h_SendDataEvent);
+
+	playerDataPacket.info = this->Get_Info();
+	playerDataPacket.isDead = this->getIsDead();
+	playerDataPacket.playerDir = this->m_eDirc;
+	playerDataPacket.playerHp = this->Hp;
+	playerDataPacket.playerState = this->m_eCurState;
 
 	if (b_IsChange == false) {
 		if (b_canChange == true) {

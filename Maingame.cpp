@@ -1,5 +1,6 @@
-#include "Maingame.h"
 #include "framework.h"
+#include "Maingame.h"
+
 #include "SceneMgr.h"
 
 CMainGame::CMainGame()

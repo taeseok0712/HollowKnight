@@ -33,11 +33,12 @@
 #include <algorithm>
 #include <assert.h>
 using namespace std;
+#include "Exturn.h"
 #include "resource.h"
 #include "Enum.h"
 #include "Define.h"
 #include "Struct.h"
-#include "Exturn.h"
+
 #include "Funtion.h"
 
 #include "KeyMgr.h"

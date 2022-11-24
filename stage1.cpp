@@ -10,6 +10,7 @@
 #include "HushKnight.h"
 #include "AbstractFactory.h"
 
+
 CStage1::CStage1()
 {
 	wave = 1;
