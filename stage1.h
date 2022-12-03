@@ -28,6 +28,8 @@ private:
 	CObj* m_pbittle3;
 	CObj* m_pbittle4;
 	CObj* m_pHushKni;
+	CObj* m_OtherPlayer;
+
 	int wave;
 };
 

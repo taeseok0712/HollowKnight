@@ -8,6 +8,7 @@
 #include "LineMgr.h"
 #include "SceneMgr.h"
 #include "HushKnight.h"
+#include "OtherPlayer.h"
 #include "AbstractFactory.h"
 
 
@@ -21,6 +22,10 @@ CStage1::CStage1()
 
 	}
 
+	if (m_OtherPlayer == nullptr) {
+		m_OtherPlayer = new OtherPlayer;
+		m_OtherPlayer->Initialize();
+	}
 
 	if (m_pHush == nullptr) {
 		m_pHush = new Husk;
@@ -81,7 +86,7 @@ void CStage1::Initialize()
 
 void CStage1::Update() {
 	m_pPlayer->Update();
-	
+	m_OtherPlayer->Update();
 	
 	if (m_pHush != nullptr) {
 		m_pHush->Update();
@@ -202,6 +207,8 @@ void CStage1::LateUpdate()
 {
 
 	m_pPlayer->LateUpdate();
+
+	m_OtherPlayer->LateUpdate();
 	if (m_pHush != nullptr) {
 		m_pHush->LateUpdate();
 	}
@@ -243,6 +250,7 @@ void CStage1::LateUpdate()
 void CStage1::Render(HDC hDC)
 {
 	m_pPlayer->UpdateRect();
+	
 	if (m_pHush != nullptr) {
 		m_pHush->UpdateRect();
 	}
@@ -302,6 +310,9 @@ void CStage1::Render(HDC hDC)
 	}
 	if (m_pHushKni != nullptr) {
 		m_pHushKni->Render(hDC);
+	}
+	if (m_OtherPlayer != nullptr) {
+		m_OtherPlayer->Render(hDC);
 	}
 	m_pPlayer->Render(hDC);
 	HDC mMemDC = CBitmapMgr::Get_Instance()->FindImage(L"mapRoad");

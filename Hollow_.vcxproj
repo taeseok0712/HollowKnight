@@ -175,6 +175,7 @@
     <ClInclude Include="MyBitmap.h" />
     <ClInclude Include="MyScrollMgr.h" />
     <ClInclude Include="Obj.h" />
+    <ClInclude Include="OtherPlayer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="MyBitmap.cpp" />
     <ClCompile Include="MyScrollMgr.cpp" />
     <ClCompile Include="Obj.cpp" />
+    <ClCompile Include="OtherPlayer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneMgr.cpp" />
