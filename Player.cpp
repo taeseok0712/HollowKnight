@@ -97,6 +97,7 @@ int Player::Update()
 	playerDataPacket.playerDir = this->m_eDirc;
 	playerDataPacket.playerHp = this->Hp;
 	playerDataPacket.playerState = this->m_eCurState;
+	//playerDataPacket.FrameKey = this->m_pFrameKey;
 
 	if (b_IsChange == false) {
 		if (b_canChange == true) {

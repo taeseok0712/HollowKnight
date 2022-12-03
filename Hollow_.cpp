@@ -30,7 +30,7 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름�
 PlayerData playerDataPacket;
 HANDLE h_SendDataEvent;
 HANDLE h_WriteDataEvent;
-
+PlayerData* OtherPlayerData = NULL;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -247,10 +247,23 @@ DWORD WINAPI ClientMain(LPVOID arg)
 	// 서버와 데이터 통신
     
 
-    
+    PlayerData pd = {}; //다른 플레이어 데이터용
+    int GetSize = 0;
+   
 	while (1) {
         WaitForSingleObject(h_SendDataEvent, INFINITE);
-        retval = send(sock, (char*)&playerDataPacket, sizeof(PlayerData), 0);
+        retval = send(sock, (char*)&playerDataPacket, sizeof(PlayerData), 0);//클라이언트 플레이어 데이터 전송
+
+      
+        GetSize = recv(sock, buf, BUFSIZE, 0);
+
+        buf[GetSize] = '\0';
+        OtherPlayerData = (PlayerData*)buf; 
+       
+     
+        
+        
+        
         SetEvent(h_WriteDataEvent);
 		//break;
 	}

@@ -9,3 +9,5 @@ extern HANDLE h_SendDataEvent;
 extern HANDLE h_WriteDataEvent;
 
 extern PlayerData playerDataPacket;
+
+extern PlayerData* OtherPlayerData;

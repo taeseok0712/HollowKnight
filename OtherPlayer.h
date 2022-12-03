@@ -26,19 +26,13 @@ public:
 	bool CheckCollE2M(CObj* monster);
 	void SoundON();
 	int GetHp();
-	void Set_InfoHusk(CObj* Monster);
-	void Set_InfoFly(CObj* Monster);
-	void Set_InfoBug(CObj* Monster);
-	void Set_InfoSubBoss(CObj* Monster);
-	void Set_Infobit(CObj* Monster);
-	void Set_Infobit2(CObj* Monster);
-	void Set_Infobit3(CObj* Monster);
-	void Set_Infobit4(CObj* Monster);
-	void Set_InfoHushK(CObj* Monster);
+	
 	void Set_Wave(int wave) { m_wave = wave; };
 	bool getStage();
 	RECT Attack_box; // 어택박스
 	bool Attck_ON;
+	void SetState();
+
 private:
 	TCHAR* m_pFrameKey;
 	TCHAR* Attck;
