@@ -290,14 +290,16 @@ int Player::Update()
 				Hp -= 1;
 				Attacked = true;
 			}
-			bool t = pSubBoss->effectOn;
-			if (t) {
-				RECT rcTemp;
-				RECT a = (pSubBoss)->drawEffect;
+			if (pSubBoss != nullptr) {
+				bool t = pSubBoss->effectOn;
+				if (t) {
+					RECT rcTemp;
+					RECT a = (pSubBoss)->drawEffect;
 
-				if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
-					Hp -= 1;
-					Attacked = true;
+					if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
+						Hp -= 1;
+						Attacked = true;
+					}
 				}
 			}
 		}
@@ -808,16 +810,19 @@ void Player::FrameChange()
 bool Player::CheckCollE2M(CObj * monster)
 {
 	RECT Dst;
+	
 	if (Attck_ON) {
 		SetRect(&Attack_box, Attack_box.left, Attack_box.top, Attack_box.right, Attack_box.bottom);
-		SetRect(&monster->HitBox, monster->HitBox.left, monster->HitBox.top, monster->HitBox.right, monster->HitBox.bottom);
-		if (IntersectRect(&Dst, &Attack_box, &monster->HitBox))
-		{
+		if (monster != nullptr) {
+			SetRect(&monster->HitBox, monster->HitBox.left, monster->HitBox.top, monster->HitBox.right, monster->HitBox.bottom);
+			if (IntersectRect(&Dst, &Attack_box, &monster->HitBox))
+			{
 
-			return true;
-		}
-		else {
-			return false;
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 	}
 	else return false;

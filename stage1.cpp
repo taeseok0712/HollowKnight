@@ -26,7 +26,7 @@ CStage1::CStage1()
 		m_OtherPlayer = new OtherPlayer;
 		m_OtherPlayer->Initialize();
 	}
-
+	/*
 	if (m_pHush == nullptr) {
 		m_pHush = new Husk;
 		m_pHush->Initialize();
@@ -59,6 +59,8 @@ CStage1::CStage1()
 		dynamic_cast<SubBoss*>(m_pSub)->Set_Info(m_pPlayer);
 		dynamic_cast<Player*>(m_pPlayer)->Set_InfoSubBoss(m_pSub);
 	}
+	*/
+	
 
 	/////////////////////////¿þÀÌºê//////////////////////////////
 
@@ -74,9 +76,6 @@ CStage1::~CStage1()
 
 void CStage1::Initialize()
 {
-
-	
-
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/UI/HPbar_1.bmp", L"HPbar");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/UI/HPicon_1.bmp", L"HPicon");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/UI/PowerGage2.bmp", L"PowerGage");
