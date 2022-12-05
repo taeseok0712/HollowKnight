@@ -1,15 +1,10 @@
 #pragma once
 #include "Obj.h"
-#include "Enum.h"
-#include "Global.h"
-
-#define NEAR_WALL_COUNT 2
-
 class HushKnight :public CObj
 {
-
 public:
 	enum STATE { STATE_ATT, STATE_IDLE, STATE_WALK };
+	enum Direction { DR_LEFT, DR_RIGHT };
 public:
 	HushKnight();
 	~HushKnight();
@@ -18,7 +13,7 @@ public:
 	virtual void Initialize() override;
 	virtual int Update() override;
 	virtual void LateUpdate() override;
-	// virtual void Render(HDC hdc) override;
+	virtual void Render(HDC hdc) override;
 	virtual void Release() override;
 public:
 	void FrameChange();

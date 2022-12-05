@@ -1,32 +1,36 @@
-#include "Common.h"
+#include "Maingame.h"
+#include "Server.h"
 
 #define SERVERPORT 9000
-#define BUFSIZE    1024
+#define BUFSIZE    512
 
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 
 // 윈도우 프로시저
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-// 에디트 컨트롤 출력 함수
-void DisplayText(const char *fmt, ...);
-// 소켓 함수 오류 출력
-void DisplayError(const char *msg);
 // 소켓 통신 스레드 함수
 DWORD WINAPI ServerMain(LPVOID arg);
 DWORD WINAPI ProcessClient(LPVOID arg);
 
 HINSTANCE hInst; // 인스턴스 핸들
-HWND hEdit; // 에디트 컨트롤
+HWND g_hWND;
 
-CRITICAL_SECTION cs; // 임계 영역
 
 HWND hProgress;
+SOCKET g_clientSock[MAXPLAYERNUM]{};
+int numOfPlayer = 1;
+bool g_gameStart = false;
+array <Client, MAXPLAYERNUM> g_clients;
+Player g_pPlayers[MAXPLAYERNUM];
+
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine, int nCmdShow)
 {
 	hInst = hInstance;
-	InitializeCriticalSection(&cs);
+
+	// 소켓 통신 스레드 생성
+	CreateThread(NULL, 0, ServerMain, NULL, 0, NULL);
 
 	// 윈도우 클래스 등록
 	WNDCLASS wndclass;
@@ -35,34 +39,61 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = 0;
 	wndclass.hInstance = hInstance;
-	wndclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	wndclass.hIcon = LoadIcon(NULL, MAKEINTRESOURCE(IDI_HOLLOW));
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wndclass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+	wndclass.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
 	wndclass.lpszMenuName = NULL;
 	wndclass.lpszClassName = _T("MyWndClass");
 	if (!RegisterClass(&wndclass)) return 1;
 
 	// 윈도우 생성
-	HWND hWnd = CreateWindow(_T("MyWndClass"), _T("TCP 서버"),
-		WS_OVERLAPPEDWINDOW, 0, 0, 500, 220,
+	HWND hWnd = CreateWindow(_T("MyWndClass"), _T("Hollow Knight"),
+		WS_OVERLAPPEDWINDOW, 0, 0, 1600, 900,
 		NULL, NULL, hInstance, NULL);
-
+	g_hWND = hWnd;
 	if (hWnd == NULL) return 1;
 
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 
-	// 소켓 통신 스레드 생성
-	CreateThread(NULL, 0, ServerMain, NULL, 0, NULL);
+
+
+	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_HOLLOW));
+
+	MSG msg;
+	msg.message = WM_NULL;
+	CMainGame MainGame;
+	MainGame.Initialize();
+	DWORD dwOldTime = GetTickCount();
+
+	while (WM_QUIT != msg.message)
+	{
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+
+			DispatchMessage(&msg);
+		}
+		else
+		{
+			if (dwOldTime + 10 < GetTickCount())
+			{
+
+				MainGame.Update();
+				MainGame.LateUpdate();
+				MainGame.Render();
+				dwOldTime = GetTickCount();
+			}
+		}
+	}
+	WSACleanup();
 
 	//// 메시지 루프
-	MSG msg;
-	while (GetMessage(&msg, 0, 0, 0) > 0) {
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-	}
-
-	DeleteCriticalSection(&cs);
+	//MSG msg;
+	//while (GetMessage(&msg, 0, 0, 0) > 0) {
+	//	TranslateMessage(&msg);
+	//	DispatchMessage(&msg);
+	//}
 	return (int)msg.wParam;
 }
 
@@ -74,10 +105,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 		return 0;
 	case WM_SIZE:
-		MoveWindow(hEdit, 0, 0, LOWORD(lParam), HIWORD(lParam), TRUE);
 		return 0;
 	case WM_SETFOCUS:
-		SetFocus(hEdit);
 		return 0;
 	case WM_DESTROY:
 		PostQuitMessage(0);
@@ -87,34 +116,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-// 에디트 컨트롤 출력 함수
-void DisplayText(const char *fmt, ...)
-{
-	va_list arg;
-	va_start(arg, fmt);
-	char cbuf[BUFSIZE * 2];
-	vsprintf(cbuf, fmt, arg);
-	va_end(arg);
 
-	EnterCriticalSection(&cs);
-	int nLength = GetWindowTextLength(hEdit);
-	SendMessage(hEdit, EM_SETSEL, nLength, nLength);
-	SendMessageA(hEdit, EM_REPLACESEL, FALSE, (LPARAM)cbuf);
-	LeaveCriticalSection(&cs);
-}
-
-// 소켓 함수 오류 출력
-void DisplayError(const char *msg)
-{
-	LPVOID lpMsgBuf;
-	FormatMessageA(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-		NULL, WSAGetLastError(),
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		(char *)&lpMsgBuf, 0, NULL);
-	DisplayText("[%s] %s\r\n", msg, (char *)lpMsgBuf);
-	LocalFree(lpMsgBuf);
-}
 
 // TCP 서버 시작 부분
 DWORD WINAPI ServerMain(LPVOID arg)
@@ -147,28 +149,33 @@ DWORD WINAPI ServerMain(LPVOID arg)
 	SOCKET client_sock;
 	struct sockaddr_in clientaddr;
 	int addrlen;
-	HANDLE hThread;
+	HANDLE hThread[MAXPLAYERNUM];
 
 	while (1) {
 		// accept()
 		addrlen = sizeof(clientaddr);
 		client_sock = accept(listen_sock, (struct sockaddr *)&clientaddr, &addrlen);
 		if (client_sock == INVALID_SOCKET) {
-			DisplayError("accept()");
+			err_quit("accept()");
 			break;
 		}
 
 		// 접속한 클라이언트 정보 출력
 		char addr[INET_ADDRSTRLEN];
 		inet_ntop(AF_INET, &clientaddr.sin_addr, addr, sizeof(addr));
-		DisplayText("\r\n[TCP 서버] 클라이언트 접속: IP 주소=%s, 포트 번호=%d\r\n",
+		printf("\n[TCP 서버] 클라이언트 접속: IP 주소=%s, 포트 번호=%d\n",
 			addr, ntohs(clientaddr.sin_port));
 
+		g_clients[numOfPlayer - 1].sock = client_sock;
+		
 		// 스레드 생성
-		hThread = CreateThread(NULL, 0, ProcessClient,
-			(LPVOID)client_sock, 0, NULL);
-		if (hThread == NULL) { closesocket(client_sock); }
-		else { CloseHandle(hThread); }
+		hThread[numOfPlayer - 1] = CreateThread(NULL, 0, ProcessClient,
+			(LPVOID)g_clients[numOfPlayer - 1].sock, 0, NULL);
+		if (numOfPlayer == MAXPLAYERNUM || g_gameStart) // 게임이 시작했거나 플레이어 수가 MAX에 도달했을 경우 더 이상 클라이언트를 추가하지 않음
+		{ closesocket(client_sock); }
+		else {
+			numOfPlayer++;
+			CloseHandle(hThread[numOfPlayer - 1]); }
 	}
 
 	// 소켓 닫기
@@ -189,36 +196,57 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 	int addrlen;
 	char buf[BUFSIZE];
 
+	int clientNum = -1;
+
 	// 클라이언트 정보 얻기
 	addrlen = sizeof(clientaddr);
 	getpeername(client_sock, (struct sockaddr *)&clientaddr, &addrlen);
 	inet_ntop(AF_INET, &clientaddr.sin_addr, addr, sizeof(addr));
-
+	for (int i = 0; i < MAXPLAYERNUM; ++i)
+	{
+		if (client_sock == g_clients[i].sock) {
+			clientNum = i;
+			break;
+		}
+	}
 	while (1) {
-		// 데이터 받기
-		retval = recv(client_sock, buf, BUFSIZE, MSG_WAITALL);
+		// 데이터 받기 -> 여기서 플레이어 정보를 받아온다
+		PlayerData recvPlayerData;
+		retval = recv(client_sock, (char*)&recvPlayerData, sizeof(recvPlayerData), MSG_WAITALL);
 		if (retval == SOCKET_ERROR) {
-			DisplayError("recv()");
+			printf("PlayerData recv failed\n");
 			break;
 		}
-		else if (retval == 0)
-			break;
+		auto temp = recvPlayerData;
 
-		// 받은 데이터 출력
-		buf[retval] = '\0';
-		DisplayText("[TCP/%s:%d] %s\r\n", addr, ntohs(clientaddr.sin_port), buf);
+		// 플레이어 정보를 받고 업데이트를 해준다
+		
+		// 데이터 보내기 -> 여기서 몬스터 정보와 다른 클라이언트 정보를 클라이언트들에게 뿌려준다.
+		for (int i = 0; i < MAXPLAYERNUM; ++i) {
+			if (i != clientNum) {				// 자신 클라이언트가 아닌 다른 클라이언트들의 정보만 보낸다.
+				retval = send(g_clients[i].sock, (char*)&temp, sizeof(temp), 0);
+				if (retval == SOCKET_ERROR) {
+					printf("다른 클라이언트 정보 보내는 도중 오류 발생\n");
+					err_quit("send()");
+					break;
+				}
+			}
+			MonsterData MonsterData[9];
+			// 몬스터 정보를 씬에서 꺼내서 넣어야 함
 
-		// 데이터 보내기
-		retval = send(client_sock, buf, retval, 0);
-		if (retval == SOCKET_ERROR) {
-			DisplayError("send()");
-			break;
+			retval = send(g_clients[i].sock, (char*)&MonsterData, sizeof(MonsterData), 0);
+			if (retval == SOCKET_ERROR) {
+				printf("몬스터 정보 보내는 도중 오류 발생\n");
+				err_quit("send()");
+				break;
+			}
 		}
+
 	}
 
 	// 소켓 닫기
 	closesocket(client_sock);
-	DisplayText("[TCP 서버] 클라이언트 종료: IP 주소=%s, 포트 번호=%d\r\n",
+	printf("[TCP 서버] 클라이언트 종료: IP 주소=%s, 포트 번호=%d\r\n",
 		addr, ntohs(clientaddr.sin_port));
 	return 0;
 }

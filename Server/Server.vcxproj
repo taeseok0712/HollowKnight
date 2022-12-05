@@ -127,27 +127,79 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BitmapMgr.cpp" />
     <ClCompile Include="Bittle.cpp" />
     <ClCompile Include="Bug.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Fly.cpp" />
     <ClCompile Include="HushKnight.cpp" />
     <ClCompile Include="Husk.cpp" />
+    <ClCompile Include="KeyMgr.cpp" />
+    <ClCompile Include="Line.cpp" />
+    <ClCompile Include="LineMgr.cpp" />
+    <ClCompile Include="Lobby.cpp" />
+    <ClCompile Include="Logo.cpp" />
+    <ClCompile Include="Maingame.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="MyBitmap.cpp" />
+    <ClCompile Include="MyScrollMgr.cpp" />
     <ClCompile Include="Obj.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneMgr.cpp" />
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="SoundMgr.cpp" />
+    <ClCompile Include="stage1.cpp" />
+    <ClCompile Include="Stage2.cpp" />
     <ClCompile Include="SubBoss.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractFactory.h" />
+    <ClInclude Include="BitmapMgr.h" />
     <ClInclude Include="Bittle.h" />
     <ClInclude Include="Bug.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Define.h" />
     <ClInclude Include="Enum.h" />
+    <ClInclude Include="Exturn.h" />
     <ClInclude Include="Fly.h" />
-    <ClInclude Include="Global.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="Funtion.h" />
+    <ClInclude Include="GuideBullet.h" />
     <ClInclude Include="HushKnight.h" />
     <ClInclude Include="Husk.h" />
+    <ClInclude Include="KeyMgr.h" />
+    <ClInclude Include="Line.h" />
+    <ClInclude Include="LineMgr.h" />
+    <ClInclude Include="Lobby.h" />
+    <ClInclude Include="Logo.h" />
+    <ClInclude Include="Maingame.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="MyBitmap.h" />
+    <ClInclude Include="MyScrollMgr.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="Packet.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneMgr.h" />
+    <ClInclude Include="Server.h" />
+    <ClInclude Include="SoundMgr.h" />
+    <ClInclude Include="stage1.h" />
+    <ClInclude Include="Stage2.h" />
+    <ClInclude Include="Struct.h" />
     <ClInclude Include="SubBoss.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Hollow_.ico" />
+    <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Hollow_.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

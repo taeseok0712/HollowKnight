@@ -1,10 +1,8 @@
 #pragma once
+#pragma once
 #include "Obj.h"
-#include "Enum.h"
-// #include "Player.h"
-#include "Global.h"
-
-#define NEAR_WALL_COUNT 6
+#include "Player.h"
+#include <Windows.h>
 
 using namespace std;
 
@@ -12,8 +10,10 @@ using namespace std;
 class Husk :
 	public CObj
 {
+
 public:
 	enum STATE { STATE_ATT, STATE_IDLE, STATE_WALK };
+	enum Direction { DR_LEFT, DR_RIGHT };
 public:
 	Husk();
 	~Husk();
@@ -22,7 +22,7 @@ public:
 	virtual void Initialize() override;
 	virtual int Update() override;
 	virtual void LateUpdate() override;
-	// virtual void Render(HDC hdc) override;
+	virtual void Render(HDC hdc) override;
 	virtual void Release() override;
 public:
 	void FrameChange();

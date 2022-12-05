@@ -1,5 +1,5 @@
 #pragma once
-#include "Global.h"
+#include "framework.h"
 #include "Enum.h"
 
 
@@ -18,7 +18,7 @@ struct PlayerData
 	string name; // 캐릭터 위에 플레이 닉네임 표시용
 	int playerHp;
 	bool playerAlive;
-	DIR playerDir; //플레이어가 바라보는 방향   
+	Direction playerDir; //플레이어가 바라보는 방향   
 };
 
 struct MonsterData
@@ -27,7 +27,7 @@ struct MonsterData
 	Info info;
 	MONSTERSTATE monsterState;
 	bool monsterAlive;
-	DIR monsterDir;
+	Direction monsterDir;
 
 	RECT monsterAttEff; // 보스몬스터 공격 이펙트
 };

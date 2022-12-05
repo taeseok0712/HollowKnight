@@ -1,24 +1,5 @@
 #pragma once
-#include "Enum.h"
-#include "Global.h"
-
-typedef struct tagInfo
-{
-	float fX;
-	float fY;
-	float fCX; //x크기
-	float fCY; //y크기
-}INFO;
-
-typedef struct tagFrame
-{
-	int iFrameStart; // 스프라이트 x 시작 지점. 
-	int iFrameEnd; // 스프라이트 y축갯수 
-	int iFrameScene; // 스프라이트 갯수 
-	DWORD dwFrameSpeed;
-	DWORD dwFrameTime; // 재생에 필요한 시간. 
-}FRAME;
-
+#include "framework.h"
 class CObj
 {
 public:
@@ -63,7 +44,7 @@ protected:
 	INFO m_tInfo;
 	RECT m_tRect;
 	FRAME m_tFrame;
-
+	
 	float m_fSpeed;
 	bool m_bIsDead;
 	float m_fAngle;

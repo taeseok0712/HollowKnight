@@ -1,11 +1,11 @@
 #pragma once
-
+#pragma once
 #include "Obj.h"
-// #include "Player.h"
-#include "Global.h"
+#include "Player.h"
+#include <Windows.h>
+
 using namespace std;
 
-#define NEAR_WALL_COUNT 6
 
 class Bittle :
 	public CObj
@@ -22,7 +22,7 @@ public:
 	virtual void Initialize() override;
 	virtual int Update() override;
 	virtual void LateUpdate() override;
-//	virtual void Render(HDC hdc) override;
+	virtual void Render(HDC hdc) override;
 	virtual void Release() override;
 public:
 	void FrameChange();

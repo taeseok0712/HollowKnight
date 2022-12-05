@@ -1,7 +1,6 @@
 #include "Bug.h"
 
-// #include "framework.h"
-
+#include "framework.h"
 
 Bug::Bug() {
 	SetRect(&wall[0], 0, 0, 118, 2160); // 1
@@ -9,23 +8,23 @@ Bug::Bug() {
 	SetRect(&wall[2], 2052, 1745, 2896, 2160);  // 22
 	SetRect(&wall[3], 2896, 1874, 3066, 2160); // 25
 	SetRect(&wall[4], 3066, 1745, 5008, 2160); // 23
-	//SetRect(&wall[5], 5008, 688, 5984, 2160); // 9 
-	//SetRect(&wall[6], 5984, 1838, 5984 + 2808, 2160); // 24
-	//SetRect(&wall[7], 5984 + 2808, 363, 9448, 2160); // 8
-	//SetRect(&wall[8], 866, 0, 6692, 363); // 3
-	//SetRect(&wall[9], 896, 363, 3643, 841); // 4
-	//SetRect(&wall[10], 896, 841, 3469, 1154); // 10
-	//SetRect(&wall[11], 896, 1154, 3295, 1397); // 12
-	//SetRect(&wall[12], 896, 1397, 3096, 1475); // 14
-	//SetRect(&wall[13], 896, 1475, 1869, 1716); // 16
-	//SetRect(&wall[14], 4692, 1537, 4885, 1592); // 발판
-	//SetRect(&wall[15], 4347, 1333, 4468, 1474); // 발판
-	//SetRect(&wall[16], 3964, 1270, 4103, 1411); // 발판
-	//SetRect(&wall[17], 3564, 1273, 3731, 1337); // 발판
-	//SetRect(&wall[18], 3690, 1021, 3862, 1074); // 발판
-	//SetRect(&wall[19], 3950, 762, 4115, 817); // 발판
-	//SetRect(&wall[20], 4344, 631, 4473, 810); // 발판
-	//SetRect(&wall[21], 4715, 695, 4883, 753); // 발판
+	SetRect(&wall[5], 5008, 688, 5984, 2160); // 9 
+	SetRect(&wall[6], 5984, 1838, 5984 + 2808, 2160); // 24
+	SetRect(&wall[7], 5984 + 2808, 363, 9448, 2160); // 8
+	SetRect(&wall[8], 866, 0, 6692, 363); // 3
+	SetRect(&wall[9], 896, 363, 3643, 841); // 4
+	SetRect(&wall[10], 896, 841, 3469, 1154); // 10
+	SetRect(&wall[11], 896, 1154, 3295, 1397); // 12
+	SetRect(&wall[12], 896, 1397, 3096, 1475); // 14
+	SetRect(&wall[13], 896, 1475, 1869, 1716); // 16
+	SetRect(&wall[14], 4692, 1537, 4885, 1592); // 발판
+	SetRect(&wall[15], 4347, 1333, 4468, 1474); // 발판
+	SetRect(&wall[16], 3964, 1270, 4103, 1411); // 발판
+	SetRect(&wall[17], 3564, 1273, 3731, 1337); // 발판
+	SetRect(&wall[18], 3690, 1021, 3862, 1074); // 발판
+	SetRect(&wall[19], 3950, 762, 4115, 817); // 발판
+	SetRect(&wall[20], 4344, 631, 4473, 810); // 발판
+	SetRect(&wall[21], 4715, 695, 4883, 753); // 발판
 	ZeroMemory(&m_tPosin, sizeof(POINT));
 }
 
@@ -43,8 +42,8 @@ void Bug::Initialize() {
 	moveCycle = 0;
 	attackDelay = 0;
 
-	/*CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Monster/Bug/move.bmp", L"Bug_move");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Monster/Bug/dead.bmp", L"Bug_dead");*/
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Monster/Bug/move.bmp", L"Bug_move");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Monster/Bug/dead.bmp", L"Bug_dead");
 	m_eDirc = DR_RIGHT;
 	m_eNextState = STATE_WALK;
 	m_pFrameKey = L"Bug_move";
@@ -85,7 +84,7 @@ int Bug::Update() {
 	monsterAttack.top = HitBox.top;
 	monsterAttack.bottom = HitBox.bottom;
 
-	for (int i = 0; i < NEAR_WALL_COUNT; ++i) {
+	for (int i = 0; i < 22; ++i) {
 		if (IntersectRect(&rcTemp, &HitBox, &wall[i])) {
 			SetRect(&rcTemp, 0, 0, rcTemp.right - rcTemp.left, rcTemp.bottom - rcTemp.top);
 
@@ -208,31 +207,31 @@ void Bug::LateUpdate() {
 	FrameChange();
 	land();
 }
-//void Bug::Render(HDC hdc) {
-//	CObj::UpdateRect();
-//	int iScroX = CMyScrollMgr::Get_ScrollX();
-//	int iScroY = CMyScrollMgr::Get_ScrollY();
-//	HDC hMemDC = CBitmapMgr::Get_Instance()->FindImage(m_pFrameKey);
-//	if (iHp >= 0) {
-//		GdiTransparentBlt(hdc,
-//			m_tRect.left + iScroX, m_tRect.top + iScroY,
-//			m_tInfo.fCX, m_tInfo.fCY,
-//			hMemDC,
-//			m_eDirc * m_tInfo.fCX, m_tFrame.iFrameStart * m_tInfo.fCY,// 출력할 그림의 시작 좌표. 
-//			m_tInfo.fCX, m_tInfo.fCY,//그림의 전체 가로세로 크기 
-//			RGB(255, 0, 0));
-//	}
-//
-//	/*HPEN hPen, oldPen;
-//	hPen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
-//	oldPen = (HPEN)SelectObject(hdc, hPen);
-//	SelectObject(hdc, GetStockObject(NULL_BRUSH));
-//
-//	Rectangle(hdc, HitBox.left + iScroX, HitBox.top + iScroY, HitBox.right + iScroX, HitBox.bottom + iScroY);
-//
-//	SelectObject(hdc, oldPen);
-//	DeleteObject(hPen);*/
-//}
+void Bug::Render(HDC hdc) {
+	CObj::UpdateRect();
+	int iScroX = CMyScrollMgr::Get_ScrollX();
+	int iScroY = CMyScrollMgr::Get_ScrollY();
+	HDC hMemDC = CBitmapMgr::Get_Instance()->FindImage(m_pFrameKey);
+	if (iHp >= 0) {
+		GdiTransparentBlt(hdc,
+			m_tRect.left + iScroX, m_tRect.top + iScroY,
+			m_tInfo.fCX, m_tInfo.fCY,
+			hMemDC,
+			m_eDirc * m_tInfo.fCX, m_tFrame.iFrameStart * m_tInfo.fCY,// 출력할 그림의 시작 좌표. 
+			m_tInfo.fCX, m_tInfo.fCY,//그림의 전체 가로세로 크기 
+			RGB(255, 0, 0));
+	}
+
+	/*HPEN hPen, oldPen;
+	hPen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
+	oldPen = (HPEN)SelectObject(hdc, hPen);
+	SelectObject(hdc, GetStockObject(NULL_BRUSH));
+
+	Rectangle(hdc, HitBox.left + iScroX, HitBox.top + iScroY, HitBox.right + iScroX, HitBox.bottom + iScroY);
+
+	SelectObject(hdc, oldPen);
+	DeleteObject(hPen);*/
+}
 
 void Bug::Release() {
 
