@@ -11,3 +11,5 @@ extern HANDLE h_WriteDataEvent;
 extern PlayerData playerDataPacket;
 
 extern PlayerData* OtherPlayerData;
+
+extern std::vector<MonsterData> v_Monster;

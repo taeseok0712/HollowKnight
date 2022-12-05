@@ -31,6 +31,7 @@ public:
 	virtual void LateUpdate() = 0;
 	virtual void Render(HDC hDC) = 0;
 	virtual void Release() = 0;
+	
 public:
 	void UpdateRect();
 	void FrameMove();
@@ -42,6 +43,9 @@ public:
 	RECT drawEffect;
 	void setDead(bool in);
 	bool getIsDead();
+
+	void setData(MonsterData dt);
+	
 protected:
 	INFO m_tInfo;
 	RECT m_tRect;

@@ -43,10 +43,7 @@ OtherPlayer::~OtherPlayer()
 
 void OtherPlayer::Initialize()
 {
-	m_tInfo.fX = 800.f;
-	m_tInfo.fY = 500.f;
-	m_tInfo.fCX = 256.f;
-	m_tInfo.fCY = 128.f;
+	
 	CanHit = true;
 	Sound_On = false;
 	Hp = 6;
@@ -70,15 +67,15 @@ void OtherPlayer::Initialize()
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/Player.bmp", L"Player");
 	m_fJumpAccel = 0.2f;
 	m_fJumpPower = 20.f;
-	m_eDirc = DR_RIGHT;
+	/*m_eDirc = DR_RIGHT;
 	m_eNextState = STATE_FALL;
-	m_pFrameKey = L" jump_falling";
+	m_pFrameKey = L" jump_falling";*/
 	Attck = L"side";
 	m_fSpeed = 10.f;
-	Scrollspeed_X = 10.f;
+	
 	b_canChange = true;
 	b_IsChange = false;
-	CSoundMgr::Get_Instance()->PlayBGM(L"S19 Crossroads Main.wav");
+	//CSoundMgr::Get_Instance()->PlayBGM(L"S19 Crossroads Main.wav");
 
 
 }
@@ -106,7 +103,11 @@ int OtherPlayer::Update()
 		}
 	}
 
-	
+	HitBox.left = m_tRect.left + 100;
+	HitBox.right = m_tRect.right - 104;
+	HitBox.top = m_tRect.top - 10;
+	HitBox.bottom = m_tRect.bottom;
+
 	if (m_eDirc == DR_RIGHT) {
 		Attack_box.left = HitBox.right - 100.f;
 		Attack_box.top = HitBox.top + 20.f;
@@ -580,7 +581,15 @@ void OtherPlayer::FrameChange()
 #include "Exturn.h"
 void OtherPlayer::SetState()
 {
-	
+	m_tInfo.fX = OtherPlayerData->info.fX;
+	m_tInfo.fY = OtherPlayerData->info.fY;
+
+	m_tInfo.fCX = OtherPlayerData->info.fCX;// 230.f;//230
+	m_tInfo.fCY = OtherPlayerData->info.fCY;//200   // 256 X 256
+
+	m_eDirc = Direction(OtherPlayerData->playerDir);
+	m_eNextState = STATE(OtherPlayerData->playerState);
+
 	m_eNextState =STATE(OtherPlayerData->playerState);
 	switch (m_eNextState)
 	{

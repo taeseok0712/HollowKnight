@@ -17,7 +17,7 @@ public:
 public:
 	Bittle();
 	~Bittle();
-	Bittle(float x, float y);
+	Bittle(MonsterData dt);
 	// CObj을(를) 통해 상속됨
 	virtual void Initialize() override;
 	virtual int Update() override;
@@ -30,6 +30,7 @@ public:
 	void findPlayer();
 	void land();
 	void Set_time(DWORD Hittime);
+	void SetData(MonsterData dt);
 public:
 	BOOL hitOn;
 private:

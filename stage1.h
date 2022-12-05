@@ -18,6 +18,8 @@ public:
 private:
 	bool Wave2clear;
 	CObj* m_pPlayer;
+	
+
 	int PlayerHp;
 	CObj* m_pHush;
 	CObj* m_pFly;

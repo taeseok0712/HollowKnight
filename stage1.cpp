@@ -86,7 +86,8 @@ void CStage1::Initialize()
 void CStage1::Update() {
 	m_pPlayer->Update();
 	m_OtherPlayer->Update();
-	
+	cout << m_OtherPlayer->Get_Info().fY << endl;
+	cout << m_pPlayer->Get_Info().fY << endl;
 	if (m_pHush != nullptr) {
 		m_pHush->Update();
 		if (m_pHush->iHp <= 0) {
@@ -120,29 +121,29 @@ void CStage1::Update() {
 		}
 	}
 	/////////////////////////////////////////////////////1/////////////////////////
-	if (wave == 2 && dynamic_cast<Player*>(m_pPlayer)->getStage() == false) {
-		dynamic_cast<Player*>(m_pPlayer)->Set_Wave(wave);
-		if (m_pbittle2 == nullptr) {
-			m_pbittle2 = new Bittle(8000.f, 1600.f);
-			//m_pbittle->Initialize();
-			dynamic_cast<Bittle*>(m_pbittle2)->Set_Info(m_pPlayer);
-			dynamic_cast<Player*>(m_pPlayer)->Set_Infobit2(m_pbittle2);
-		}
-		if (m_pbittle3 == nullptr) {
-			m_pbittle3 = new Bittle(7400.f, 1500.f);
-			//m_pbittle->Initialize();
-			dynamic_cast<Bittle*>(m_pbittle3)->Set_Info(m_pPlayer);
-			dynamic_cast<Player*>(m_pPlayer)->Set_Infobit3(m_pbittle3);
-		}
+	//if (wave == 2 && dynamic_cast<Player*>(m_pPlayer)->getStage() == false) {
+	//	dynamic_cast<Player*>(m_pPlayer)->Set_Wave(wave);
+	//	if (m_pbittle2 == nullptr) {
+	//		m_pbittle2 = new Bittle(8000.f, 1600.f);
+	//		//m_pbittle->Initialize();
+	//		dynamic_cast<Bittle*>(m_pbittle2)->Set_Info(m_pPlayer);
+	//		dynamic_cast<Player*>(m_pPlayer)->Set_Infobit2(m_pbittle2);
+	//	}
+	//	if (m_pbittle3 == nullptr) {
+	//		m_pbittle3 = new Bittle(7400.f, 1500.f);
+	//		//m_pbittle->Initialize();
+	//		dynamic_cast<Bittle*>(m_pbittle3)->Set_Info(m_pPlayer);
+	//		dynamic_cast<Player*>(m_pPlayer)->Set_Infobit3(m_pbittle3);
+	//	}
 
-		if (m_pbittle4 == nullptr) {
-			m_pbittle4 = new Bittle(6200.f, 1300.f);
-			//m_pbittle->Initialize();
-			dynamic_cast<Bittle*>(m_pbittle4)->Set_Info(m_pPlayer);
-			dynamic_cast<Player*>(m_pPlayer)->Set_Infobit4(m_pbittle4);
-		}
-		wave += 1;
-	}
+	//	if (m_pbittle4 == nullptr) {
+	//		m_pbittle4 = new Bittle(6200.f, 1300.f);
+	//		//m_pbittle->Initialize();
+	//		dynamic_cast<Bittle*>(m_pbittle4)->Set_Info(m_pPlayer);
+	//		dynamic_cast<Player*>(m_pPlayer)->Set_Infobit4(m_pbittle4);
+	//	}
+	//	wave += 1;
+	//}
 
 	if (m_pbittle2 != nullptr) {
 		m_pbittle2->Update();

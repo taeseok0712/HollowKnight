@@ -16,6 +16,16 @@ CObj::~CObj()
 }
 
 
+void CObj::setData(MonsterData dt)
+{
+	
+	//m_tInfo.fX = dt.info.fX;
+	//m_tInfo.fY = dt.info.fY;
+	//m_eDirc = Direction(dt.MonsterDir);
+	//m_eNextState = STATE(dt.monsterState);
+
+}
+
 void CObj::UpdateRect()
 {
 	m_tRect.left = LONG(m_tInfo.fX - m_tInfo.fCX * 0.5f);

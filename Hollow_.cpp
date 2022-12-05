@@ -1,6 +1,10 @@
 ﻿// Hollow_.cpp : 애플리케이션에 대한 진입점을 정의합니다.
 //
-
+#ifdef UNICODE
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+#else
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#endif
 #include "framework.h"
 #include "Hollow_.h"
 #include "Maingame.h"
@@ -190,8 +194,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 //	PAINTSTRUCT ps;
     switch (message)
     {
-    
- 
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
@@ -249,20 +251,23 @@ DWORD WINAPI ClientMain(LPVOID arg)
 
     PlayerData pd = {}; //다른 플레이어 데이터용
     int GetSize = 0;
-   
+    MonsterData* Mdt = {};
 	while (1) {
         WaitForSingleObject(h_SendDataEvent, INFINITE);
         retval = send(sock, (char*)&playerDataPacket, sizeof(PlayerData), 0);//클라이언트 플레이어 데이터 전송
 
-      
-        GetSize = recv(sock, buf, BUFSIZE, 0);
-
-        buf[GetSize] = '\0';
+      //타 클라 플레이어 데이터 수신
+        retval = recv(sock, buf, BUFSIZE, 0);
+        buf[retval] = '\0';
         OtherPlayerData = (PlayerData*)buf; 
-       
-     
+       //몬스터 정보 수신
+
+        OtherPlayerData;
+       /* retval = recv(sock, buf, BUFSIZE, 0);
+        buf[retval] = '\0';
+        Mdt = (MonsterData*)buf;*/
         
-        
+        //cout << Mdt << endl;
         
         SetEvent(h_WriteDataEvent);
 		//break;

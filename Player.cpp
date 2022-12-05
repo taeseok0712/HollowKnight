@@ -344,75 +344,75 @@ int Player::Update()
 
 
 	////////////////////////////////////////////몬스터 이펙트 충돌///////////////////////////////////////
-
-	if (m_wave == 0) {
-		if (CheckCollE2M(pHusk)) {
-			dynamic_cast<Husk*>(pHusk)->Set_time(GetTickCount());
-			dynamic_cast<Husk*>(pHusk)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
-
-
-
-		if (CheckCollE2M(pBug)) {
-			dynamic_cast<Bug*>(pBug)->Set_time(GetTickCount());
-			dynamic_cast<Bug*>(pBug)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
-
-		if (CheckCollE2M(pbittle)) {
-			dynamic_cast<Bittle*>(pbittle)->Set_time(GetTickCount());
-			dynamic_cast<Bittle*>(pbittle)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
+	
+	//if (m_wave == 0) {
+	//	if (CheckCollE2M(pHusk)) {
+	//		dynamic_cast<Husk*>(pHusk)->Set_time(GetTickCount());
+	//		dynamic_cast<Husk*>(pHusk)->hitOn = TRUE;
+	//		CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+	//	}
 
 
 
-		if (CheckCollE2M(pFly)) {
-			dynamic_cast<Fly*>(pFly)->Set_time(GetTickCount());
-			dynamic_cast<Fly*>(pFly)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
+	//	if (CheckCollE2M(pBug)) {
+	//		dynamic_cast<Bug*>(pBug)->Set_time(GetTickCount());
+	//		dynamic_cast<Bug*>(pBug)->hitOn = TRUE;
+	//		CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+	//	}
 
-		if (CheckCollE2M(pSubBoss)) {
-			dynamic_cast<SubBoss*>(pSubBoss)->Set_time(GetTickCount());
-			dynamic_cast<SubBoss*>(pSubBoss)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
-	}
-	///1웨이브///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if (m_wave == 2) {
-		if (CheckCollE2M(pbittle2)) {
-			dynamic_cast<Bittle*>(pbittle2)->Set_time(GetTickCount());
-			dynamic_cast<Bittle*>(pbittle2)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
+	//	if (CheckCollE2M(pbittle)) {
+	//		dynamic_cast<Bittle*>(pbittle)->Set_time(GetTickCount());
+	//		dynamic_cast<Bittle*>(pbittle)->hitOn = TRUE;
+	//		CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+	//	}
 
-		if (CheckCollE2M(pbittle3)) {
-			dynamic_cast<Bittle*>(pbittle3)->Set_time(GetTickCount());
-			dynamic_cast<Bittle*>(pbittle3)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
 
-		if (CheckCollE2M(pbittle4)) {
-			dynamic_cast<Bittle*>(pbittle4)->Set_time(GetTickCount());
-			dynamic_cast<Bittle*>(pbittle4)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
-	}
-	if (m_wave == 3) {
-		if (CheckCollE2M(pHushK)) {
-			dynamic_cast<HushKnight*>(pHushK)->Set_time(GetTickCount());
-			dynamic_cast<HushKnight*>(pHushK)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
-		if (CheckCollE2M(pSubBoss)) {
-			dynamic_cast<SubBoss*>(pSubBoss)->Set_time(GetTickCount());
-			dynamic_cast<SubBoss*>(pSubBoss)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
 
-	}
+	//	if (CheckCollE2M(pFly)) {
+	//		dynamic_cast<Fly*>(pFly)->Set_time(GetTickCount());
+	//		dynamic_cast<Fly*>(pFly)->hitOn = TRUE;
+	//		CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+	//	}
+
+	//	if (CheckCollE2M(pSubBoss)) {
+	//		dynamic_cast<SubBoss*>(pSubBoss)->Set_time(GetTickCount());
+	//		dynamic_cast<SubBoss*>(pSubBoss)->hitOn = TRUE;
+	//		CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+	//	}
+	//}
+	/////1웨이브///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//if (m_wave == 2) {
+	//	if (CheckCollE2M(pbittle2)) {
+	//		dynamic_cast<Bittle*>(pbittle2)->Set_time(GetTickCount());
+	//		dynamic_cast<Bittle*>(pbittle2)->hitOn = TRUE;
+	//		CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+	//	}
+
+	//	if (CheckCollE2M(pbittle3)) {
+	//		dynamic_cast<Bittle*>(pbittle3)->Set_time(GetTickCount());
+	//		dynamic_cast<Bittle*>(pbittle3)->hitOn = TRUE;
+	//		CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+	//	}
+
+	//	if (CheckCollE2M(pbittle4)) {
+	//		dynamic_cast<Bittle*>(pbittle4)->Set_time(GetTickCount());
+	//		dynamic_cast<Bittle*>(pbittle4)->hitOn = TRUE;
+	//		CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+	//	}
+	//}
+	//if (m_wave == 3) {
+	//	if (CheckCollE2M(pHushK)) {
+	//		dynamic_cast<HushKnight*>(pHushK)->Set_time(GetTickCount());
+	//		dynamic_cast<HushKnight*>(pHushK)->hitOn = TRUE;
+	//		CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+	//	}
+	//	if (CheckCollE2M(pSubBoss)) {
+	//		dynamic_cast<SubBoss*>(pSubBoss)->Set_time(GetTickCount());
+	//		dynamic_cast<SubBoss*>(pSubBoss)->hitOn = TRUE;
+	//		CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+	//	}
+
+	//}
 	////////////////////////////////////////////////뒤짐/////////////////////////////////////////////////////////
 	if (Attacked == true && m_bIsDead == false) {
 		CSoundMgr::Get_Instance()->PlaySound(L"hero_damage.wav", CSoundMgr::ATTED);

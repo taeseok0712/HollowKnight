@@ -27,48 +27,49 @@ Bittle::Bittle() {
 	ZeroMemory(&m_tPosin, sizeof(POINT));
 }
 
-Bittle::Bittle(float x, float y) {
+Bittle::Bittle(MonsterData dt) {
 
-	m_tInfo.fX = x;
-	m_tInfo.fY = y;
+	m_tInfo.fX = dt.info.fX;
+	m_tInfo.fY = dt.info.fY;
 
-	m_tInfo.fCX = 230.f;
-	m_tInfo.fCY = 200.f;   // 256 X 256
+	m_tInfo.fCX = dt.info.fCX;// 230.f;//230
+	m_tInfo.fCY = dt.info.fCY;//200   // 256 X 256
 	moveDirect = 0;
 	moveCycle = 0;
 	attackDelay = 0;
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Monster/Bittle/Bittle.bmp", L"Bittle_move");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Monster/Bittle/Bittle_attack.bmp", L"Bittle_attack");
-
-	m_eDirc = DR_RIGHT;
-	m_eNextState = STATE_IDLE;
-	m_pFrameKey = L"Bittle_move";
+	
+	m_eDirc = Direction(dt.MonsterDir);
+	m_eNextState = STATE(dt.monsterState);
+	if(m_eNextState == STATE_IDLE)
+		m_pFrameKey = L"Bittle_move";
 	m_fJumpAccel = 0.2f;
 	m_fJumpPower = 20.f;
 	m_fSpeed = 3.f;
-	iHp = 8;
-	SetRect(&wall[0], 0, 0, 118, 2160); // 1
-	SetRect(&wall[1], 118, 1957, 2052, 2160); // 26
-	SetRect(&wall[2], 2052, 1745, 2896, 2160);  // 22
-	SetRect(&wall[3], 2896, 1874, 3066, 2160); // 25
-	SetRect(&wall[4], 3066, 1745, 5008, 2160); // 23
-	SetRect(&wall[5], 5008, 688, 5984, 2160); // 9 
-	SetRect(&wall[6], 5984, 1838, 5984 + 2808, 2160); // 24
-	SetRect(&wall[7], 5984 + 2808, 363, 9448, 2160); // 8
-	SetRect(&wall[8], 866, 0, 6692, 363); // 3
-	SetRect(&wall[9], 896, 363, 3643, 841); // 4
-	SetRect(&wall[10], 896, 841, 3469, 1154); // 10
-	SetRect(&wall[11], 896, 1154, 3295, 1397); // 12
-	SetRect(&wall[12], 896, 1397, 3096, 1475); // 14
-	SetRect(&wall[13], 896, 1475, 1869, 1716); // 16
-	SetRect(&wall[14], 4692, 1537, 4885, 1592); // 발판
-	SetRect(&wall[15], 4347, 1333, 4468, 1474); // 발판
-	SetRect(&wall[16], 3964, 1270, 4103, 1411); // 발판
-	SetRect(&wall[17], 3564, 1273, 3731, 1337); // 발판
-	SetRect(&wall[18], 3690, 1021, 3862, 1074); // 발판
-	SetRect(&wall[19], 3950, 762, 4115, 817); // 발판
-	SetRect(&wall[20], 4344, 631, 4473, 810); // 발판
-	SetRect(&wall[21], 4715, 695, 4883, 753); // 발판
+	iHp = 1;
+	//SetRect(&wall[0], 0, 0, 118, 2160); // 1
+	//SetRect(&wall[1], 118, 1957, 2052, 2160); // 26
+	//SetRect(&wall[2], 2052, 1745, 2896, 2160);  // 22
+	//SetRect(&wall[3], 2896, 1874, 3066, 2160); // 25
+	//SetRect(&wall[4], 3066, 1745, 5008, 2160); // 23
+	//SetRect(&wall[5], 5008, 688, 5984, 2160); // 9 
+	//SetRect(&wall[6], 5984, 1838, 5984 + 2808, 2160); // 24
+	//SetRect(&wall[7], 5984 + 2808, 363, 9448, 2160); // 8
+	//SetRect(&wall[8], 866, 0, 6692, 363); // 3
+	//SetRect(&wall[9], 896, 363, 3643, 841); // 4
+	//SetRect(&wall[10], 896, 841, 3469, 1154); // 10
+	//SetRect(&wall[11], 896, 1154, 3295, 1397); // 12
+	//SetRect(&wall[12], 896, 1397, 3096, 1475); // 14
+	//SetRect(&wall[13], 896, 1475, 1869, 1716); // 16
+	//SetRect(&wall[14], 4692, 1537, 4885, 1592); // 발판
+	//SetRect(&wall[15], 4347, 1333, 4468, 1474); // 발판
+	//SetRect(&wall[16], 3964, 1270, 4103, 1411); // 발판
+	//SetRect(&wall[17], 3564, 1273, 3731, 1337); // 발판
+	//SetRect(&wall[18], 3690, 1021, 3862, 1074); // 발판
+	//SetRect(&wall[19], 3950, 762, 4115, 817); // 발판
+	//SetRect(&wall[20], 4344, 631, 4473, 810); // 발판
+	//SetRect(&wall[21], 4715, 695, 4883, 753); // 발판
 }
 
 Bittle::~Bittle() {
@@ -77,24 +78,17 @@ Bittle::~Bittle() {
 }
 
 void Bittle::Initialize() {
-	m_tInfo.fX = 1500.f;
-	m_tInfo.fY = 1740.f;
-
-	m_tInfo.fCX = 230.f;
-	m_tInfo.fCY = 200.f;   // 256 X 256
+	
 	moveDirect = 0;
 	moveCycle = 0;
 	attackDelay = 0;
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Monster/Bittle/Bittle.bmp", L"Bittle_move");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Monster/Bittle/Bittle_attack.bmp", L"Bittle_attack");
-
-	m_eDirc = DR_RIGHT;
-	m_eNextState = STATE_IDLE;
-	m_pFrameKey = L"Bittle_move";
+	
+	
+	
 	m_fJumpAccel = 0.2f;
 	m_fJumpPower = 20.f;
 	m_fSpeed = 2.f;
-	iHp = 5;
+	iHp = 1;
 
 }
 
@@ -364,4 +358,25 @@ void Bittle::land() {
 void Bittle::Set_time(DWORD Hittime)
 {
 	time = Hittime;
+}
+
+void Bittle::SetData(MonsterData dt)
+{
+	m_tInfo.fX = dt.info.fX;
+	m_tInfo.fY = dt.info.fY;
+	m_eDirc = Direction(dt.MonsterDir);
+	m_eNextState = STATE(dt.monsterState);
+	m_bIsDead = dt.isDead;
+	switch (m_eNextState)
+	{
+	case Bittle::STATE_ATT:
+		m_pFrameKey = L"Bittle_attack";
+		break;
+	case Bittle::STATE_IDLE:
+		m_pFrameKey = L"Bittle_move";
+		break;
+	default:
+		break;
+	}
+	
 }
