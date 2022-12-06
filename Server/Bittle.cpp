@@ -183,8 +183,6 @@ int Bittle::Update() {
 					iHp -= 1;
 				}
 			}
-
-
 			m_pFrameKey = L"Bittle_move";
 			m_eDirc = DR_LEFT;
 			m_eNextState = STATE_WALK;
@@ -273,7 +271,7 @@ void Bittle::LateUpdate() {
 	CObj::FrameMove();
 	findPlayer();
 	FrameChange();
-
+	
 }
 void Bittle::Render(HDC hdc) {
 
@@ -290,7 +288,6 @@ void Bittle::Render(HDC hdc) {
 			m_tInfo.fCX, m_tInfo.fCY,//그림의 전체 가로세로 크기 
 			RGB(255, 0, 0));
 	}
-
 }
 
 void Bittle::Release() {
@@ -340,6 +337,20 @@ void Bittle::findPlayer() {
 	else {
 		followOn = FALSE;
 	}
+	if (numOfPlayer == 2) {
+		p = m_pPlayer2->Get_Rect();
+		p.left = p.left + 100;
+		p.right = p.right - 104;
+		p.top = p.top;
+		p.bottom = p.bottom;
+
+		if (IntersectRect(&rcTemp, &monsterSight, &p)) { // 몬스터 시야 와 플레이어가 충돌할시
+			followOn = TRUE;
+		}
+		else {
+			followOn = FALSE;
+		}
+	}
 }
 
 void Bittle::Set_Info(CObj * player)
@@ -347,6 +358,10 @@ void Bittle::Set_Info(CObj * player)
 	m_pPlayer = player;
 }
 
+void Bittle::Set_Info2(CObj* player)
+{
+	m_pPlayer2 = player;
+}
 void Bittle::land() {
 
 	float fy = 0.f;

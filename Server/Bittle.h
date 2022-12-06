@@ -2,6 +2,7 @@
 #pragma once
 #include "Obj.h"
 #include "Player.h"
+#include "OtherPlayer.h"
 #include <Windows.h>
 
 using namespace std;
@@ -27,14 +28,17 @@ public:
 public:
 	void FrameChange();
 	void Set_Info(CObj* player);
+	void Set_Info2(CObj* player);
 	void findPlayer();
 	void land();
 	void Set_time(DWORD Hittime);
+
 public:
 	BOOL hitOn;
 private:
 
 	CObj* m_pPlayer;
+	CObj* m_pPlayer2;
 
 	TCHAR* m_pFrameKey;
 	STATE m_eCurState;

@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "OtherPlayer.h"
 #include "framework.h"
 #include "Husk.h"
 #include "Fly.h"
@@ -8,7 +8,7 @@
 #include "SubBoss.h"
 #include "AbstractFactory.h"
 
-Player::Player() :m_pFrameKey(L"")
+OtherPlayer::OtherPlayer() :m_pFrameKey(L"")
 {
 
 	SetRect(&wall[0], 0, 0, 118, 2160); // 1
@@ -37,11 +37,11 @@ Player::Player() :m_pFrameKey(L"")
 }
 
 
-Player::~Player()
+OtherPlayer::~OtherPlayer()
 {
 }
 
-void Player::Initialize()
+void OtherPlayer::Initialize()
 {
 	m_tInfo.fX = 800.f;
 	m_tInfo.fY = 500.f;
@@ -79,18 +79,25 @@ void Player::Initialize()
 	b_canChange = true;
 	b_IsChange = false;
 	CSoundMgr::Get_Instance()->PlayBGM(L"S19 Crossroads Main.wav");
+
+
 }
 
 
 // 중력처리 -> 이동 -> 충돌 
-int Player::Update()
+int OtherPlayer::Update()
 {
 	RECT rcTemp;
 
+	//WaitForSingleObject(h_WriteDataEvent, INFINITE); // 읽기 완료 대기
+	//SetEvent(h_SendDataEvent);
+
+	SetState();
+	
 	if (b_IsChange == false) {
 		if (b_canChange == true) {
 			if (m_tInfo.fX > 8700) {
-			
+
 				CSoundMgr::Get_Instance()->StopAll();
 				CSoundMgr::Get_Instance()->PlaySound(L"final_boss_chain_break.wave", CSoundMgr::EFFECT);
 				CSoundMgr::Get_Instance()->PlayBGM(L"bossmap.wav");
@@ -99,11 +106,7 @@ int Player::Update()
 		}
 	}
 
-	HitBox.left = m_tRect.left + 100;
-	HitBox.right = m_tRect.right - 104;
-	HitBox.top = m_tRect.top - 10;
-	HitBox.bottom = m_tRect.bottom;
-
+	
 	if (m_eDirc == DR_RIGHT) {
 		Attack_box.left = HitBox.right - 100.f;
 		Attack_box.top = HitBox.top + 20.f;
@@ -160,79 +163,6 @@ int Player::Update()
 
 	}
 
-	if (CKeyMgr::Get_Instance()->KeyPressing(VK_RIGHT) && m_eCurState != STATE_LAND)
-	{
-
-		m_tInfo.fX += m_fSpeed;
-		m_pFrameKey = L"move";
-		m_eDirc = DR_RIGHT;
-		m_eNextState = STATE_WALK;
-	}
-	if (CKeyMgr::Get_Instance()->KeyPressing(VK_LEFT) && m_eCurState != STATE_LAND)
-	{
-
-		m_tInfo.fX -= m_fSpeed;
-		m_pFrameKey = L"move";
-		m_eDirc = DR_LEFT;
-		m_eNextState = STATE_WALK;
-	}
-
-
-	if (CKeyMgr::Get_Instance()->KeyUp(VK_RIGHT) || CKeyMgr::Get_Instance()->KeyUp(VK_LEFT)) {
-		m_pFrameKey = L"idle";
-		m_eNextState = STATE_IDLE;
-	}
-	/*if (CKeyMgr::Get_Instance()->KeyPressing('C') && Attacked != true && m_eCurState != STATE_FALL)
-	{
-	   m_bIsJump = true;
-	   m_pFrameKey = L"jumpstart";
-	   CSoundMgr::Get_Instance()->PlaySound(L"hero_jump.wav", CSoundMgr::JUMP);
-	   m_eNextState = STATE_JUMP;
-	}*/
-	if ((GetAsyncKeyState(VK_DOWN) & 0x8000) && (GetAsyncKeyState('X') & 0x8000)) {
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_unsheath.wav", CSoundMgr::ATT);
-		m_pFrameKey = L"attack_down";
-		m_eNextState = STATE_ATT;
-		Attck = L"up";
-		UDS = DOWN;
-	//	Attck_ON = true;
-	}
-	else if ((GetAsyncKeyState(VK_UP) & 0x8000) && (GetAsyncKeyState('X') & 0x8000)) {
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_unsheath.wav", CSoundMgr::ATT);
-		m_pFrameKey = L"attack_up";
-		m_eNextState = STATE_ATT;
-		Attck = L"up";
-		UDS = UP;
-		Attck_ON = true;
-	}
-
-	
-	else if (((GetAsyncKeyState('X') & 0x8000) || (GetAsyncKeyState('x') & 0x8000)) && Attacked != true)
-	{
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_unsheath.wav", CSoundMgr::ATT);
-		m_pFrameKey = L"attack";
-		m_eNextState = STATE_ATT;
-		Attck = L"side";
-		UDS = SIDE;
-		Attck_ON = true;
-	}
-
-
-	if (m_eCurState == STATE_WALK) {
-
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_run_footsteps_stone.wav", CSoundMgr::WALK);
-	}
-	else if (m_eCurState != STATE_WALK) {
-
-		CSoundMgr::Get_Instance()->StopSound(CSoundMgr::WALK);
-	}
-	if (m_eCurState == STATE_FALL) {
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_falling.wav", CSoundMgr::FALL);
-	}
-	else if (m_eCurState != STATE_FALL) {
-		CSoundMgr::Get_Instance()->StopSound(CSoundMgr::FALL);
-	}
-
 
 
 	if (m_eCurState == STATE_ATT && m_tFrame.iFrameStart == 4) {
@@ -254,150 +184,7 @@ int Player::Update()
 		Attck_ON = false;
 	}
 
-	////////////////////////////////////////////몬스터 플레이어 충돌///////////////////////////////////////
-	if (Attacked == false) {
-		if (m_wave == 0) {
-			if (Check_Collision(this, pFly)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			if (Check_Collision(this, pBug)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			if (Check_Collision(this, pbittle)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			if (Check_Collision(this, pHusk)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			if (Check_Collision(this, pSubBoss)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			bool t = pSubBoss->effectOn;
-			if (t) {
-				RECT rcTemp;
-				RECT a = (pSubBoss)->drawEffect;
-
-				if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
-					Hp -= 1;
-					Attacked = true;
-				}
-			}
-		}
-		/////////////////////////////////1////////////////////////////////////
-		if (m_wave == 2) {
-			if (Check_Collision(this, pbittle2)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			if (Check_Collision(this, pbittle3)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			if (Check_Collision(this, pbittle4)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-
-		}
-		if (m_wave == 3) {
-			if (Check_Collision(this, pHushK)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			bool t = pSubBoss->effectOn;
-			if (t) {
-				RECT rcTemp;
-				RECT a = (pSubBoss)->drawEffect;
-
-				if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
-					Hp -= 1;
-					Attacked = true;
-				}
-			}
-
-		}
-		///////////////////////////////////////////////////////////
-	}
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-	////////////////////////////////////////////몬스터 이펙트 충돌///////////////////////////////////////
-
-	if (m_wave == 0) {
-		if (CheckCollE2M(pHusk)) {
-			dynamic_cast<Husk*>(pHusk)->Set_time(GetTickCount());
-			dynamic_cast<Husk*>(pHusk)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
-
-
-
-		if (CheckCollE2M(pBug)) {
-			dynamic_cast<Bug*>(pBug)->Set_time(GetTickCount());
-			dynamic_cast<Bug*>(pBug)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
-
-		if (CheckCollE2M(pbittle)) {
-			dynamic_cast<Bittle*>(pbittle)->Set_time(GetTickCount());
-			dynamic_cast<Bittle*>(pbittle)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
-
-
-
-		if (CheckCollE2M(pFly)) {
-			dynamic_cast<Fly*>(pFly)->Set_time(GetTickCount());
-			dynamic_cast<Fly*>(pFly)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
-
-		if (CheckCollE2M(pSubBoss)) {
-			dynamic_cast<SubBoss*>(pSubBoss)->Set_time(GetTickCount());
-			dynamic_cast<SubBoss*>(pSubBoss)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
-	}
-	///1웨이브///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if (m_wave == 2) {
-		if (CheckCollE2M(pbittle2)) {
-			dynamic_cast<Bittle*>(pbittle2)->Set_time(GetTickCount());
-			dynamic_cast<Bittle*>(pbittle2)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
-
-		if (CheckCollE2M(pbittle3)) {
-			dynamic_cast<Bittle*>(pbittle3)->Set_time(GetTickCount());
-			dynamic_cast<Bittle*>(pbittle3)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
-
-		if (CheckCollE2M(pbittle4)) {
-			dynamic_cast<Bittle*>(pbittle4)->Set_time(GetTickCount());
-			dynamic_cast<Bittle*>(pbittle4)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
-	}
-	if (m_wave == 3) {
-		if (CheckCollE2M(pHushK)) {
-			dynamic_cast<HushKnight*>(pHushK)->Set_time(GetTickCount());
-			dynamic_cast<HushKnight*>(pHushK)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
-		if (CheckCollE2M(pSubBoss)) {
-			dynamic_cast<SubBoss*>(pSubBoss)->Set_time(GetTickCount());
-			dynamic_cast<SubBoss*>(pSubBoss)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
-		}
-
-	}
+	
 	////////////////////////////////////////////////뒤짐/////////////////////////////////////////////////////////
 	if (Attacked == true && m_bIsDead == false) {
 		CSoundMgr::Get_Instance()->PlaySound(L"hero_damage.wav", CSoundMgr::ATTED);
@@ -460,25 +247,24 @@ int Player::Update()
 
 
 	////////////////////////등장사운드///////////////////////////////////////
-	
-	if ( m_wave == 3 &&Sound_On==true) {
 
-		CSoundMgr::Get_Instance()->PlaySound(L"a.monsterEmer.wav", CSoundMgr::MONSTER);
-		Sound_On = false;
-	}
-	
+	//if (m_wave == 3 && Sound_On == true) {
+
+	//	CSoundMgr::Get_Instance()->PlaySound(L"a.monsterEmer.wav", CSoundMgr::MONSTER);
+	//	Sound_On = false;
+	//}
+
 	return 0;
 }
 
-void Player::LateUpdate()
+void OtherPlayer::LateUpdate()
 {
 	CObj::FrameMove();
-	IsJumping();
-	IsOffset();
+	//IsJumping();
 	FrameChange();
 }
 
-void Player::Render(HDC hdc)
+void OtherPlayer::Render(HDC hdc)
 {
 	CObj::UpdateRect();
 
@@ -569,12 +355,12 @@ void Player::Render(HDC hdc)
 }
 
 
-void Player::Release()
+void OtherPlayer::Release()
 {
 }
 
 
-void Player::IsJumping()
+void OtherPlayer::IsJumping()
 {
 	float fy = 0.f;
 
@@ -589,8 +375,8 @@ void Player::IsJumping()
 		//  y = 파워 * 시간 - 중력 * 시간 제곱 * 0.5f 
 		if (m_fJumpPower * m_fJumpAccel >= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f && !drop) {
 			m_tInfo.fY -= m_fJumpPower * m_fJumpAccel - GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f;
-			 //s= 1/2 a t^2 
-			
+			//s= 1/2 a t^2 
+
 			m_fJumpAccel += 0.20f;
 
 			if (first_frame)
@@ -599,7 +385,7 @@ void Player::IsJumping()
 				drop = true;
 		}
 		if ((m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) || drop) {
-			
+
 			m_tInfo.fY += FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
 			m_pFrameKey = L" jump_falling";
 			m_eNextState = STATE_FALL;
@@ -659,60 +445,60 @@ void Player::IsJumping()
 	}
 
 
-	if (CKeyMgr::Get_Instance()->KeyPressing('C') && Attacked != true && m_eCurState != STATE_FALL)
+	/*if (CKeyMgr::Get_Instance()->KeyPressing('C') && Attacked != true && m_eCurState != STATE_FALL)
 	{
 		m_bIsJump = true;
 		m_pFrameKey = L"jumpstart";
 		CSoundMgr::Get_Instance()->PlaySound(L"hero_jump.wav", CSoundMgr::JUMP);
 		m_eNextState = STATE_JUMP;
-	}
+	}*/
 
 }
 
-
-void Player::IsOffset()
-{
-	int iOffset_X = WINCX / 2;
-	int iOffset_Y = WINCY / 2;
-
-	int iScrollX = CMyScrollMgr::Get_ScrollX();
-	int iScrollY = CMyScrollMgr::Get_ScrollY();
-
-
-	if (IsFall == false) {
-		if (iOffset_X + 400 < m_tInfo.fX + iScrollX)
-		{
-			CMyScrollMgr::Set_ScrollX(-Scrollspeed_X);
-
-		}
-		if (iOffset_X - 400 > m_tInfo.fX + iScrollX)
-		{
-			CMyScrollMgr::Set_ScrollX(Scrollspeed_X);
-		}
-
-
-		if (iOffset_Y - 150 < m_tInfo.fY + iScrollY && m_tInfo.fY < 1800)
-		{
-			CMyScrollMgr::Set_ScrollY(-Scrollspeed_Y);
-		}
-		if (iOffset_Y + 200 > m_tInfo.fY + iScrollY && m_tInfo.fY < 1800)
-		{
-			CMyScrollMgr::Set_ScrollY(+Scrollspeed_Y);
-		}
-	}
-
-}
-
-
+//
+//void OtherPlayer::IsOffset()
+//{
+//	int iOffset_X = WINCX / 2;
+//	int iOffset_Y = WINCY / 2;
+//
+//	int iScrollX = CMyScrollMgr::Get_ScrollX();
+//	int iScrollY = CMyScrollMgr::Get_ScrollY();
+//
+//
+//	if (IsFall == false) {
+//		if (iOffset_X + 400 < m_tInfo.fX + iScrollX)
+//		{
+//			CMyScrollMgr::Set_ScrollX(-Scrollspeed_X);
+//
+//		}
+//		if (iOffset_X - 400 > m_tInfo.fX + iScrollX)
+//		{
+//			CMyScrollMgr::Set_ScrollX(Scrollspeed_X);
+//		}
+//
+//
+//		if (iOffset_Y - 150 < m_tInfo.fY + iScrollY && m_tInfo.fY < 1800)
+//		{
+//			CMyScrollMgr::Set_ScrollY(-Scrollspeed_Y);
+//		}
+//		if (iOffset_Y + 200 > m_tInfo.fY + iScrollY && m_tInfo.fY < 1800)
+//		{
+//			CMyScrollMgr::Set_ScrollY(+Scrollspeed_Y);
+//		}
+//	}
+//
+//}
 
 
-void Player::FrameChange()
+
+
+void OtherPlayer::FrameChange()
 {
 	if (m_eCurState != m_eNextState)
 	{
 		switch (m_eNextState)
 		{
-		case Player::STATE_ATT:
+		case OtherPlayer::STATE_ATT:
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 4;
 			m_tFrame.iFrameScene = 0;
@@ -720,14 +506,14 @@ void Player::FrameChange()
 			m_tFrame.dwFrameSpeed = 70;
 
 			break;
-		case Player::STATE_IDLE:
+		case OtherPlayer::STATE_IDLE:
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 7;
 			m_tFrame.iFrameScene = 0;
 			m_tFrame.dwFrameTime = GetTickCount();
 			m_tFrame.dwFrameSpeed = 100;
 			break;
-		case Player::STATE_WALK:
+		case OtherPlayer::STATE_WALK:
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 6;
 			m_tFrame.iFrameScene = 0;
@@ -735,21 +521,21 @@ void Player::FrameChange()
 			m_tFrame.dwFrameSpeed = 100;
 
 			break;
-		case Player::STATE_HIT:
+		case OtherPlayer::STATE_HIT:
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 5;
 			m_tFrame.iFrameScene = 0;
 			m_tFrame.dwFrameTime = GetTickCount();
 			m_tFrame.dwFrameSpeed = 100;
 			break;
-		case Player::STATE_JUMP:
+		case OtherPlayer::STATE_JUMP:
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 4;
 			m_tFrame.iFrameScene = 0;
 			m_tFrame.dwFrameTime = GetTickCount();
 			m_tFrame.dwFrameSpeed = 100;
 			break;
-		case Player::STATE_FALL:
+		case OtherPlayer::STATE_FALL:
 
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 2;
@@ -757,28 +543,28 @@ void Player::FrameChange()
 			m_tFrame.dwFrameTime = GetTickCount();
 			m_tFrame.dwFrameSpeed = 100;
 			break;
-		case Player::STATE_LAND:
+		case OtherPlayer::STATE_LAND:
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 2;
 			m_tFrame.iFrameScene = 0;
 			m_tFrame.dwFrameTime = GetTickCount();
 			m_tFrame.dwFrameSpeed = 10;
 			break;
-		case Player::STATE_DEAD:
+		case OtherPlayer::STATE_DEAD:
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 8;
 			m_tFrame.iFrameScene = 0;
 			m_tFrame.dwFrameTime = GetTickCount();
 			m_tFrame.dwFrameSpeed = 50;
 			break;
-		case Player::STATE_ATTU:
+		case OtherPlayer::STATE_ATTU:
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 4;
 			m_tFrame.iFrameScene = 0;
 			m_tFrame.dwFrameTime = GetTickCount();
 			m_tFrame.dwFrameSpeed = 50;
 			break;
-		case Player::STATE_ATTD:
+		case OtherPlayer::STATE_ATTD:
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 4;
 			m_tFrame.iFrameScene = 0;
@@ -791,78 +577,44 @@ void Player::FrameChange()
 		m_eCurState = m_eNextState;
 	}
 }
-
-bool Player::CheckCollE2M(CObj * monster)
+#include "Exturn.h"
+void OtherPlayer::SetState()
 {
-	RECT Dst;
-	if (Attck_ON) {
-		SetRect(&Attack_box, Attack_box.left, Attack_box.top, Attack_box.right, Attack_box.bottom);
-		SetRect(&monster->HitBox, monster->HitBox.left, monster->HitBox.top, monster->HitBox.right, monster->HitBox.bottom);
-		if (IntersectRect(&Dst, &Attack_box, &monster->HitBox))
-		{
-			return true;
-		}
-		else {
-			return false;
-		}
+	
+	// m_eNextState =STATE(OtherPlayerData->playerState);
+	switch (m_eNextState)
+	{
+	case OtherPlayer::STATE_ATT:
+		m_pFrameKey = L"attack";
+		break;
+	case OtherPlayer::STATE_IDLE:
+		m_pFrameKey = L"idle";
+		break;
+	case OtherPlayer::STATE_WALK:
+		m_pFrameKey = L"move";
+		break;
+	case OtherPlayer::STATE_HIT:
+		m_pFrameKey = L"attacked";
+		break;
+	case OtherPlayer::STATE_JUMP:
+		m_pFrameKey = L"jumpstart";
+		break;
+	case OtherPlayer::STATE_FALL:
+		m_pFrameKey = L"jump_falling";
+		break;
+	case OtherPlayer::STATE_LAND:
+		m_pFrameKey = L" jump_landing";
+		break;
+	case OtherPlayer::STATE_DEAD:
+		m_pFrameKey = L"dead";
+		break;
+	case OtherPlayer::STATE_ATTD:
+		m_pFrameKey = L"idle";
+		break;
+	case OtherPlayer::STATE_ATTU:
+		m_pFrameKey = L"idle";
+		break;
+	default:
+		break;
 	}
-	else return false;
-
-}
-
-void Player::Set_InfoHusk(CObj * Monster)
-{
-	pHusk = Monster;
-}
-
-void Player::Set_InfoFly(CObj * Monster)
-{
-	pFly = Monster;
-}
-void Player::Set_InfoBug(CObj * Monster)
-{
-	pBug = Monster;
-}
-
-void Player::Set_InfoSubBoss(CObj * Monster)
-{
-	pSubBoss = Monster;
-}
-void Player::Set_Infobit(CObj * Monster)
-{
-	pbittle = Monster;
-}
-void Player::Set_Infobit2(CObj* Monster)
-{
-	pbittle2 = Monster;
-}
-
-void Player::Set_Infobit3(CObj* Monster)
-{
-	pbittle3 = Monster;
-}
-
-void Player::Set_Infobit4(CObj* Monster)
-{
-	pbittle4 = Monster;
-}
-void Player::Set_InfoHushK(CObj* Monster)
-{
-	pHushK = Monster;
-}
-
-int Player::GetHp()
-{
-	return Hp;
-}
-
-bool Player::getStage()
-{
-	return b_canChange;
-}
-
-
-void Player::SoundON()
-{
-	Sound_On = true;
 }

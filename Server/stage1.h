@@ -2,6 +2,8 @@
 #include "Scene.h"
 #include <Windows.h>
 #include "Player.h"
+#include "OtherPlayer.h"
+
 class CStage1:public CScene
 {
 public:
@@ -17,8 +19,8 @@ public:
 
 private:
 	bool Wave2clear;
-	CObj* m_pPlayers[MAXPLAYERNUM];
 	CObj* m_pPlayer;
+	CObj* m_pPlayer2;
 	int PlayerHp;
 	CObj* m_pHush;
 	CObj* m_pFly;

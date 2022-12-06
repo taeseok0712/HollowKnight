@@ -18,11 +18,13 @@ HWND g_hWND;
 
 HWND hProgress;
 SOCKET g_clientSock[MAXPLAYERNUM]{};
-int numOfPlayer = 1;
+int numOfPlayer = 2;
 bool g_gameStart = false;
-array <Client, MAXPLAYERNUM> g_clients;
-Player g_pPlayers[MAXPLAYERNUM];
+Client g_clients[2];
+PlayerData g_Player;
+PlayerData g_Player2;
 
+std::vector<MonsterData*> v_Monster;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine, int nCmdShow)
@@ -85,15 +87,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 				dwOldTime = GetTickCount();
 			}
 		}
+		cout << "p1: fX: " << g_Player.info.fX << endl;
+		cout << "p2: fX: " << g_Player2.info.fX << endl;
 	}
 	WSACleanup();
 
-	//// 메시지 루프
-	//MSG msg;
-	//while (GetMessage(&msg, 0, 0, 0) > 0) {
-	//	TranslateMessage(&msg);
-	//	DispatchMessage(&msg);
-	//}
 	return (int)msg.wParam;
 }
 
@@ -150,7 +148,6 @@ DWORD WINAPI ServerMain(LPVOID arg)
 	struct sockaddr_in clientaddr;
 	int addrlen;
 	HANDLE hThread[MAXPLAYERNUM];
-
 	while (1) {
 		// accept()
 		addrlen = sizeof(clientaddr);
@@ -171,8 +168,9 @@ DWORD WINAPI ServerMain(LPVOID arg)
 		// 스레드 생성
 		hThread[numOfPlayer - 1] = CreateThread(NULL, 0, ProcessClient,
 			(LPVOID)g_clients[numOfPlayer - 1].sock, 0, NULL);
-		if (numOfPlayer == MAXPLAYERNUM || g_gameStart) // 게임이 시작했거나 플레이어 수가 MAX에 도달했을 경우 더 이상 클라이언트를 추가하지 않음
-		{ closesocket(client_sock); }
+		if (numOfPlayer == MAXPLAYERNUM || g_gameStart) { // 게임이 시작했거나 플레이어 수가 MAX에 도달했을 경우 더 이상 클라이언트를 추가하지 않음
+			closesocket(client_sock); 
+		}
 		else {
 			numOfPlayer++;
 			CloseHandle(hThread[numOfPlayer - 1]); }
@@ -217,24 +215,28 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 			printf("PlayerData recv failed\n");
 			break;
 		}
-		auto temp = recvPlayerData;
 
-		// 플레이어 정보를 받고 업데이트를 해준다
-		
-		// 데이터 보내기 -> 여기서 몬스터 정보와 다른 클라이언트 정보를 클라이언트들에게 뿌려준다.
+		// 플레이어 정보를 받고 scene을 업데이트를 해준다.
+		// main->update();
+		// 데이터 보내기 -> 여기서 업데이트 된 몬스터 정보와 다른 클라이언트 정보를 클라이언트에게 준다.
+		PlayerData otherPlayerdata;
+		if (clientNum == 0)			// otherPlayerdata에 m_pPlayer2의 데이터 넣기
+			otherPlayerdata = g_Player2;
+		else                        // otherPlayerdata에 m_pPlayer의 데이터 넣기
+			otherPlayerdata = g_Player;
+		//
 		for (int i = 0; i < MAXPLAYERNUM; ++i) {
-			if (i != clientNum) {				// 자신 클라이언트가 아닌 다른 클라이언트들의 정보만 보낸다.
-				retval = send(g_clients[i].sock, (char*)&temp, sizeof(temp), 0);
+			if (i != clientNum) {				// 다른 클라이언트의 플레이어 정보를 보낸다.
+				retval = send(g_clients[i].sock, (char*)&otherPlayerdata, sizeof(otherPlayerdata), 0);
 				if (retval == SOCKET_ERROR) {
-					printf("다른 클라이언트 정보 보내는 도중 오류 발생\n");
+					printf("다른 플레이어 정보 보내는 도중 오류 발생\n");
 					err_quit("send()");
 					break;
 				}
 			}
-			MonsterData MonsterData[9];
 			// 몬스터 정보를 씬에서 꺼내서 넣어야 함
-
-			retval = send(g_clients[i].sock, (char*)&MonsterData, sizeof(MonsterData), 0);
+			retval = send(g_clients[i].sock, (char*)sizeof(v_Monster), sizeof(int), 0);
+			retval = send(g_clients[i].sock, (char*)&v_Monster, sizeof(v_Monster), 0);
 			if (retval == SOCKET_ERROR) {
 				printf("몬스터 정보 보내는 도중 오류 발생\n");
 				err_quit("send()");
@@ -243,7 +245,6 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 		}
 
 	}
-
 	// 소켓 닫기
 	closesocket(client_sock);
 	printf("[TCP 서버] 클라이언트 종료: IP 주소=%s, 포트 번호=%d\r\n",

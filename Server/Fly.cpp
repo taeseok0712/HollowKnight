@@ -297,11 +297,39 @@ void Fly::findPlayer() {
 	else {
 		followOn = FALSE;
 	}
+	if (numOfPlayer == 2) {
+		p = m_pPlayer2->Get_Rect();
+		p.left = p.left + 100;
+		p.right = p.right - 104;
+		p.top = p.top;
+		p.bottom = p.bottom;
+
+		if (IntersectRect(&rcTemp, &monsterSight, &p)) { // 몬스터 시야 와 플레이어가 충돌할시
+
+			followOn = TRUE;
+
+			if (IntersectRect(&rcTemp2, &monsterAttack, &p)) { // 몬스터 공격범위와 플레이어가 충돌할시
+				if (attackOn == FALSE) {
+					attackOn = TRUE;
+
+				}
+			}
+		}
+		else {
+			followOn = FALSE;
+		}
+	}
+
 }
 
 void Fly::Set_Info(CObj * player)
 {
 	m_pPlayer = player;
+}
+
+void Fly::Set_Info2(CObj* player)
+{
+	m_pPlayer2 = player;
 }
 
 void Fly::land() {

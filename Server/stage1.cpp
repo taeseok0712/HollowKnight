@@ -10,50 +10,68 @@
 #include "HushKnight.h"
 #include "AbstractFactory.h"
 
+int num = 0;
+
+
 CStage1::CStage1()
 {
 	wave = 1;
 	//for (int i = 0; i < numOfPlayer; ++i) {
 	//	if (m_pPlayers[i] == nullptr) {
 	//		m_pPlayers[i] = new Player;
-	//		m_pPlayers[i]->Initialize();						// 여기서 받아온 플레이어의 정보를 넣는 방향.
+	//		m_pPlayers[i]->Initialize();						.
 	//	}
 	//}
 	if (m_pPlayer == nullptr) {
 		m_pPlayer = new Player;
 		m_pPlayer->Initialize();
 	}
+	if (m_pPlayer2 == nullptr) {
+		m_pPlayer2 = new Player;
+		m_pPlayer2->Initialize();
+	}
 	if (m_pHush == nullptr) {
 		m_pHush = new Husk;
 		m_pHush->Initialize();
-		dynamic_cast<Husk*>(m_pHush)->Set_Info(m_pPlayer);			// 전부다 플레이어 여러명이랑 충돌체크 할 수 있게 바꿔줘야함.. 벌써 큰일이다..
+		dynamic_cast<Husk*>(m_pHush)->Set_Info(m_pPlayer);
+		dynamic_cast<Husk*>(m_pHush)->Set_Info2(m_pPlayer2);
 		dynamic_cast<Player*>(m_pPlayer)->Set_InfoHusk(m_pHush);
+		dynamic_cast<Player*>(m_pPlayer2)->Set_InfoHusk(m_pHush);
 	}
 
 	if (m_pFly == nullptr) {
 		m_pFly = new Fly;
 		m_pFly->Initialize();
 		dynamic_cast<Fly*>(m_pFly)->Set_Info(m_pPlayer);
+		dynamic_cast<Fly*>(m_pFly)->Set_Info2(m_pPlayer2);
 		dynamic_cast<Player*>(m_pPlayer)->Set_InfoFly(m_pFly);
+		dynamic_cast<Player*>(m_pPlayer2)->Set_InfoFly(m_pFly);
 	}
 
 	if (m_pBug == nullptr) {
 		m_pBug = new Bug;
 		m_pBug->Initialize();
 		dynamic_cast<Bug*>(m_pBug)->Set_Info(m_pPlayer);
+		dynamic_cast<Bug*>(m_pBug)->Set_Info2(m_pPlayer2);
 		dynamic_cast<Player*>(m_pPlayer)->Set_InfoBug(m_pBug);
+		dynamic_cast<Player*>(m_pPlayer2)->Set_InfoBug(m_pBug);
+
 	}
 	if (m_pbittle == nullptr) {
 		m_pbittle = new Bittle;
 		m_pbittle->Initialize();
 		dynamic_cast<Bittle*>(m_pbittle)->Set_Info(m_pPlayer);
+		dynamic_cast<Bittle*>(m_pbittle)->Set_Info2(m_pPlayer2);
 		dynamic_cast<Player*>(m_pPlayer)->Set_Infobit(m_pbittle);
+		dynamic_cast<Player*>(m_pPlayer2)->Set_Infobit(m_pbittle);
 	}
 	if (m_pSub == nullptr) {
 		m_pSub = new SubBoss;
 		m_pSub->Initialize();
 		dynamic_cast<SubBoss*>(m_pSub)->Set_Info(m_pPlayer);
+		dynamic_cast<SubBoss*>(m_pSub)->Set_Info2(m_pPlayer2);
 		dynamic_cast<Player*>(m_pPlayer)->Set_InfoSubBoss(m_pSub);
+		dynamic_cast<Player*>(m_pPlayer2)->Set_InfoSubBoss(m_pSub);
 	}
 
 	/////////////////////////웨이브//////////////////////////////
@@ -70,9 +88,6 @@ CStage1::~CStage1()
 
 void CStage1::Initialize()
 {
-
-	
-
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/UI/HPbar_1.bmp", L"HPbar");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/UI/HPicon_1.bmp", L"HPicon");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/UI/PowerGage2.bmp", L"PowerGage");
@@ -84,7 +99,13 @@ void CStage1::Update() {
 	//for (int i = 0; i < numOfPlayer; ++i)
 	//	m_pPlayers[i]->Update();
 	m_pPlayer->Update();
-	
+	m_pPlayer2->Update();
+	// 테스트용
+	g_Player.info.fX = m_pPlayer->Get_Info().fX;
+	g_Player.info.fY = m_pPlayer->Get_Info().fY;
+	m_pPlayer2->Set_Pos(g_Player.info.fX + 500, g_Player.info.fY);
+	// g_Player, g_Player2의 정보를 각각 m_pPlayer, 2에 Set해주고 Update를 통해 좌표와 방향, 상태 정보를 업데이트 해준다.
+	// 아래의 몬스터 업데이트 후에 몬스터들의 정보를 저장해준 후에 클라이언트에 몬스터 정보들을 보내준다.
 	if (m_pHush != nullptr) {
 		m_pHush->Update();
 		if (m_pHush->iHp <= 0) {
@@ -124,20 +145,26 @@ void CStage1::Update() {
 			m_pbittle2 = new Bittle(8000.f, 1600.f);
 			//m_pbittle->Initialize();
 			dynamic_cast<Bittle*>(m_pbittle2)->Set_Info(m_pPlayer);
+			dynamic_cast<Bittle*>(m_pbittle2)->Set_Info2(m_pPlayer2);
 			dynamic_cast<Player*>(m_pPlayer)->Set_Infobit2(m_pbittle2);
+			dynamic_cast<Player*>(m_pPlayer2)->Set_Infobit2(m_pbittle2);
 		}
 		if (m_pbittle3 == nullptr) {
 			m_pbittle3 = new Bittle(7400.f, 1500.f);
 			//m_pbittle->Initialize();
 			dynamic_cast<Bittle*>(m_pbittle3)->Set_Info(m_pPlayer);
+			dynamic_cast<Bittle*>(m_pbittle3)->Set_Info2(m_pPlayer2);
 			dynamic_cast<Player*>(m_pPlayer)->Set_Infobit3(m_pbittle3);
+			dynamic_cast<Player*>(m_pPlayer2)->Set_Infobit3(m_pbittle3);
 		}
 
 		if (m_pbittle4 == nullptr) {
 			m_pbittle4 = new Bittle(6200.f, 1300.f);
 			//m_pbittle->Initialize();
 			dynamic_cast<Bittle*>(m_pbittle4)->Set_Info(m_pPlayer);
+			dynamic_cast<Bittle*>(m_pbittle4)->Set_Info2(m_pPlayer2);
 			dynamic_cast<Player*>(m_pPlayer)->Set_Infobit4(m_pbittle4);
+			dynamic_cast<Player*>(m_pPlayer2)->Set_Infobit4(m_pbittle4);
 		}
 		wave += 1;
 	}
@@ -174,13 +201,17 @@ void CStage1::Update() {
 			m_pSub = new SubBoss;
 			m_pSub->Initialize();
 			dynamic_cast<SubBoss*>(m_pSub)->Set_Info(m_pPlayer);
+			dynamic_cast<SubBoss*>(m_pSub)->Set_Info2(m_pPlayer2);
 			dynamic_cast<Player*>(m_pPlayer)->Set_InfoSubBoss(m_pSub);
+			dynamic_cast<Player*>(m_pPlayer2)->Set_InfoSubBoss(m_pSub);
 
 			if (m_pHushKni == nullptr) {
 				m_pHushKni = new HushKnight(8000.f,1100.f);
 				m_pHushKni->Initialize();
 				dynamic_cast<HushKnight*>(m_pHushKni)->Set_Info(m_pPlayer);
 				dynamic_cast<Player*>(m_pPlayer)->Set_InfoHushK(m_pHushKni);
+				dynamic_cast<HushKnight*>(m_pHushKni)->Set_Info2(m_pPlayer2);
+				dynamic_cast<Player*>(m_pPlayer2)->Set_InfoHushK(m_pHushKni);
 			}
 		}
 		
@@ -204,6 +235,17 @@ void CStage1::LateUpdate()
 	//for (int i =0; i < numOfPlayer + 1; ++i)
 	//	m_pPlayers[i]->LateUpdate();
 	m_pPlayer->LateUpdate();
+	m_pPlayer2->LateUpdate();
+
+	//g_Player.info.fX = m_pPlayer->Get_Info().fX;
+	//g_Player.info.fY = m_pPlayer->Get_Info().fY;
+	//g_Player.info.fCX = m_pPlayer->Get_Info().fCX;
+	//g_Player.info.fCY = m_pPlayer->Get_Info().fCY;
+	//g_Player2.info.fX = m_pPlayer2->Get_Info().fX;
+	//g_Player2.info.fY = m_pPlayer2->Get_Info().fY;
+	//g_Player2.info.fCX = m_pPlayer2->Get_Info().fCX;
+	//g_Player2.info.fCY = m_pPlayer2->Get_Info().fCY;
+
 	if (m_pHush != nullptr) {
 		m_pHush->LateUpdate();
 	}
@@ -232,7 +274,7 @@ void CStage1::LateUpdate()
 		m_pHushKni->LateUpdate();
 	}
 
-	if (m_pbittle4 == nullptr && m_pbittle3 == nullptr && m_pbittle2 == nullptr&& wave == 3) {
+	if (m_pbittle4 == nullptr && m_pbittle3 == nullptr && m_pbittle2 == nullptr && wave == 3) {
 		Wave2clear = true;
 	}
 	if (wave == 5 && m_pHushKni == nullptr && m_pSub == nullptr) {
@@ -245,6 +287,8 @@ void CStage1::LateUpdate()
 void CStage1::Render(HDC hDC)
 {
 	m_pPlayer->UpdateRect();
+	m_pPlayer2->UpdateRect();
+
 	if (m_pHush != nullptr) {
 		m_pHush->UpdateRect();
 	}
@@ -306,6 +350,7 @@ void CStage1::Render(HDC hDC)
 		m_pHushKni->Render(hDC);
 	}
 	m_pPlayer->Render(hDC);
+	m_pPlayer2->Render(hDC);
 	HDC mMemDC = CBitmapMgr::Get_Instance()->FindImage(L"mapRoad");
 	HDC hHpDC = CBitmapMgr::Get_Instance()->FindImage(L"HPbar");
 	HDC hHPiconDC = CBitmapMgr::Get_Instance()->FindImage(L"HPicon");

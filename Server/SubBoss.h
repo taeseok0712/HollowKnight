@@ -1,6 +1,7 @@
 #pragma once
 #include "Obj.h"
 #include "Player.h"
+#include "OtherPlayer.h"
 #include <Windows.h>
 
 class SubBoss :
@@ -23,6 +24,7 @@ public:
 public:
 	void FrameChange();
 	void Set_Info(CObj* player);
+	void Set_Info2(CObj* player);
 	void findPlayer();
 	void land();
 	void Set_time(DWORD);
@@ -33,6 +35,7 @@ public:
 	
 private:
 	CObj* m_pPlayer;
+	CObj* m_pPlayer2;
 
 	TCHAR* m_pFrameKey;
 	STATE m_eCurState;

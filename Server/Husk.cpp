@@ -262,6 +262,10 @@ int Husk::Update() {
 			attackOn = TRUE;
 		}
 	}
+	//v_Monster[0]->info = m_tInfo;
+	//v_Monster[0]->isDead = m_bIsDead;
+	//v_Monster[0]->monsterState = MONSTERSTATE(m_eCurState);
+	//v_Monster[0]->monsterDir = Direction(m_eDirc);
 	return 0;
 }
 
@@ -352,11 +356,32 @@ void Husk::findPlayer() {
 	else {
 		followOn = FALSE;
 	}
+	if (numOfPlayer == 2) {
+		p = m_pPlayer2->Get_Rect();
+		p.left = p.left + 100;
+		p.right = p.right - 104;
+		p.top = p.top;
+		p.bottom = p.bottom;
+
+		if (IntersectRect(&rcTemp, &monsterSight, &p)) { // 몬스터 시야 와 플레이어가 충돌할시
+
+			followOn = TRUE;
+		}
+		else {
+			followOn = FALSE;
+		}
+	}
 }
+
 
 void Husk::Set_Info(CObj * player)
 {
 	m_pPlayer = player;
+}
+
+void Husk::Set_Info2(CObj* player)
+{
+	m_pPlayer2 = player;
 }
 
 void Husk::land() {

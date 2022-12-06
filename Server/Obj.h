@@ -9,8 +9,8 @@ public:
 public:
 	// get
 	// 충돌할때 필요할꺼야. 
-	const INFO& Get_Info()const { return m_tInfo; }
-	const RECT& Get_Rect()const { return m_tRect; }
+	const INFO& Get_Info() const { return m_tInfo; }
+	const RECT& Get_Rect() const { return m_tRect; }
 
 public:
 	//set
@@ -40,6 +40,8 @@ public:
 	int iHp;
 	bool effectOn;
 	RECT drawEffect;
+	void setDead(bool in);
+	bool getIsDead();
 protected:
 	INFO m_tInfo;
 	RECT m_tRect;
