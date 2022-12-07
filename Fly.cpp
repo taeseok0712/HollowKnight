@@ -34,10 +34,15 @@ Fly::~Fly() {
 }
 
 void Fly::Initialize() {
-	m_tInfo.fX = 3200.f;
-	m_tInfo.fY = 1749.f;
-	m_tInfo.fCX = 256.f;
-	m_tInfo.fCY = 256.f;   // 256 X 256
+	//m_tInfo.fX = 3200.f;
+	//m_tInfo.fY = 1749.f;
+	//m_tInfo.fCX = 256.f;
+	//m_tInfo.fCY = 256.f;   // 256 X 256
+	m_tFrame.iFrameStart = 0;
+	m_tFrame.iFrameEnd = 3;
+	m_tFrame.iFrameScene = 0;
+	m_tFrame.dwFrameTime = GetTickCount();
+	m_tFrame.dwFrameSpeed = 100;
 	moveDirect = 0;
 	moveCycle = 0;
 	attackDelay = 0;
@@ -91,15 +96,15 @@ int Fly::Update() {
 		}
 		if (rcTemp.right > rcTemp.bottom) {
 			if ((HitBox.bottom + HitBox.top) / 2 < (wall[i].bottom + wall[i].top) / 2) {
-				m_tInfo.fY -= rcTemp.bottom; // 플레이어 중심점 (inpos)
+				m_tInfo.fY -= rcTemp.bottom; 
 
 			}
 			else {
-				m_tInfo.fY += rcTemp.bottom; // 플레이어 중심점
+				m_tInfo.fY += rcTemp.bottom; 
 
 			}
 		}
-		//오른쪽 왼쪽 충돌
+		
 		else
 		{
 			if ((HitBox.right + HitBox.left) / 2 < (wall[i].right + wall[i].left) / 2) {
@@ -122,98 +127,98 @@ int Fly::Update() {
 
 	}
 
-	if (followOn == FALSE && attackOn == FALSE) { // 평소 걸어다니기
-		m_fSpeed = 2.f;
-		if (moveDirect == 1) {
-			m_tInfo.fX += m_fSpeed;
-			m_pFrameKey = L"Fly_move";
-			m_eDirc = DR_RIGHT;
-			m_eNextState = STATE_WALK;
-			++moveCycle;
+	//if (followOn == FALSE && attackOn == FALSE) { // 평소 걸어다니기
+	//	m_fSpeed = 2.f;
+	//	if (moveDirect == 1) {
+	//		m_tInfo.fX += m_fSpeed;
+	//		m_pFrameKey = L"Fly_move";
+	//		m_eDirc = DR_RIGHT;
+	//		m_eNextState = STATE_WALK;
+	//		++moveCycle;
 
-		}
-		else {
-			m_tInfo.fX -= m_fSpeed;
-			m_pFrameKey = L"Fly_move";
-			m_eDirc = DR_LEFT;
-			m_eNextState = STATE_WALK;
-			++moveCycle;
-		}
-	}
-	else if (hitOn) {
-		attackOn = FALSE;
-		m_fSpeed = 5.f;
+	//	}
+	//	else {
+	//		m_tInfo.fX -= m_fSpeed;
+	//		m_pFrameKey = L"Fly_move";
+	//		m_eDirc = DR_LEFT;
+	//		m_eNextState = STATE_WALK;
+	//		++moveCycle;
+	//	}
+	//}
+	//else if (hitOn) {
+	//	attackOn = FALSE;
+	//	m_fSpeed = 5.f;
 
-		if (m_eDirc == DR_LEFT) {
-			if (m_tFrame.iFrameStart < 8) {
-				m_tInfo.fX += m_fSpeed;
-				if (time + 100 < GetTickCount()) {
-					hitOn = false;
-					iHp -= 1;
-				}
+	//	if (m_eDirc == DR_LEFT) {
+	//		if (m_tFrame.iFrameStart < 8) {
+	//			m_tInfo.fX += m_fSpeed;
+	//			if (time + 100 < GetTickCount()) {
+	//				hitOn = false;
+	//				iHp -= 1;
+	//			}
 
-			}
+	//		}
 
-			m_pFrameKey = L"Fly_move";
-			m_eDirc = DR_LEFT;
-			m_eNextState = STATE_WALK;
+	//		m_pFrameKey = L"Fly_move";
+	//		m_eDirc = DR_LEFT;
+	//		m_eNextState = STATE_WALK;
 
-		}
-		else {
-			if (m_tFrame.iFrameStart < 8) {
-				m_tInfo.fX -= m_fSpeed;
-				if (time + 100 < GetTickCount()) {
-					hitOn = false;
-					iHp -= 1;
-				}
+	//	}
+	//	else {
+	//		if (m_tFrame.iFrameStart < 8) {
+	//			m_tInfo.fX -= m_fSpeed;
+	//			if (time + 100 < GetTickCount()) {
+	//				hitOn = false;
+	//				iHp -= 1;
+	//			}
 
-			}
+	//		}
 
-			m_pFrameKey = L"Fly_move";
-			m_eDirc = DR_RIGHT;
-			m_eNextState = STATE_WALK;
-		}
-	}
+	//		m_pFrameKey = L"Fly_move";
+	//		m_eDirc = DR_RIGHT;
+	//		m_eNextState = STATE_WALK;
+	//	}
+	//}
 
-	else if (followOn) { // 캐릭터 따라가기
-		m_fSpeed = 3.f;
-		if (p.right < HitBox.left) {
-			m_tInfo.fX -= m_fSpeed;
-			m_pFrameKey = L"Fly_move";
-			m_eDirc = DR_LEFT;
-			m_eNextState = STATE_WALK;
-
-
-		}
-		if (p.left >= HitBox.right) {
-			m_tInfo.fX += m_fSpeed;
-			m_pFrameKey = L"Fly_move";
-			m_eDirc = DR_RIGHT;
-			m_eNextState = STATE_WALK;
-
-		}
-		if (p.top >= HitBox.bottom) {
-			m_tInfo.fY += m_fSpeed;
-			m_pFrameKey = L"Fly_move";
-			if (p.left >= HitBox.right)
-				m_eDirc = DR_RIGHT;
-			else
-				m_eDirc = DR_LEFT;
-			m_eNextState = STATE_WALK;
+	//else if (followOn) { // 캐릭터 따라가기
+	//	m_fSpeed = 3.f;
+	//	if (p.right < HitBox.left) {
+	//		m_tInfo.fX -= m_fSpeed;
+	//		m_pFrameKey = L"Fly_move";
+	//		m_eDirc = DR_LEFT;
+	//		m_eNextState = STATE_WALK;
 
 
-		}
-		if (p.bottom <= HitBox.top) {
-			m_tInfo.fY -= m_fSpeed;
-			m_pFrameKey = L"Fly_move";
-			if (p.left >= HitBox.right)
-				m_eDirc = DR_RIGHT;
-			else
-				m_eDirc = DR_LEFT;
-			m_eNextState = STATE_WALK;
+	//	}
+	//	if (p.left >= HitBox.right) {
+	//		m_tInfo.fX += m_fSpeed;
+	//		m_pFrameKey = L"Fly_move";
+	//		m_eDirc = DR_RIGHT;
+	//		m_eNextState = STATE_WALK;
 
-		}
-	}
+	//	}
+	//	if (p.top >= HitBox.bottom) {
+	//		m_tInfo.fY += m_fSpeed;
+	//		m_pFrameKey = L"Fly_move";
+	//		if (p.left >= HitBox.right)
+	//			m_eDirc = DR_RIGHT;
+	//		else
+	//			m_eDirc = DR_LEFT;
+	//		m_eNextState = STATE_WALK;
+
+
+	//	}
+	//	if (p.bottom <= HitBox.top) {
+	//		m_tInfo.fY -= m_fSpeed;
+	//		m_pFrameKey = L"Fly_move";
+	//		if (p.left >= HitBox.right)
+	//			m_eDirc = DR_RIGHT;
+	//		else
+	//			m_eDirc = DR_LEFT;
+	//		m_eNextState = STATE_WALK;
+
+	//	}
+	//}
 	return 0;
 }
 
@@ -275,38 +280,54 @@ void Fly::FrameChange()
 }
 
 void Fly::findPlayer() {
-	RECT rcTemp;
-	RECT rcTemp2;
-	p = m_pPlayer->Get_Rect();
-	p.left = p.left + 100;
-	p.right = p.right - 104;
-	p.top = p.top;
-	p.bottom = p.bottom;
+	//RECT rcTemp;
+	//RECT rcTemp2;
+	//p = m_pPlayer->Get_Rect();
+	//p.left = p.left + 100;
+	//p.right = p.right - 104;
+	//p.top = p.top;
+	//p.bottom = p.bottom;
 
-	if (IntersectRect(&rcTemp, &monsterSight, &p)) { // 몬스터 시야 와 플레이어가 충돌할시
+	//if (IntersectRect(&rcTemp, &monsterSight, &p)) { // 몬스터 시야 와 플레이어가 충돌할시
 
-		followOn = TRUE;
+	//	followOn = TRUE;
 
-		if (IntersectRect(&rcTemp2, &monsterAttack, &p)) { // 몬스터 공격범위와 플레이어가 충돌할시
-			if (attackOn == FALSE) {
-				attackOn = TRUE;
+	//	if (IntersectRect(&rcTemp2, &monsterAttack, &p)) { // 몬스터 공격범위와 플레이어가 충돌할시
+	//		if (attackOn == FALSE) {
+	//			attackOn = TRUE;
 
-			}
-		}
-	}
-	else {
-		followOn = FALSE;
-	}
+	//		}
+	//	}
+	//}
+	//else {
+	//	followOn = FALSE;
+	//}
 }
 
 void Fly::Set_Info(CObj * player)
 {
-	m_pPlayer = player;
+	/*m_pPlayer = player;*/
 }
 
 void Fly::land() {
 
 
+}
+void Fly::SetData(MonsterData dt)
+{
+	m_tInfo = dt.info;
+	m_eDirc = Direction(dt.MonsterDir);
+
+	m_eNextState = STATE(dt.monsterState);
+	m_bIsDead = dt.isDead;
+	switch (m_eNextState)
+	{
+	case Fly::STATE_WALK:
+		m_pFrameKey = L"Fly_move";
+		break;
+	default:
+		break;
+	}
 }
 void Fly::Set_time(DWORD Hittime)
 {

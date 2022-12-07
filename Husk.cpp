@@ -73,11 +73,18 @@ Husk::~Husk() {
 }
 
 void Husk::Initialize() {
-	m_tInfo.fX = 1700.f;
-	m_tInfo.fY = 1700.f;
+	//m_tInfo.fX = 1700.f;
+	//m_tInfo.fY = 1700.f;
 
-	m_tInfo.fCX = 256.f;
-	m_tInfo.fCY = 256.f;   // 256 X 256
+	//m_tInfo.fCX = 256.f;
+	//m_tInfo.fCY = 256.f;   // 256 X 256
+
+	m_tFrame.iFrameStart = 0;
+	m_tFrame.iFrameEnd = 10;
+	m_tFrame.iFrameScene = 0;
+	m_tFrame.dwFrameTime = GetTickCount();
+	m_tFrame.dwFrameSpeed = 50;
+
 	moveDirect = 0;
 	moveCycle = 0;
 	attackDelay = 0;
@@ -85,8 +92,8 @@ void Husk::Initialize() {
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Monster/Husk/move.bmp", L"Husk_move");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Monster/Husk/attack.bmp", L"Husk_attack");
 	m_eDirc = DR_RIGHT;
-	m_eNextState = STATE_IDLE;
-	m_pFrameKey = L"Husk_move";
+	/*m_eNextState = STATE_IDLE;
+	m_pFrameKey = L"Husk_move";*/
 	m_fJumpAccel = 0.2f;
 	m_fJumpPower = 20.f;
 	m_fSpeed = 2.f;
@@ -95,19 +102,19 @@ void Husk::Initialize() {
 }
 
 int Husk::Update() {
-	RECT rcTemp;
-	land();
-	if (followOn == FALSE) {
-		if (moveCycle % 300 == 0) {
-			if (moveDirect == 1) {
-				moveDirect = 0;
-			}
-			else {
-				moveDirect = 1;
-			}
+	//RECT rcTemp;
+	//land();
+	//if (followOn == FALSE) {
+	//	if (moveCycle % 300 == 0) {
+	//		if (moveDirect == 1) {
+	//			moveDirect = 0;
+	//		}
+	//		else {
+	//			moveDirect = 1;
+	//		}
 
-		}
-	}
+	//	}
+	//}
 	HitBox.left = m_tRect.left + 72;
 	HitBox.right = m_tRect.right - 85;
 	HitBox.top = m_tRect.top + 66;
@@ -118,156 +125,156 @@ int Husk::Update() {
 	monsterSight.top = m_tRect.top;
 	monsterSight.bottom = m_tRect.bottom;
 
-	for (int i = 0; i < 22; ++i) {
-		if (IntersectRect(&rcTemp, &HitBox, &wall[i])) {
-			SetRect(&rcTemp, 0, 0, rcTemp.right - rcTemp.left, rcTemp.bottom - rcTemp.top);
-		}
-		if (rcTemp.right > rcTemp.bottom) {
-			if ((HitBox.bottom + HitBox.top) / 2 < (wall[i].bottom + wall[i].top) / 2) {
-				m_tInfo.fY -= rcTemp.bottom; // 플레이어 중심점 (inpos)
+	//for (int i = 0; i < 22; ++i) {
+	//	if (IntersectRect(&rcTemp, &HitBox, &wall[i])) {
+	//		SetRect(&rcTemp, 0, 0, rcTemp.right - rcTemp.left, rcTemp.bottom - rcTemp.top);
+	//	}
+	//	if (rcTemp.right > rcTemp.bottom) {
+	//		if ((HitBox.bottom + HitBox.top) / 2 < (wall[i].bottom + wall[i].top) / 2) {
+	//			m_tInfo.fY -= rcTemp.bottom; // 플레이어 중심점 (inpos)
 
-			}
-			else {
-				m_tInfo.fY += rcTemp.bottom; // 플레이어 중심점
+	//		}
+	//		else {
+	//			m_tInfo.fY += rcTemp.bottom; // 플레이어 중심점
 
-			}
-		}
-		//오른쪽 왼쪽 충돌
-		else
-		{
-			if ((HitBox.right + HitBox.left) / 2 < (wall[i].right + wall[i].left) / 2) {
-				m_tInfo.fX -= rcTemp.right;
+	//		}
+	//	}
+	//	//오른쪽 왼쪽 충돌
+	//	else
+	//	{
+	//		if ((HitBox.right + HitBox.left) / 2 < (wall[i].right + wall[i].left) / 2) {
+	//			m_tInfo.fX -= rcTemp.right;
 
-			}
-			else {
-				m_tInfo.fX += rcTemp.right;
+	//		}
+	//		else {
+	//			m_tInfo.fX += rcTemp.right;
 
-			}
+	//		}
 
-		}
-	}
-
-
-	if (followOn == FALSE && attackOn == FALSE) { // 평소 걸어다니기
-		m_fSpeed = 2.f;
-		if (moveDirect == 1) {
-			m_tInfo.fX += m_fSpeed;
-			m_pFrameKey = L"Husk_move";
-			m_eDirc = DR_RIGHT;
-			m_eNextState = STATE_WALK;
-			++moveCycle;
-
-		}
-		else {
-			m_tInfo.fX -= m_fSpeed;
-			m_pFrameKey = L"Husk_move";
-			m_eDirc = DR_LEFT;
-			m_eNextState = STATE_WALK;
-			++moveCycle;
-		}
-
-	}
-
-	else if (hitOn) {
-		attackOn = FALSE;
-		m_fSpeed = 5.f;
-		if (m_eDirc == DR_LEFT) {
-			if (m_tFrame.iFrameStart < 8) {
-				m_tInfo.fX += m_fSpeed;
-				if (time + 100 < GetTickCount()) {
-					hitOn = false;
-					iHp -= 1;
-				}
-			}
+	//	}
+	//}
 
 
-			m_pFrameKey = L"Husk_idle";
-			m_eDirc = DR_LEFT;
-			m_eNextState = STATE_IDLE;
+	//if (followOn == FALSE && attackOn == FALSE) { // 평소 걸어다니기
+	//	m_fSpeed = 2.f;
+	//	if (moveDirect == 1) {
+	//		m_tInfo.fX += m_fSpeed;
+	//		m_pFrameKey = L"Husk_move";
+	//		m_eDirc = DR_RIGHT;
+	//		m_eNextState = STATE_WALK;
+	//		++moveCycle;
 
-		}
-		else {
-			if (m_tFrame.iFrameStart < 8) {
-				m_tInfo.fX -= m_fSpeed;
-				if (time + 100 < GetTickCount()) {
-					hitOn = false;
-					iHp -= 1;
-				}
+	//	}
+	//	else {
+	//		m_tInfo.fX -= m_fSpeed;
+	//		m_pFrameKey = L"Husk_move";
+	//		m_eDirc = DR_LEFT;
+	//		m_eNextState = STATE_WALK;
+	//		++moveCycle;
+	//	}
 
-			}
+	//}
 
-			m_pFrameKey = L"Husk_idle";
-			m_eDirc = DR_RIGHT;
-			m_eNextState = STATE_IDLE;
-		}
-	}
-	else if (attackOn) { // 캐릭터 공격하기
-		m_fSpeed = 10.f;
-		if (m_eDirc == DR_LEFT) {
-			if (m_tFrame.iFrameStart > 5) {
-				m_tInfo.fX -= m_fSpeed;
-			}
-			m_pFrameKey = L"Husk_attack";
-			m_eDirc = DR_LEFT;
-			m_eNextState = STATE_ATT;
-
-		}
-		else {
-			if (m_tFrame.iFrameStart > 5) {
-				m_tInfo.fX += m_fSpeed;
-			}
-			m_pFrameKey = L"Husk_attack";
-			m_eDirc = DR_RIGHT;
-			m_eNextState = STATE_ATT;
-		}
-		if (m_tFrame.iFrameStart == 10) { // 모션이 다 끝나고 공격 종료하기 
-
-			attackOn = FALSE;
-			attackDelay = 0;
-
-			if ((p.right + p.left) / 2 < (monsterSight.right + monsterSight.left) / 2) {
-				m_eDirc = DR_LEFT;
-
-			}
-			else {
-				m_eDirc = DR_RIGHT;
-
-			}
-		}
-	}
-	else if (followOn) { // 캐릭터 따라가기
-		m_fSpeed = 2.f;
-		if (p.right <= HitBox.left) {
-			m_tInfo.fX -= m_fSpeed;
-			m_pFrameKey = L"Husk_move";
-			m_eDirc = DR_LEFT;
-			m_eNextState = STATE_WALK;
-			moveDirect = 0;
+	//else if (hitOn) {
+	//	attackOn = FALSE;
+	//	m_fSpeed = 5.f;
+	//	if (m_eDirc == DR_LEFT) {
+	//		if (m_tFrame.iFrameStart < 8) {
+	//			m_tInfo.fX += m_fSpeed;
+	//			if (time + 100 < GetTickCount()) {
+	//				hitOn = false;
+	//				iHp -= 1;
+	//			}
+	//		}
 
 
-		}
-		if (p.left >= HitBox.right) {
-			m_tInfo.fX += m_fSpeed;
-			m_pFrameKey = L"Husk_move";
-			m_eDirc = DR_RIGHT;
-			m_eNextState = STATE_WALK;
-			moveDirect = 1;
-		}
+	//		m_pFrameKey = L"Husk_idle";
+	//		m_eDirc = DR_LEFT;
+	//		m_eNextState = STATE_IDLE;
 
-		if (attackOn == FALSE) {
-			++attackDelay;
-		}
+	//	}
+	//	else {
+	//		if (m_tFrame.iFrameStart < 8) {
+	//			m_tInfo.fX -= m_fSpeed;
+	//			if (time + 100 < GetTickCount()) {
+	//				hitOn = false;
+	//				iHp -= 1;
+	//			}
 
-		if (attackDelay == 200) {
-			attackOn = TRUE;
-		}
-	}
+	//		}
+
+	//		m_pFrameKey = L"Husk_idle";
+	//		m_eDirc = DR_RIGHT;
+	//		m_eNextState = STATE_IDLE;
+	//	}
+	//}
+	//else if (attackOn) { // 캐릭터 공격하기
+	//	m_fSpeed = 10.f;
+	//	if (m_eDirc == DR_LEFT) {
+	//		if (m_tFrame.iFrameStart > 5) {
+	//			m_tInfo.fX -= m_fSpeed;
+	//		}
+	//		m_pFrameKey = L"Husk_attack";
+	//		m_eDirc = DR_LEFT;
+	//		m_eNextState = STATE_ATT;
+
+	//	}
+	//	else {
+	//		if (m_tFrame.iFrameStart > 5) {
+	//			m_tInfo.fX += m_fSpeed;
+	//		}
+	//		m_pFrameKey = L"Husk_attack";
+	//		m_eDirc = DR_RIGHT;
+	//		m_eNextState = STATE_ATT;
+	//	}
+	//	if (m_tFrame.iFrameStart == 10) { // 모션이 다 끝나고 공격 종료하기 
+
+	//		attackOn = FALSE;
+	//		attackDelay = 0;
+
+	//		if ((p.right + p.left) / 2 < (monsterSight.right + monsterSight.left) / 2) {
+	//			m_eDirc = DR_LEFT;
+
+	//		}
+	//		else {
+	//			m_eDirc = DR_RIGHT;
+
+	//		}
+	//	}
+	//}
+	//else if (followOn) { // 캐릭터 따라가기
+	//	m_fSpeed = 2.f;
+	//	if (p.right <= HitBox.left) {
+	//		m_tInfo.fX -= m_fSpeed;
+	//		m_pFrameKey = L"Husk_move";
+	//		m_eDirc = DR_LEFT;
+	//		m_eNextState = STATE_WALK;
+	//		moveDirect = 0;
+
+
+	//	}
+	//	if (p.left >= HitBox.right) {
+	//		m_tInfo.fX += m_fSpeed;
+	//		m_pFrameKey = L"Husk_move";
+	//		m_eDirc = DR_RIGHT;
+	//		m_eNextState = STATE_WALK;
+	//		moveDirect = 1;
+	//	}
+
+	//	if (attackOn == FALSE) {
+	//		++attackDelay;
+	//	}
+
+	//	if (attackDelay == 200) {
+	//		attackOn = TRUE;
+	//	}
+	//}
 	return 0;
 }
 
 void Husk::LateUpdate() {
 	CObj::FrameMove();
-	findPlayer();
+	
 	FrameChange();
 
 }
@@ -337,21 +344,21 @@ void Husk::FrameChange()
 }
 
 void Husk::findPlayer() {
-	RECT rcTemp;
-	RECT rcTemp2;
-	p = m_pPlayer->Get_Rect();
-	p.left = p.left + 100;
-	p.right = p.right - 104;
-	p.top = p.top;
-	p.bottom = p.bottom;
+	//RECT rcTemp;
+	//RECT rcTemp2;
+	//p = m_pPlayer->Get_Rect();
+	//p.left = p.left + 100;
+	//p.right = p.right - 104;
+	//p.top = p.top;
+	//p.bottom = p.bottom;
 
-	if (IntersectRect(&rcTemp, &monsterSight, &p)) { // 몬스터 시야 와 플레이어가 충돌할시
+	//if (IntersectRect(&rcTemp, &monsterSight, &p)) { // 몬스터 시야 와 플레이어가 충돌할시
 
-		followOn = TRUE;
-	}
-	else {
-		followOn = FALSE;
-	}
+	//	followOn = TRUE;
+	//}
+	//else {
+	//	followOn = FALSE;
+	//}
 }
 
 void Husk::Set_Info(CObj * player)
@@ -361,16 +368,38 @@ void Husk::Set_Info(CObj * player)
 
 void Husk::land() {
 
-	float fy = 0.f;
-	int i = 0;
+	//float fy = 0.f;
+	//int i = 0;
 
-	m_fJumpPower = 0;
-	if (m_fJumpPower * m_fJumpAccel >= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
-		m_tInfo.fY -= m_fJumpPower * m_fJumpAccel - GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f;
-		m_fJumpAccel += 0.20f;
-	}
-	if (m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
-		m_tInfo.fY += 10;
+	//m_fJumpPower = 0;
+	//if (m_fJumpPower * m_fJumpAccel >= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
+	//	m_tInfo.fY -= m_fJumpPower * m_fJumpAccel - GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f;
+	//	m_fJumpAccel += 0.20f;
+	//}
+	//if (m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
+	//	m_tInfo.fY += 10;
+	//}
+}
+void Husk::SetData(MonsterData dt)
+{
+	m_tInfo = dt.info;
+	m_eDirc = Direction(dt.MonsterDir);
+
+	m_eNextState = STATE(dt.monsterState);
+	m_bIsDead = dt.isDead;
+	switch (m_eNextState)
+	{
+	case Husk::STATE_ATT:
+		m_pFrameKey = L"Husk_attack";
+		break;
+	case Husk::STATE_IDLE:
+		m_pFrameKey = L"Husk_idle";
+		break;
+	case Husk::STATE_WALK:
+		m_pFrameKey = L"Husk_move";
+		break;
+	default:
+		break;
 	}
 }
 void Husk::Set_time(DWORD Hittime)

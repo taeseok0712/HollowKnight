@@ -43,7 +43,11 @@ OtherPlayer::~OtherPlayer()
 
 void OtherPlayer::Initialize()
 {
-	
+	m_tFrame.iFrameStart = 0;
+	m_tFrame.iFrameEnd = 7;
+	m_tFrame.iFrameScene = 0;
+	m_tFrame.dwFrameTime = GetTickCount();
+	m_tFrame.dwFrameSpeed = 100;
 	CanHit = true;
 	Sound_On = false;
 	Hp = 6;
@@ -121,139 +125,139 @@ int OtherPlayer::Update()
 		Attack_box.bottom = Attack_box.top + m_tInfo.fCY;
 	}
 
-	for (int i = 0; i < 22; ++i) {
-		if (IntersectRect(&rcTemp, &HitBox, &wall[i])) {
-			SetRect(&rcTemp, 0, 0, rcTemp.right - rcTemp.left, rcTemp.bottom - rcTemp.top);
-			if (wall[i].top > m_tInfo.fY) {
-				Collnum = i;
-				IsColl = true;
-			}
+	//for (int i = 0; i < 22; ++i) {
+	//	if (IntersectRect(&rcTemp, &HitBox, &wall[i])) {
+	//		SetRect(&rcTemp, 0, 0, rcTemp.right - rcTemp.left, rcTemp.bottom - rcTemp.top);
+	//		if (wall[i].top > m_tInfo.fY) {
+	//			Collnum = i;
+	//			IsColl = true;
+	//		}
 
-			if (rcTemp.right >= rcTemp.bottom) {
-				if ((HitBox.bottom + HitBox.top) / 2 < (wall[i].bottom + wall[i].top) / 2) {
-					m_tInfo.fY -= rcTemp.bottom; // 플레이어 중심점 (inpos)
+	//		if (rcTemp.right >= rcTemp.bottom) {
+	//			if ((HitBox.bottom + HitBox.top) / 2 < (wall[i].bottom + wall[i].top) / 2) {
+	//				m_tInfo.fY -= rcTemp.bottom; // 플레이어 중심점 (inpos)
 
-				}
-				else {
-					m_tInfo.fY += rcTemp.bottom; // 플레이어 중심점
+	//			}
+	//			else {
+	//				m_tInfo.fY += rcTemp.bottom; // 플레이어 중심점
 
-				}
-			}
+	//			}
+	//		}
 
-			else
-			{
-				if ((m_tRect.right + m_tRect.left) / 2 < (wall[i].right + wall[i].left) / 2) {
-					m_tInfo.fX -= rcTemp.right;
+	//		else
+	//		{
+	//			if ((m_tRect.right + m_tRect.left) / 2 < (wall[i].right + wall[i].left) / 2) {
+	//				m_tInfo.fX -= rcTemp.right;
 
-				}
-				else {
-					m_tInfo.fX += rcTemp.right;
+	//			}
+	//			else {
+	//				m_tInfo.fX += rcTemp.right;
 
-				}
+	//			}
 
-			}
-		}
-	}
+	//		}
+	//	}
+	//}
 
-	if (IntersectRect(&rcTemp, &HitBox, &wall[Collnum])) {
-		IsColl = true;
+	//if (IntersectRect(&rcTemp, &HitBox, &wall[Collnum])) {
+	//	IsColl = true;
 
-	}
-	else {
-		IsColl = false;
+	//}
+	//else {
+	//	IsColl = false;
 
-	}
+	//}
 
 
 
-	if (m_eCurState == STATE_ATT && m_tFrame.iFrameStart == 4) {
-		m_pFrameKey = L"idle";
-		m_eNextState = STATE_IDLE;
+	//if (m_eCurState == STATE_ATT && m_tFrame.iFrameStart == 4) {
+	//	m_pFrameKey = L"idle";
+	//	m_eNextState = STATE_IDLE;
 
-	}
-	if (m_eCurState == STATE_ATTU && m_tFrame.iFrameStart == 4) {
-		m_pFrameKey = L"idle";
-		m_eNextState = STATE_IDLE;
+	//}
+	//if (m_eCurState == STATE_ATTU && m_tFrame.iFrameStart == 4) {
+	//	m_pFrameKey = L"idle";
+	//	m_eNextState = STATE_IDLE;
 
-	}
-	if (m_eCurState == STATE_ATTD && m_tFrame.iFrameStart == 4) {
-		m_pFrameKey = L"idle";
-		m_eNextState = STATE_IDLE;
+	//}
+	//if (m_eCurState == STATE_ATTD && m_tFrame.iFrameStart == 4) {
+	//	m_pFrameKey = L"idle";
+	//	m_eNextState = STATE_IDLE;
 
-	}
-	if (m_eNextState != STATE_ATT) {
-		Attck_ON = false;
-	}
+	//}
+	//if (m_eNextState != STATE_ATT) {
+	//	Attck_ON = false;
+	//}
 
 	
-	////////////////////////////////////////////////뒤짐/////////////////////////////////////////////////////////
-	if (Attacked == true && m_bIsDead == false) {
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_damage.wav", CSoundMgr::ATTED);
-		m_pFrameKey = L"attacked";
-		m_eNextState = STATE_HIT;
-		if (m_eDirc == DR_RIGHT) {
-			m_tInfo.fX -= 10;
-		}
-		else if (m_eDirc == DR_LEFT) {
-			m_tInfo.fX += 10;
-		}
-		if (m_eCurState == STATE_HIT && m_tFrame.iFrameStart == 5) {
-			m_pFrameKey = L"idle";
-			m_eNextState = STATE_IDLE;
-			Attacked = false;
-		}
-	}
-
-
-	if (Hp <= 0) {
-		CSoundMgr::Get_Instance()->StopSound(CSoundMgr::ATTED);
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_death_v2.wav", CSoundMgr::EFFECT);
-		m_pFrameKey = L"dead";
-		m_eNextState = STATE_DEAD;
-		Attacked = true;
-
-	}
-	if (Hp <= 0 && deadswitch == false) {
-		deadswitch = true;
-		deadtime = GetTickCount();
-	}
-	if (m_eCurState == STATE_DEAD && m_tFrame.iFrameStart == 8) {
-		m_bIsDead = true;
-		if (deadtime + 5000 < GetTickCount()) {
-			Hp = -1;
-		}
-	}
-
-
-	//////////////////////////////렌딩//////////////////////////////////////////////////
-
-	if (m_eCurState == STATE_LAND && m_tFrame.iFrameStart == 2) {
-		m_pFrameKey = L"idle";
-		m_eNextState = STATE_IDLE;
-	}
-	if (m_eCurState == STATE_LAND && m_tFrame.iFrameStart == 1) {
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_land_soft.wav", CSoundMgr::LAND);
-	}
-	////////////////////////////////////////////////////////////////////////////////////
-
-
-	/////////////////////////플레이어 공격관련///////////////////////////////////////
-
-	if (UDS == UP) {
-		Attack_box.left = HitBox.left - 70;
-		Attack_box.top = HitBox.top - 120;
-		Attack_box.right = HitBox.right + 70;
-		Attack_box.bottom = HitBox.top - 20;
-	}
-
-
-	////////////////////////등장사운드///////////////////////////////////////
-
-	//if (m_wave == 3 && Sound_On == true) {
-
-	//	CSoundMgr::Get_Instance()->PlaySound(L"a.monsterEmer.wav", CSoundMgr::MONSTER);
-	//	Sound_On = false;
+	//////////////////////////////////////////////////뒤짐/////////////////////////////////////////////////////////
+	//if (Attacked == true && m_bIsDead == false) {
+	//	CSoundMgr::Get_Instance()->PlaySound(L"hero_damage.wav", CSoundMgr::ATTED);
+	//	m_pFrameKey = L"attacked";
+	//	m_eNextState = STATE_HIT;
+	//	if (m_eDirc == DR_RIGHT) {
+	//		m_tInfo.fX -= 10;
+	//	}
+	//	else if (m_eDirc == DR_LEFT) {
+	//		m_tInfo.fX += 10;
+	//	}
+	//	if (m_eCurState == STATE_HIT && m_tFrame.iFrameStart == 5) {
+	//		m_pFrameKey = L"idle";
+	//		m_eNextState = STATE_IDLE;
+	//		Attacked = false;
+	//	}
 	//}
+
+
+	//if (Hp <= 0) {
+	//	CSoundMgr::Get_Instance()->StopSound(CSoundMgr::ATTED);
+	//	CSoundMgr::Get_Instance()->PlaySound(L"hero_death_v2.wav", CSoundMgr::EFFECT);
+	//	m_pFrameKey = L"dead";
+	//	m_eNextState = STATE_DEAD;
+	//	Attacked = true;
+
+	//}
+	//if (Hp <= 0 && deadswitch == false) {
+	//	deadswitch = true;
+	//	deadtime = GetTickCount();
+	//}
+	//if (m_eCurState == STATE_DEAD && m_tFrame.iFrameStart == 8) {
+	//	m_bIsDead = true;
+	//	if (deadtime + 5000 < GetTickCount()) {
+	//		Hp = -1;
+	//	}
+	//}
+
+
+	////////////////////////////////렌딩//////////////////////////////////////////////////
+
+	//if (m_eCurState == STATE_LAND && m_tFrame.iFrameStart == 2) {
+	//	m_pFrameKey = L"idle";
+	//	m_eNextState = STATE_IDLE;
+	//}
+	//if (m_eCurState == STATE_LAND && m_tFrame.iFrameStart == 1) {
+	//	CSoundMgr::Get_Instance()->PlaySound(L"hero_land_soft.wav", CSoundMgr::LAND);
+	//}
+	//////////////////////////////////////////////////////////////////////////////////////
+
+
+	///////////////////////////플레이어 공격관련///////////////////////////////////////
+
+	//if (UDS == UP) {
+	//	Attack_box.left = HitBox.left - 70;
+	//	Attack_box.top = HitBox.top - 120;
+	//	Attack_box.right = HitBox.right + 70;
+	//	Attack_box.bottom = HitBox.top - 20;
+	//}
+
+
+	//////////////////////////등장사운드///////////////////////////////////////
+
+	////if (m_wave == 3 && Sound_On == true) {
+
+	////	CSoundMgr::Get_Instance()->PlaySound(L"a.monsterEmer.wav", CSoundMgr::MONSTER);
+	////	Sound_On = false;
+	////}
 
 	return 0;
 }
@@ -363,96 +367,96 @@ void OtherPlayer::Release()
 
 void OtherPlayer::IsJumping()
 {
-	float fy = 0.f;
+	//float fy = 0.f;
 
-	static bool drop = false;
-	static bool first_frame = true;
-	if (m_bIsJump)
-	{
-		m_fJumpPower = 20.f;
-		//자유낙하 공식. 
-		FSpeed = 5;
-		Scrollspeed_Y = FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
-		//  y = 파워 * 시간 - 중력 * 시간 제곱 * 0.5f 
-		if (m_fJumpPower * m_fJumpAccel >= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f && !drop) {
-			m_tInfo.fY -= m_fJumpPower * m_fJumpAccel - GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f;
-			//s= 1/2 a t^2 
+	//static bool drop = false;
+	//static bool first_frame = true;
+	//if (m_bIsJump)
+	//{
+	//	m_fJumpPower = 20.f;
+	//	//자유낙하 공식. 
+	//	FSpeed = 5;
+	//	Scrollspeed_Y = FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
+	//	//  y = 파워 * 시간 - 중력 * 시간 제곱 * 0.5f 
+	//	if (m_fJumpPower * m_fJumpAccel >= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f && !drop) {
+	//		m_tInfo.fY -= m_fJumpPower * m_fJumpAccel - GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f;
+	//		//s= 1/2 a t^2 
 
-			m_fJumpAccel += 0.20f;
+	//		m_fJumpAccel += 0.20f;
 
-			if (first_frame)
-				first_frame = false;
-			else if (IsColl == true)
-				drop = true;
-		}
-		if ((m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) || drop) {
+	//		if (first_frame)
+	//			first_frame = false;
+	//		else if (IsColl == true)
+	//			drop = true;
+	//	}
+	//	if ((m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) || drop) {
 
-			m_tInfo.fY += FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
-			m_pFrameKey = L" jump_falling";
-			m_eNextState = STATE_FALL;
+	//		m_tInfo.fY += FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
+	//		m_pFrameKey = L" jump_falling";
+	//		m_eNextState = STATE_FALL;
 
-			if (IsColl == true)
-			{
-				m_tInfo.fY = wall[Collnum].top - 60;
-				drop = false;
-				first_frame = true;
-			}
+	//		if (IsColl == true)
+	//		{
+	//			m_tInfo.fY = wall[Collnum].top - 60;
+	//			drop = false;
+	//			first_frame = true;
+	//		}
 
-		}
-
-
-		if (IsColl == true)
-		{
-			//m_tInfo.fY = wall[Collnum].top - 60;
-
-			m_bIsJump = false;
-			m_pFrameKey = L" jump_landing";
-			m_eNextState = STATE_LAND;
-			m_fJumpAccel = 0.f;
-		}
-	}
-	else {
-		m_fJumpPower = 10;
-
-		if (m_fJumpPower * m_fJumpAccel >= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
-			m_tInfo.fY -= m_fJumpPower * m_fJumpAccel - GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f;
-			m_fJumpAccel += 0.20f;
-		}
-		if (m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
-			m_tInfo.fY += FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
-			Scrollspeed_Y = FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
+	//	}
 
 
-		}
+	//	if (IsColl == true)
+	//	{
+	//		//m_tInfo.fY = wall[Collnum].top - 60;
 
-		if (IsColl == true)
-		{
-			m_tInfo.fY = wall[Collnum].top - 60;
-			if (isLand == false) {
-				if (m_eCurState == STATE_FALL && m_eNextState != STATE_LAND) {
+	//		m_bIsJump = false;
+	//		m_pFrameKey = L" jump_landing";
+	//		m_eNextState = STATE_LAND;
+	//		m_fJumpAccel = 0.f;
+	//	}
+	//}
+	//else {
+	//	m_fJumpPower = 10;
 
-					m_pFrameKey = L" jump_landing";
-					m_eNextState = STATE_LAND;
-					m_fJumpAccel = 0.f;
-					isLand = true;
-
-				}
-			}
-
-		}
-	}
-	if (IsColl == false) {
-		isLand = false;
-	}
+	//	if (m_fJumpPower * m_fJumpAccel >= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
+	//		m_tInfo.fY -= m_fJumpPower * m_fJumpAccel - GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f;
+	//		m_fJumpAccel += 0.20f;
+	//	}
+	//	if (m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
+	//		m_tInfo.fY += FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
+	//		Scrollspeed_Y = FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
 
 
-	/*if (CKeyMgr::Get_Instance()->KeyPressing('C') && Attacked != true && m_eCurState != STATE_FALL)
-	{
-		m_bIsJump = true;
-		m_pFrameKey = L"jumpstart";
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_jump.wav", CSoundMgr::JUMP);
-		m_eNextState = STATE_JUMP;
-	}*/
+	//	}
+
+	//	if (IsColl == true)
+	//	{
+	//		m_tInfo.fY = wall[Collnum].top - 60;
+	//		if (isLand == false) {
+	//			if (m_eCurState == STATE_FALL && m_eNextState != STATE_LAND) {
+
+	//				m_pFrameKey = L" jump_landing";
+	//				m_eNextState = STATE_LAND;
+	//				m_fJumpAccel = 0.f;
+	//				isLand = true;
+
+	//			}
+	//		}
+
+	//	}
+	//}
+	//if (IsColl == false) {
+	//	isLand = false;
+	//}
+
+
+	///*if (CKeyMgr::Get_Instance()->KeyPressing('C') && Attacked != true && m_eCurState != STATE_FALL)
+	//{
+	//	m_bIsJump = true;
+	//	m_pFrameKey = L"jumpstart";
+	//	CSoundMgr::Get_Instance()->PlaySound(L"hero_jump.wav", CSoundMgr::JUMP);
+	//	m_eNextState = STATE_JUMP;
+	//}*/
 
 }
 

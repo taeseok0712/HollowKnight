@@ -290,7 +290,7 @@ void Bittle::FrameChange()
 void Bittle::findPlayer() {
 	RECT rcTemp;
 	RECT rcTemp2;
-	p = m_pPlayer->Get_Rect();
+	//p = m_pPlayer->Get_Rect();
 	p.left = p.left + 100;
 	p.right = p.right - 104;
 	p.top = p.top;

@@ -69,11 +69,38 @@ CStage1::CStage1()
 		m_pbittle = new Bittle;
 		m_pbittle->Initialize();
 		
-		dynamic_cast<Bittle*>(m_pbittle)->Set_Info(m_pPlayer);
-		dynamic_cast<Player*>(m_pPlayer)->Set_Infobit(m_pbittle);
+		//dynamic_cast<Bittle*>(m_pbittle)->Set_Info(m_pPlayer);
+		//dynamic_cast<Player*>(m_pPlayer)->Set_Infobit(m_pbittle);
 
 	}
-	
+	if (m_pFly == nullptr)
+	{
+		m_pFly = new Fly;
+		m_pFly->Initialize();
+
+		//dynamic_cast<Bittle*>(m_pbittle)->Set_Info(m_pPlayer);
+		//dynamic_cast<Player*>(m_pPlayer)->Set_Infobit(m_pbittle);
+
+	}
+	if (m_pHush == nullptr)
+	{
+		m_pHush = new Husk;
+		m_pHush->Initialize();
+
+		//dynamic_cast<Bittle*>(m_pbittle)->Set_Info(m_pPlayer);
+		//dynamic_cast<Player*>(m_pPlayer)->Set_Infobit(m_pbittle);
+
+	}
+
+	if (m_pHushKni == nullptr)
+	{
+		m_pHushKni = new HushKnight;
+		m_pHushKni->Initialize();
+
+		//dynamic_cast<Bittle*>(m_pbittle)->Set_Info(m_pPlayer);
+		//dynamic_cast<Player*>(m_pPlayer)->Set_Infobit(m_pbittle);
+
+	}
 	/////////////////////////¿þÀÌºê//////////////////////////////
 
 	
@@ -102,17 +129,46 @@ void CStage1::Update() {
 
 	for (auto& a : v_Monster)
 	{
-
+		if (a.monsterType == "bittle") {
 			if (m_pbittle != nullptr) {
 				dynamic_cast<Bittle*>(m_pbittle)->SetData(a);
 				m_pbittle->Update();
-				
+
 				if (m_pbittle->getIsDead() == true) {
 					Safe_Delete(m_pbittle);
 				}
 			}
+		}
+		if (a.monsterType == "fly") {
+			if (m_pFly != nullptr) {
+				dynamic_cast<Fly*>(m_pFly)->SetData(a);
+				m_pFly->Update();
 
-		
+				if (m_pFly->getIsDead() == true) {
+					Safe_Delete(m_pFly);
+				}
+			}
+		}
+		if (a.monsterType == "husk") {
+			if (m_pHush != nullptr) {
+				dynamic_cast<Husk*>(m_pHush)->SetData(a);
+				m_pHush->Update();
+
+				if (m_pHush->getIsDead() == true) {
+					Safe_Delete(m_pHush);
+				}
+			}
+		}
+		if (a.monsterType == "hush_knight") {
+			if (m_pHushKni != nullptr) {
+				dynamic_cast<HushKnight*>(m_pHushKni)->SetData(a);
+				m_pHushKni->Update();
+
+				if (m_pHushKni->getIsDead() == true) {
+					Safe_Delete(m_pHushKni);
+				}
+			}
+		}
 	}
 
 	//if (m_pHush != nullptr) {

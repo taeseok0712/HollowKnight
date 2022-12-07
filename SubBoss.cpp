@@ -476,3 +476,26 @@ void SubBoss::Set_time(DWORD Hittime)
 {
 	time = Hittime;
 }
+
+void SubBoss::SetData(MonsterData dt)
+{
+	m_tInfo = dt.info;
+	m_eDirc = Direction(dt.MonsterDir);
+
+	m_eNextState = STATE(dt.monsterState);
+	m_bIsDead = dt.isDead;
+	switch (m_eNextState)
+	{
+	case SubBoss::STATE_ATT:
+		m_pFrameKey = L"SubBoss_attack";
+		break;
+	case SubBoss::STATE_IDLE:
+		m_pFrameKey = L"SubBoss_idle";
+		break;
+	case SubBoss::STATE_WALK:
+		m_pFrameKey = L"SubBoss_move";
+		break;
+	default:
+		break;
+	}
+}

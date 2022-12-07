@@ -30,6 +30,8 @@ public:
 	void findPlayer();
 	void land();
 	void Set_time(DWORD Hittime);
+
+	void SetData(MonsterData dt);
 public:
 	BOOL hitOn;
 private:

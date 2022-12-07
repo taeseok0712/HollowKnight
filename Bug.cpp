@@ -306,3 +306,20 @@ void Bug::Set_time(DWORD Hittime)
 {
 	time = Hittime;
 }
+
+void Bug::SetData(MonsterData dt)
+{
+	m_tInfo = dt.info;
+	m_eDirc = Direction(dt.MonsterDir);
+
+	m_eNextState = STATE(dt.monsterState);
+	m_bIsDead = dt.isDead;
+	switch (m_eNextState)
+	{
+	case Bug::STATE_WALK:
+		m_pFrameKey = L"Bug_move";
+		break;
+	default:
+		break;
+	}
+}

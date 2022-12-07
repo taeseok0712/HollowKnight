@@ -281,7 +281,7 @@ DWORD WINAPI ClientMain(LPVOID arg)
             }
             else {
                 retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0);
-                v_Monster[i] = Mdt;
+                v_Monster[i] = Mdt; //서버로부터 몬스터 데이터를 받아와 갱신해준다.
             }
          }
         

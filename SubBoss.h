@@ -27,6 +27,9 @@ public:
 	void land();
 	void Set_time(DWORD);
 
+
+	void SetData(MonsterData dt);
+
 public:
 	BOOL hitOn;
 	
