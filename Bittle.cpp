@@ -4,7 +4,7 @@
 Bittle::Bittle() {
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Monster/Bittle/Bittle.bmp", L"Bittle_move");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Monster/Bittle/Bittle_attack.bmp", L"Bittle_attack");
-	m_eNextState == STATE_IDLE;
+	
 	m_pFrameKey = L"Bittle_move";
 	moveDirect = 0;
 	moveCycle = 0;
@@ -12,7 +12,13 @@ Bittle::Bittle() {
 	m_fJumpAccel = 0.2f;
 	m_fJumpPower = 20.f;
 	m_fSpeed = 3.f;
+
 	iHp = 1;
+	m_tFrame.iFrameStart = 0;
+	m_tFrame.iFrameEnd = 3;
+	m_tFrame.iFrameScene = 0;
+	m_tFrame.dwFrameTime = GetTickCount();
+	m_tFrame.dwFrameSpeed = 80;
 	SetRect(&wall[0], 0, 0, 118, 2160); // 1
 	SetRect(&wall[1], 118, 1957, 2052, 2160); // 26
 	SetRect(&wall[2], 2052, 1745, 2896, 2160);  // 22
@@ -40,24 +46,7 @@ Bittle::Bittle() {
 
 Bittle::Bittle(MonsterData dt) {
 
-	m_tInfo.fX = dt.info.fX;
-	m_tInfo.fY = dt.info.fY;
-
-	m_tInfo.fCX = dt.info.fCX;// 230.f;//230
-	m_tInfo.fCY = dt.info.fCY;//200   // 256 X 256
-	moveDirect = 0;
-	moveCycle = 0;
-	attackDelay = 0;
-
 	
-	m_eDirc = Direction(dt.MonsterDir);
-	m_eNextState = STATE(dt.monsterState);
-	if(m_eNextState == STATE_IDLE)
-		m_pFrameKey = L"Bittle_move";
-	m_fJumpAccel = 0.2f;
-	m_fJumpPower = 20.f;
-	m_fSpeed = 3.f;
-	iHp = 1;
 	
 }
 
@@ -72,7 +61,8 @@ void Bittle::Initialize() {
 	moveCycle = 0;
 	attackDelay = 0;
 	
-	
+	m_eCurState == STATE_IDLE;
+	m_eNextState == STATE_IDLE;
 	
 	m_fJumpAccel = 0.2f;
 	m_fJumpPower = 20.f;
@@ -283,7 +273,7 @@ void Bittle::FrameChange()
 			m_tFrame.dwFrameTime = GetTickCount();
 			m_tFrame.dwFrameSpeed = 80;
 			break;
-		case Bittle::STATE_WALK:
+		case Bittle::STATE_WALK || Bittle::STATE_WALK:
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 5;
 			m_tFrame.iFrameScene = 0;
@@ -343,6 +333,7 @@ void Bittle::SetData(MonsterData dt)
 {
 	m_tInfo = dt.info;
 	m_eDirc = Direction(dt.MonsterDir);
+	
 	m_eNextState = STATE(dt.monsterState);
 	m_bIsDead = dt.isDead;
 	switch (m_eNextState)

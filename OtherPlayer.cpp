@@ -88,7 +88,7 @@ int OtherPlayer::Update()
 
 	WaitForSingleObject(h_WriteDataEvent, INFINITE); // 읽기 완료 대기
 	SetEvent(h_SendDataEvent);
-
+	m_eCurState;
 	SetState();
 	
 	if (b_IsChange == false) {
@@ -590,7 +590,6 @@ void OtherPlayer::SetState()
 	m_eDirc = Direction(OtherPlayerData.playerDir);
 	m_eNextState = STATE(OtherPlayerData.playerState);
 
-	m_eNextState =STATE(OtherPlayerData.playerState);
 	switch (m_eNextState)
 	{
 	case OtherPlayer::STATE_ATT:

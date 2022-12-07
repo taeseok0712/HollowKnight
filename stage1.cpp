@@ -23,8 +23,8 @@ CStage1::CStage1()
 	}
 
 	if (m_OtherPlayer == nullptr) {
-	//	m_OtherPlayer = new OtherPlayer;
-	//	m_OtherPlayer->Initialize();
+		m_OtherPlayer = new OtherPlayer;
+		m_OtherPlayer->Initialize();
 	}
 	/*
 	if (m_pHush == nullptr) {
@@ -97,7 +97,7 @@ void CStage1::Initialize()
 
 void CStage1::Update() {
 	m_pPlayer->Update();
-	//m_OtherPlayer->Update();
+	m_OtherPlayer->Update();
 
 
 	for (auto& a : v_Monster)
@@ -106,6 +106,7 @@ void CStage1::Update() {
 			if (m_pbittle != nullptr) {
 				dynamic_cast<Bittle*>(m_pbittle)->SetData(a);
 				m_pbittle->Update();
+				
 				if (m_pbittle->getIsDead() == true) {
 					Safe_Delete(m_pbittle);
 				}
@@ -234,7 +235,7 @@ void CStage1::LateUpdate()
 
 	m_pPlayer->LateUpdate();
 
-	//m_OtherPlayer->LateUpdate();
+	m_OtherPlayer->LateUpdate();
 	if (m_pHush != nullptr) {
 		m_pHush->LateUpdate();
 	}
