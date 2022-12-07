@@ -10,7 +10,7 @@
 #include "HushKnight.h"
 #include "AbstractFactory.h"
 
-int num = 0;
+int numOfMonster = 0;
 
 
 CStage1::CStage1()
@@ -103,23 +103,27 @@ void CStage1::Update() {
 	// 테스트용
 	g_Player.info.fX = m_pPlayer->Get_Info().fX;
 	g_Player.info.fY = m_pPlayer->Get_Info().fY;
-	m_pPlayer2->Set_Pos(g_Player.info.fX + 500, g_Player.info.fY);
+	m_pPlayer2->Set_Pos(g_Player.info.fX + 100, g_Player.info.fY);
 	// g_Player, g_Player2의 정보를 각각 m_pPlayer, 2에 Set해주고 Update를 통해 좌표와 방향, 상태 정보를 업데이트 해준다.
 	// 아래의 몬스터 업데이트 후에 몬스터들의 정보를 저장해준 후에 클라이언트에 몬스터 정보들을 보내준다.
 	if (m_pHush != nullptr) {
 		m_pHush->Update();
+		v_Monster[0] = dynamic_cast<Husk*>(m_pHush)->Get_Data();
+		cout << v_Monster[0].info.fX << endl;
 		if (m_pHush->iHp <= 0) {
 			Safe_Delete(m_pHush);
 		}
 	}
 	if (m_pFly != nullptr) {
 		m_pFly->Update();
+		v_Monster[1] = dynamic_cast<Fly*>(m_pFly)->Get_Data();
 		if (m_pFly->iHp <= 0) {
 			Safe_Delete(m_pFly);
 		}
 	}
 	if (m_pBug != nullptr) {
 		m_pBug->Update();
+		v_Monster[2] = dynamic_cast<Bug*>(m_pBug)->Get_Data();
 		if (m_pBug->iHp <= 0) {
 			Safe_Delete(m_pBug);
 		}
@@ -127,6 +131,7 @@ void CStage1::Update() {
 	
 	if (m_pSub != nullptr) {
 		m_pSub->Update();
+		v_Monster[3] = dynamic_cast<SubBoss*>(m_pSub)->Get_Data();
 		if (m_pSub->iHp <= 0) {
 			Safe_Delete(m_pSub);
 			wave++;
@@ -134,6 +139,7 @@ void CStage1::Update() {
 	}
 	if (m_pbittle != nullptr) {
 		m_pbittle->Update();
+		v_Monster[4] = dynamic_cast<Bittle*>(m_pbittle)->Get_Data();
 		if (m_pbittle->iHp <= 0) {
 			Safe_Delete(m_pbittle);
 		}
@@ -171,24 +177,28 @@ void CStage1::Update() {
 
 	if (m_pbittle2 != nullptr) {
 		m_pbittle2->Update();
+		v_Monster[5] = dynamic_cast<Bittle*>(m_pbittle2)->Get_Data();
 		if (m_pbittle2->iHp <= 0) {
 			Safe_Delete(m_pbittle2);
 		}
 	}
 	if (m_pbittle3 != nullptr) {
 		m_pbittle3->Update();
+		v_Monster[6] = dynamic_cast<Bittle*>(m_pbittle3)->Get_Data();
 		if (m_pbittle3->iHp <= 0) {
 			Safe_Delete(m_pbittle3);
 		}
 	}
 	if (m_pbittle4 != nullptr) {
 		m_pbittle4->Update();
+		v_Monster[7] = dynamic_cast<Bittle*>(m_pbittle4)->Get_Data();
 		if (m_pbittle4->iHp <= 0) {
 			Safe_Delete(m_pbittle4);
 		}
 	}
 	if (m_pHushKni != nullptr) {
 		m_pHushKni->Update();
+		v_Monster[8] = dynamic_cast<HushKnight*>(m_pHushKni)->Get_Data();
 		if (m_pHushKni->iHp <= 0) {
 			Safe_Delete(m_pHushKni);
 		}

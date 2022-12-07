@@ -334,3 +334,14 @@ void Bug::Set_time(DWORD Hittime)
 {
 	time = Hittime;
 }
+
+MonsterData Bug::Get_Data()
+{
+	MonsterData temp;
+	temp.info = m_tInfo;
+	temp.isDead = m_bIsDead;
+	temp.monsterState = MONSTERSTATE(m_eCurState);
+	temp.monsterDir = MONSTERDIRECTION(m_eDirc);
+	temp.monsterType = HUSH;
+	return temp;
+}

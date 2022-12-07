@@ -31,6 +31,9 @@ public:
 	void Set_Info2(CObj* player);
 	void findPlayer();
 	void land();
+
+	MonsterData Get_Data();
+
 	void Set_time(DWORD Hittime);
 public:
 	BOOL hitOn;

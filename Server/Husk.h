@@ -32,6 +32,8 @@ public:
 	void findPlayer();
 	void land();
 
+	MonsterData Get_Data();
+
 	//µô·¹ÀÌ¿ë
 	void Set_time(DWORD Hittime);
 public:

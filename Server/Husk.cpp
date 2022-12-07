@@ -262,10 +262,8 @@ int Husk::Update() {
 			attackOn = TRUE;
 		}
 	}
-	//v_Monster[0]->info = m_tInfo;
-	//v_Monster[0]->isDead = m_bIsDead;
-	//v_Monster[0]->monsterState = MONSTERSTATE(m_eCurState);
-	//v_Monster[0]->monsterDir = Direction(m_eDirc);
+	
+
 	return 0;
 }
 
@@ -401,4 +399,15 @@ void Husk::land() {
 void Husk::Set_time(DWORD Hittime)
 {
 	time = Hittime;
+}
+
+MonsterData Husk::Get_Data()
+{
+	MonsterData temp;
+	temp.info = m_tInfo;
+	temp.isDead = m_bIsDead;
+	temp.monsterState = MONSTERSTATE(m_eCurState);
+	temp.monsterDir = MONSTERDIRECTION(m_eDirc);
+	temp.monsterType = HUSH;
+	return temp;
 }

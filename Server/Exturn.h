@@ -8,4 +8,4 @@ extern int numOfPlayer;
 
 extern PlayerData g_Player;
 extern PlayerData g_Player2;
-extern std::vector<MonsterData*> v_Monster;
+extern MonsterData v_Monster[9];

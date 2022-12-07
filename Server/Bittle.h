@@ -33,6 +33,8 @@ public:
 	void land();
 	void Set_time(DWORD Hittime);
 
+	MonsterData Get_Data();
+
 public:
 	BOOL hitOn;
 private:

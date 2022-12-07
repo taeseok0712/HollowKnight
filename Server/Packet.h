@@ -21,7 +21,7 @@ struct MonsterData
 	INFO info;
 	MONSTERSTATE monsterState;
 	bool isDead;
-	Direction monsterDir;
+	MONSTERDIRECTION monsterDir;
 
 	RECT monsterAttEff; // 보스몬스터 공격 이펙트
 };

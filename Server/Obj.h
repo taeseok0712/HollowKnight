@@ -42,6 +42,7 @@ public:
 	RECT drawEffect;
 	void setDead(bool in);
 	bool getIsDead();
+
 protected:
 	INFO m_tInfo;
 	RECT m_tRect;
