@@ -103,192 +103,13 @@ void HushKnight::Initialize()
 }
 
 int HushKnight::Update() {
-	/*RECT rcTemp;
-	land();
-	if (followOn == FALSE) {
-		if (moveCycle % 300 == 0) {
-			if (moveDirect == 1) {
-				moveDirect = 0;
-			}
-			else {
-				moveDirect = 1;
-			}
 
-		}
-	}*/
 	HitBox.left = m_tRect.left + 80;
 	HitBox.right = m_tRect.right - 75;
 	HitBox.top = m_tRect.top + 60;
 	HitBox.bottom = m_tRect.bottom - 20;
 
-	//monsterSight.left = m_tRect.left - 400; // 몬스터 사이트 범위안에 들어오면 따라가기 시작
-	//monsterSight.right = m_tRect.right + 400;
-	//monsterSight.top = m_tRect.top;
-	//monsterSight.bottom = m_tRect.bottom;
-
-
-	//if (m_eDirc == DR_LEFT) {
-	//	monsterAttack.left = HitBox.left - 130; // 몬스터 사이트 범위안에 들어오면 따라가기 시작
-	//	monsterAttack.right = HitBox.left;
-	//	monsterAttack.top = HitBox.top;
-	//	monsterAttack.bottom = HitBox.bottom;
-	//}
-	//else {
-	//	monsterAttack.left = HitBox.right; // 몬스터 사이트 범위안에 들어오면 따라가기 시작
-	//	monsterAttack.right = HitBox.right + 130;
-	//	monsterAttack.top = HitBox.top;
-	//	monsterAttack.bottom = HitBox.bottom;
-	//}
-
-	//for (int i = 0; i < 22; ++i) {
-	//	if (IntersectRect(&rcTemp, &HitBox, &wall[i])) {
-	//		SetRect(&rcTemp, 0, 0, rcTemp.right - rcTemp.left, rcTemp.bottom - rcTemp.top);
-	//	}
-	//	if (rcTemp.right > rcTemp.bottom) {
-	//		if ((HitBox.bottom + HitBox.top) / 2 < (wall[i].bottom + wall[i].top) / 2) {
-	//			m_tInfo.fY -= rcTemp.bottom; // 플레이어 중심점 (inpos)
-
-	//		}
-	//		else {
-	//			m_tInfo.fY += rcTemp.bottom; // 플레이어 중심점
-
-	//		}
-	//	}
-	//	//오른쪽 왼쪽 충돌
-	//	else
-	//	{
-	//		if ((HitBox.right + HitBox.left) / 2 < (wall[i].right + wall[i].left) / 2) {
-	//			m_tInfo.fX -= rcTemp.right;
-
-	//		}
-	//		else {
-	//			m_tInfo.fX += rcTemp.right;
-
-	//		}
-
-	//	}
-	//}
-
-
-	//if (followOn == FALSE && attackOn == FALSE) { // 평소 걸어다니기
-	//	m_fSpeed = 5.f;
-	//	if (moveDirect == 1) {
-	//		m_tInfo.fX += m_fSpeed;
-	//		m_pFrameKey = L"HushKnight_walk";
-	//		m_eDirc = DR_RIGHT;
-	//		m_eNextState = STATE_WALK;
-	//		++moveCycle;
-
-	//	}
-	//	else {
-	//		m_tInfo.fX -= m_fSpeed;
-	//		m_pFrameKey = L"HushKnight_walk";
-	//		m_eDirc = DR_LEFT;
-	//		m_eNextState = STATE_WALK;
-	//		++moveCycle;
-	//	}
-	//	++attackDelay;
-	//}
-
-	//else if (hitOn) {
-	//	attackOn = FALSE;
-	//	attackDelay = 0;
-	//	m_fSpeed = 5.f;
-	//	if (m_eDirc == DR_LEFT) {
-	//		if (m_tFrame.iFrameStart < 8) {
-	//			m_tInfo.fX += m_fSpeed;
-	//			if (time + 100 < GetTickCount()) {
-	//				hitOn = false;
-	//				iHp -= 1;
-	//			}
-	//		}
-	//		m_pFrameKey = L"HushKnight_walk";
-	//		m_eDirc = DR_LEFT;
-	//		m_eNextState = STATE_WALK;
-
-	//	}
-	//	else {
-	//		if (m_tFrame.iFrameStart < 8) {
-	//			m_tInfo.fX -= m_fSpeed;
-	//			if (time + 100 < GetTickCount()) {
-	//				hitOn = false;
-	//				iHp -= 1;
-	//			}
-
-	//		}
-
-	//		m_pFrameKey = L"HushKnight_walk";
-	//		m_eDirc = DR_RIGHT;
-	//		m_eNextState = STATE_WALK;
-	//	}
-	//}
-	//else if (attackOn) { // 캐릭터 공격하기
-	//	m_fSpeed = 15.f;
-	//	if (m_eDirc == DR_LEFT) {
-	//			if (m_tFrame.iFrameStart < 10) {
-	//				m_tInfo.fX -= m_fSpeed;
-	//			}
-	//		m_pFrameKey = L"HushKnight_attack";
-	//		m_eDirc = DR_LEFT;
-	//		m_eNextState = STATE_ATT;
-	//		if (m_tFrame.iFrameStart == 10) { // 모션이 다 끝나고 공격 종료하기 
-
-	//			attackOn = FALSE;
-	//			attackDelay = 0;
-	//		}
-
-	//	}
-	//	else {
-	//		if (m_tFrame.iFrameStart < 10) {
-	//			m_tInfo.fX += m_fSpeed;
-	//		}
-	//		m_pFrameKey = L"HushKnight_attack";
-	//		m_eDirc = DR_RIGHT;
-	//		m_eNextState = STATE_ATT;
-	//	}
-
-	//	if (m_tFrame.iFrameStart == 10) { // 모션이 다 끝나고 공격 종료하기 
-
-	//		attackOn = FALSE;
-	//		attackDelay = 0;
-
-	//		if ((p.right + p.left) / 2 < (monsterSight.right + monsterSight.left) / 2) {
-	//			m_eDirc = DR_LEFT;
-
-	//		}
-	//		else {
-	//			m_eDirc = DR_RIGHT;
-
-	//		}
-	//	}
-	//}
-	//else if (followOn) { // 캐릭터 따라가기
-	//	m_fSpeed = 3.f;
-	//	if (p.right <= HitBox.left) {
-	//		m_tInfo.fX -= m_fSpeed;
-	//		m_pFrameKey = L"HushKnight_walk";
-	//		m_eDirc = DR_LEFT;
-	//		m_eNextState = STATE_WALK;
-	//		moveDirect = 0;
-
-
-	//	}
-	//	if (p.left >= HitBox.right) {
-	//		m_tInfo.fX += m_fSpeed;
-	//		m_pFrameKey = L"HushKnight_walk";
-	//		m_eDirc = DR_RIGHT;
-	//		m_eNextState = STATE_WALK;
-	//		moveDirect = 1;
-	//	}
-
-	//	if (attackOn == FALSE) {
-	//		++attackDelay;
-	//	}
-
-	//	if (attackDelay == 50) {
-	//		attackOn = TRUE;
-	//	}
-	//}
+	
 	return 0;
 }
 
@@ -314,15 +135,7 @@ void HushKnight::Render(HDC hdc) {
 			RGB(255, 0, 0));
 	}
 
-	/*HPEN hPen, oldPen;
-	hPen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
-	oldPen = (HPEN)SelectObject(hdc, hPen);
-	SelectObject(hdc, GetStockObject(NULL_BRUSH));
-
-	Rectangle(hdc, HitBox.left + iScrollX, HitBox.top + iScrollY, HitBox.right + iScrollX, HitBox.bottom + iScrollY);
-
-	SelectObject(hdc, oldPen);
-	DeleteObject(hPen);*/
+	
 }
 
 void HushKnight::Release() {
@@ -343,7 +156,7 @@ void HushKnight::FrameChange()
 			m_tFrame.dwFrameSpeed = 50;
 			break;
 
-		case HushKnight::STATE_WALK:
+		case HushKnight::STATE_WALK|| HushKnight::STATE_IDLE:
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 6;
 			m_tFrame.iFrameScene = 0;
@@ -358,21 +171,7 @@ void HushKnight::FrameChange()
 }
 
 void HushKnight::findPlayer() {
-	//RECT rcTemp;
-	//RECT rcTemp2;
-	//p = m_pPlayer->Get_Rect();
-	//p.left = p.left + 100;
-	//p.right = p.right - 104;
-	//p.top = p.top;
-	//p.bottom = p.bottom;
 
-	//if (IntersectRect(&rcTemp, &monsterSight, &p)) { // 몬스터 시야 와 플레이어가 충돌할시
-
-	//	followOn = TRUE;
-	//}
-	//else {
-	//	followOn = FALSE;
-	//}
 }
 
 void HushKnight::Set_Info(CObj * player)
@@ -382,23 +181,13 @@ void HushKnight::Set_Info(CObj * player)
 
 void HushKnight::land() {
 
-	/*float fy = 0.f;
-	int i = 0;
-
-	m_fJumpPower = 0;
-	if (m_fJumpPower * m_fJumpAccel >= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
-		m_tInfo.fY -= m_fJumpPower * m_fJumpAccel - GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f;
-		m_fJumpAccel += 0.20f;
-	}
-	if (m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
-		m_tInfo.fY += 10;
-	}*/
+	
 }
 void HushKnight::SetData(MonsterData dt)
 {
 	m_tInfo = dt.info;
 	m_eDirc = Direction(dt.MonsterDir);
-
+	FrameChange();
 	m_eNextState = STATE(dt.monsterState);
 	m_bIsDead = dt.isDead;
 	switch (m_eNextState)
@@ -415,6 +204,7 @@ void HushKnight::SetData(MonsterData dt)
 	default:
 		break;
 	}
+
 }
 void HushKnight::Set_time(DWORD Hittime)
 {
