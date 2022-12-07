@@ -581,16 +581,16 @@ void OtherPlayer::FrameChange()
 #include "Exturn.h"
 void OtherPlayer::SetState()
 {
-	m_tInfo.fX = OtherPlayerData->info.fX;
-	m_tInfo.fY = OtherPlayerData->info.fY;
+	m_tInfo.fX = OtherPlayerData.info.fX;
+	m_tInfo.fY = OtherPlayerData.info.fY;
 
-	m_tInfo.fCX = OtherPlayerData->info.fCX;// 230.f;//230
-	m_tInfo.fCY = OtherPlayerData->info.fCY;//200   // 256 X 256
+	m_tInfo.fCX = OtherPlayerData.info.fCX;// 230.f;//230
+	m_tInfo.fCY = OtherPlayerData.info.fCY;//200   // 256 X 256
 
-	m_eDirc = Direction(OtherPlayerData->playerDir);
-	m_eNextState = STATE(OtherPlayerData->playerState);
+	m_eDirc = Direction(OtherPlayerData.playerDir);
+	m_eNextState = STATE(OtherPlayerData.playerState);
 
-	m_eNextState =STATE(OtherPlayerData->playerState);
+	m_eNextState =STATE(OtherPlayerData.playerState);
 	switch (m_eNextState)
 	{
 	case OtherPlayer::STATE_ATT:

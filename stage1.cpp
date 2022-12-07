@@ -23,8 +23,8 @@ CStage1::CStage1()
 	}
 
 	if (m_OtherPlayer == nullptr) {
-		m_OtherPlayer = new OtherPlayer;
-		m_OtherPlayer->Initialize();
+	//	m_OtherPlayer = new OtherPlayer;
+	//	m_OtherPlayer->Initialize();
 	}
 	/*
 	if (m_pHush == nullptr) {
@@ -61,7 +61,19 @@ CStage1::CStage1()
 	}
 	*/
 	
+	
+	
+		
+	if (m_pbittle == nullptr)
+	{
+		m_pbittle = new Bittle;
+		m_pbittle->Initialize();
+		
+		dynamic_cast<Bittle*>(m_pbittle)->Set_Info(m_pPlayer);
+		dynamic_cast<Player*>(m_pPlayer)->Set_Infobit(m_pbittle);
 
+	}
+	
 	/////////////////////////¿þÀÌºê//////////////////////////////
 
 	
@@ -85,41 +97,55 @@ void CStage1::Initialize()
 
 void CStage1::Update() {
 	m_pPlayer->Update();
-	m_OtherPlayer->Update();
-	cout << m_OtherPlayer->Get_Info().fY << endl;
-	cout << m_pPlayer->Get_Info().fY << endl;
-	if (m_pHush != nullptr) {
-		m_pHush->Update();
-		if (m_pHush->iHp <= 0) {
-			Safe_Delete(m_pHush);
-		}
+	//m_OtherPlayer->Update();
+
+
+	for (auto& a : v_Monster)
+	{
+
+			if (m_pbittle != nullptr) {
+				dynamic_cast<Bittle*>(m_pbittle)->SetData(a);
+				m_pbittle->Update();
+				if (m_pbittle->getIsDead() == true) {
+					Safe_Delete(m_pbittle);
+				}
+			}
+
+		
 	}
-	if (m_pFly != nullptr) {
-		m_pFly->Update();
-		if (m_pFly->iHp <= 0) {
-			Safe_Delete(m_pFly);
-		}
-	}
-	if (m_pBug != nullptr) {
-		m_pBug->Update();
-		if (m_pBug->iHp <= 0) {
-			Safe_Delete(m_pBug);
-		}
-	}
-	
-	if (m_pSub != nullptr) {
-		m_pSub->Update();
-		if (m_pSub->iHp <= 0) {
-			Safe_Delete(m_pSub);
-			wave++;
-		}
-	}
-	if (m_pbittle != nullptr) {
-		m_pbittle->Update();
-		if (m_pbittle->iHp <= 0) {
-			Safe_Delete(m_pbittle);
-		}
-	}
+
+	//if (m_pHush != nullptr) {
+	//	m_pHush->Update();
+	//	if (m_pHush->iHp <= 0) {
+	//		Safe_Delete(m_pHush);
+	//	}
+	//}
+	//if (m_pFly != nullptr) {
+	//	m_pFly->Update();
+	//	if (m_pFly->iHp <= 0) {
+	//		Safe_Delete(m_pFly);
+	//	}
+	//}
+	//if (m_pBug != nullptr) {
+	//	m_pBug->Update();
+	//	if (m_pBug->iHp <= 0) {
+	//		Safe_Delete(m_pBug);
+	//	}
+	//}
+	//
+	//if (m_pSub != nullptr) {
+	//	m_pSub->Update();
+	//	if (m_pSub->iHp <= 0) {
+	//		Safe_Delete(m_pSub);
+	//		wave++;
+	//	}
+	//}
+	//if (m_pbittle != nullptr) {
+	//	m_pbittle->Update();
+	//	if (m_pbittle->iHp <= 0) {
+	//		Safe_Delete(m_pbittle);
+	//	}
+	//}
 	/////////////////////////////////////////////////////1/////////////////////////
 	//if (wave == 2 && dynamic_cast<Player*>(m_pPlayer)->getStage() == false) {
 	//	dynamic_cast<Player*>(m_pPlayer)->Set_Wave(wave);
@@ -145,7 +171,7 @@ void CStage1::Update() {
 	//	wave += 1;
 	//}
 
-	if (m_pbittle2 != nullptr) {
+	/*if (m_pbittle2 != nullptr) {
 		m_pbittle2->Update();
 		if (m_pbittle2->iHp <= 0) {
 			Safe_Delete(m_pbittle2);
@@ -190,7 +216,7 @@ void CStage1::Update() {
 		
 		wave += 1;
 		
-	}
+	}*/
 	
 	///////////////////////////////////////////////////////////
 
@@ -208,7 +234,7 @@ void CStage1::LateUpdate()
 
 	m_pPlayer->LateUpdate();
 
-	m_OtherPlayer->LateUpdate();
+	//m_OtherPlayer->LateUpdate();
 	if (m_pHush != nullptr) {
 		m_pHush->LateUpdate();
 	}

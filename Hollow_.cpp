@@ -19,7 +19,11 @@
 //서버-클라이언트 통신을 위한 전역변수
 
 SOCKET sock; // 소켓
-char buf[BUFSIZE + 1]; // 데이터 송수신 버퍼
+char OtherPlayerbuf[BUFSIZE + 1]; // 데이터 송수신 버퍼
+char Monsterbuf[BUFSIZE + 1]; // 데이터 송수신 버퍼
+
+
+
 DWORD WINAPI ClientMain(LPVOID arg);
 
 
@@ -34,8 +38,8 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름�
 PlayerData playerDataPacket;
 HANDLE h_SendDataEvent;
 HANDLE h_WriteDataEvent;
-PlayerData* OtherPlayerData = NULL;
-
+PlayerData OtherPlayerData;
+std::vector<MonsterData> v_Monster;
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -237,6 +241,8 @@ DWORD WINAPI ClientMain(LPVOID arg)
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == INVALID_SOCKET) err_quit("socket()");
 
+    bool PushMonsetDt = false;
+
 	// connect()
 	struct sockaddr_in serveraddr;
 	memset(&serveraddr, 0, sizeof(serveraddr));
@@ -251,25 +257,37 @@ DWORD WINAPI ClientMain(LPVOID arg)
 
     PlayerData pd = {}; //다른 플레이어 데이터용
     int GetSize = 0;
-    MonsterData* Mdt = {};
-	while (1) {
+    int MonsterNum;
+    MonsterData Mdt = {};
+    bool b_Init = false;
+    while (1) {
         WaitForSingleObject(h_SendDataEvent, INFINITE);
         retval = send(sock, (char*)&playerDataPacket, sizeof(PlayerData), 0);//클라이언트 플레이어 데이터 전송
 
-      //타 클라 플레이어 데이터 수신
-        retval = recv(sock, buf, BUFSIZE, 0);
-        buf[retval] = '\0';
-        OtherPlayerData = (PlayerData*)buf; 
-       //몬스터 정보 수신
+        //타 클라 플레이어 데이터 수신
+        retval = recv(sock, (char*)&OtherPlayerData, sizeof(PlayerData), 0);//클라이언트 플레이어 데이터 전송
 
-        OtherPlayerData;
-       /* retval = recv(sock, buf, BUFSIZE, 0);
-        buf[retval] = '\0';
-        Mdt = (MonsterData*)buf;*/
+        //몬스터 정보 수신
+
+        retval = recv(sock, (char*)&MonsterNum, sizeof(int), 0); //몬스터 갯수 받아오기
         
-        //cout << Mdt << endl;
+        for (int i = 0; i < MonsterNum; ++i) 
+        {
+            if (!b_Init) {
+                retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0); //몬스터 데이터 받기
+                v_Monster.push_back(Mdt); //받은 데이터를 넣어준다
+                if (i == MonsterNum -1)//다넣으면 더이상 넣지 않는다
+                    b_Init = true;
+            }
+            else {
+                retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0);
+                v_Monster[i] = Mdt;
+            }
+         }
         
+
         SetEvent(h_WriteDataEvent);
+        
 		//break;
 	}
 

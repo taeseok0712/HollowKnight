@@ -32,6 +32,7 @@
 #include <iostream>
 #include <algorithm>
 #include <assert.h>
+#include <array>
 using namespace std;
 #include "Exturn.h"
 #include "resource.h"
