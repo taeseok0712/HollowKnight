@@ -9,3 +9,4 @@ extern int numOfPlayer;
 extern PlayerData g_Player;
 extern PlayerData g_Player2;
 extern MonsterData v_Monster[9];
+extern int numOfMonster;

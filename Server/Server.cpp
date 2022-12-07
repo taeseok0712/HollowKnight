@@ -220,10 +220,14 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 		// main->update();
 		// 데이터 보내기 -> 여기서 업데이트 된 몬스터 정보와 다른 클라이언트 정보를 클라이언트에게 준다.
 
-		if (clientNum == 0)			// otherPlayerdata에 m_pPlayer2의 데이터 넣기
+		if (clientNum == 0) {			// otherPlayerdata에 m_pPlayer2의 데이터 넣기
+			g_Player = recvPlayerData;
 			otherPlayerdata = g_Player2;
-		else                        // otherPlayerdata에 m_pPlayer의 데이터 넣기
+		}
+		else {                        // otherPlayerdata에 m_pPlayer의 데이터 넣기
+			g_Player2 = recvPlayerData;
 			otherPlayerdata = g_Player;
+		}
 
 		for (int i = 0; i < MAXPLAYERNUM; ++i) {
 			if (i != clientNum) {				// 다른 클라이언트의 플레이어 정보를 보낸다.
@@ -234,15 +238,16 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 					break;
 				}
 			}
-			// 몬스터 정보가 담긴 배열을 보낸다.
-			retval = send(g_clients[i].sock, (char*)&v_Monster, sizeof(v_Monster), 0);
+		}
+		// 몬스터 정보가 담긴 배열을 보낸다.
+		for (int i = 0; i < numOfMonster; ++i) {
+			retval = send(g_clients[i].sock, (char*)&v_Monster[i], sizeof(MonsterData), 0);
 			if (retval == SOCKET_ERROR) {
 				printf("몬스터 정보 보내는 도중 오류 발생\n");
 				err_quit("send()");
 				break;
 			}
 		}
-
 	}
 	// 소켓 닫기
 	closesocket(client_sock);

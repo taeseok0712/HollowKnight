@@ -35,6 +35,7 @@
 #include <algorithm>
 #include <assert.h>
 #include <array>
+
 using namespace std;
 #include "resource.h"
 #include "Enum.h"

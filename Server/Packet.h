@@ -26,12 +26,6 @@ struct MonsterData
 	RECT monsterAttEff; // 보스몬스터 공격 이펙트
 };
 
-struct KeyInfo
-{
-	bool keyUp; // 키up시 true ,down시 False
-	KEYTYPE keyType;
-};
-
 struct ClientInfo
 {
 	SCENEID SceneId;

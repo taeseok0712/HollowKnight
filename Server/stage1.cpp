@@ -25,14 +25,17 @@ CStage1::CStage1()
 	if (m_pPlayer == nullptr) {
 		m_pPlayer = new Player;
 		m_pPlayer->Initialize();
+		g_Player = dynamic_cast<Player*>(m_pPlayer)->Get_PlayerData();
 	}
 	if (m_pPlayer2 == nullptr) {
 		m_pPlayer2 = new Player;
 		m_pPlayer2->Initialize();
+		g_Player2 = dynamic_cast<Player*>(m_pPlayer2)->Get_PlayerData();
 	}
 	if (m_pHush == nullptr) {
 		m_pHush = new Husk;
 		m_pHush->Initialize();
+		numOfMonster++;
 		dynamic_cast<Husk*>(m_pHush)->Set_Info(m_pPlayer);
 		dynamic_cast<Husk*>(m_pHush)->Set_Info2(m_pPlayer2);
 		dynamic_cast<Player*>(m_pPlayer)->Set_InfoHusk(m_pHush);
@@ -42,6 +45,7 @@ CStage1::CStage1()
 	if (m_pFly == nullptr) {
 		m_pFly = new Fly;
 		m_pFly->Initialize();
+		numOfMonster++;
 		dynamic_cast<Fly*>(m_pFly)->Set_Info(m_pPlayer);
 		dynamic_cast<Fly*>(m_pFly)->Set_Info2(m_pPlayer2);
 		dynamic_cast<Player*>(m_pPlayer)->Set_InfoFly(m_pFly);
@@ -51,6 +55,7 @@ CStage1::CStage1()
 	if (m_pBug == nullptr) {
 		m_pBug = new Bug;
 		m_pBug->Initialize();
+		numOfMonster++;
 		dynamic_cast<Bug*>(m_pBug)->Set_Info(m_pPlayer);
 		dynamic_cast<Bug*>(m_pBug)->Set_Info2(m_pPlayer2);
 		dynamic_cast<Player*>(m_pPlayer)->Set_InfoBug(m_pBug);
@@ -60,6 +65,7 @@ CStage1::CStage1()
 	if (m_pbittle == nullptr) {
 		m_pbittle = new Bittle;
 		m_pbittle->Initialize();
+		numOfMonster++;
 		dynamic_cast<Bittle*>(m_pbittle)->Set_Info(m_pPlayer);
 		dynamic_cast<Bittle*>(m_pbittle)->Set_Info2(m_pPlayer2);
 		dynamic_cast<Player*>(m_pPlayer)->Set_Infobit(m_pbittle);
@@ -68,6 +74,7 @@ CStage1::CStage1()
 	if (m_pSub == nullptr) {
 		m_pSub = new SubBoss;
 		m_pSub->Initialize();
+		numOfMonster++;
 		dynamic_cast<SubBoss*>(m_pSub)->Set_Info(m_pPlayer);
 		dynamic_cast<SubBoss*>(m_pSub)->Set_Info2(m_pPlayer2);
 		dynamic_cast<Player*>(m_pPlayer)->Set_InfoSubBoss(m_pSub);
@@ -98,12 +105,14 @@ void CStage1::Initialize()
 void CStage1::Update() {
 	//for (int i = 0; i < numOfPlayer; ++i)
 	//	m_pPlayers[i]->Update();
+	//dynamic_cast<Player*>(m_pPlayer)->Set_PlayerData(g_Player);
+	//dynamic_cast<Player*>(m_pPlayer2)->Set_PlayerData(g_Player2);
 	m_pPlayer->Update();
 	m_pPlayer2->Update();
-	// 테스트용
-	g_Player.info.fX = m_pPlayer->Get_Info().fX;
-	g_Player.info.fY = m_pPlayer->Get_Info().fY;
-	m_pPlayer2->Set_Pos(g_Player.info.fX + 100, g_Player.info.fY);
+	// 테스트 용
+	g_Player.info.fX = dynamic_cast<Player*>(m_pPlayer)->Get_Info().fX;
+	g_Player.info.fY = dynamic_cast<Player*>(m_pPlayer)->Get_Info().fY;
+	m_pPlayer2->Set_Pos(g_Player.info.fX - 100, g_Player.info.fY);
 	// g_Player, g_Player2의 정보를 각각 m_pPlayer, 2에 Set해주고 Update를 통해 좌표와 방향, 상태 정보를 업데이트 해준다.
 	// 아래의 몬스터 업데이트 후에 몬스터들의 정보를 저장해준 후에 클라이언트에 몬스터 정보들을 보내준다.
 	if (m_pHush != nullptr) {
@@ -149,6 +158,7 @@ void CStage1::Update() {
 		dynamic_cast<Player*>(m_pPlayer)->Set_Wave(wave);
 		if (m_pbittle2 == nullptr) {
 			m_pbittle2 = new Bittle(8000.f, 1600.f);
+			numOfMonster++;
 			//m_pbittle->Initialize();
 			dynamic_cast<Bittle*>(m_pbittle2)->Set_Info(m_pPlayer);
 			dynamic_cast<Bittle*>(m_pbittle2)->Set_Info2(m_pPlayer2);
@@ -157,6 +167,7 @@ void CStage1::Update() {
 		}
 		if (m_pbittle3 == nullptr) {
 			m_pbittle3 = new Bittle(7400.f, 1500.f);
+			numOfMonster++;
 			//m_pbittle->Initialize();
 			dynamic_cast<Bittle*>(m_pbittle3)->Set_Info(m_pPlayer);
 			dynamic_cast<Bittle*>(m_pbittle3)->Set_Info2(m_pPlayer2);
@@ -166,6 +177,7 @@ void CStage1::Update() {
 
 		if (m_pbittle4 == nullptr) {
 			m_pbittle4 = new Bittle(6200.f, 1300.f);
+			numOfMonster++;
 			//m_pbittle->Initialize();
 			dynamic_cast<Bittle*>(m_pbittle4)->Set_Info(m_pPlayer);
 			dynamic_cast<Bittle*>(m_pbittle4)->Set_Info2(m_pPlayer2);
@@ -218,6 +230,7 @@ void CStage1::Update() {
 			if (m_pHushKni == nullptr) {
 				m_pHushKni = new HushKnight(8000.f,1100.f);
 				m_pHushKni->Initialize();
+				numOfMonster++;
 				dynamic_cast<HushKnight*>(m_pHushKni)->Set_Info(m_pPlayer);
 				dynamic_cast<Player*>(m_pPlayer)->Set_InfoHushK(m_pHushKni);
 				dynamic_cast<HushKnight*>(m_pHushKni)->Set_Info2(m_pPlayer2);

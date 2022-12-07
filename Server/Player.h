@@ -36,6 +36,10 @@ public:
 	void Set_Infobit4(CObj* Monster);
 	void Set_InfoHushK(CObj* Monster);
 	void Set_Wave(int wave) { m_wave = wave; };
+
+	void Set_PlayerData(PlayerData playerdata);
+	PlayerData Get_PlayerData();
+
 	bool getStage();
 	RECT Attack_box; // 어택박스
 	bool Attck_ON;

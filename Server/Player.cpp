@@ -666,7 +666,6 @@ void Player::IsJumping()
 		CSoundMgr::Get_Instance()->PlaySound(L"hero_jump.wav", CSoundMgr::JUMP);
 		m_eNextState = STATE_JUMP;
 	}
-
 }
 
 
@@ -865,4 +864,24 @@ bool Player::getStage()
 void Player::SoundON()
 {
 	Sound_On = true;
+}
+
+PlayerData Player::Get_PlayerData()
+{
+	PlayerData temp;
+	temp.info = this->m_tInfo;
+	temp.isDead = this->m_bIsDead;
+	temp.playerState = PLAYERSTATE(this->m_eNextState);
+	temp.playerHp = this->Hp;
+	temp.playerDir = this->m_eDirc;
+	return temp;
+}
+
+void Player::Set_PlayerData(PlayerData playerdata)
+{
+	this->m_tInfo = playerdata.info;
+	this->m_bIsDead = playerdata.isDead;
+	this->m_eNextState = STATE(playerdata.playerState);
+	this->Hp = playerdata.playerHp;
+	this->m_eDirc = playerdata.playerDir;
 }
