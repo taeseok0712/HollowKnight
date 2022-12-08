@@ -337,6 +337,8 @@ void Bug::Set_time(DWORD Hittime)
 
 MonsterData Bug::Get_Data()
 {
+	if (this->iHp <= 0)
+		setDead(true);
 	MonsterData temp;
 	temp.info = m_tInfo;
 	temp.isDead = m_bIsDead;

@@ -97,6 +97,7 @@ void Husk::Initialize() {
 int Husk::Update() {
 	RECT rcTemp;
 	land();
+	
 	if (followOn == FALSE) {
 		if (moveCycle % 300 == 0) {
 			if (moveDirect == 1) {
@@ -403,9 +404,12 @@ void Husk::Set_time(DWORD Hittime)
 
 MonsterData Husk::Get_Data()
 {
+	if (this->iHp <= 0)
+		setDead(true);
 	MonsterData temp;
 	temp.info = m_tInfo;
 	temp.isDead = m_bIsDead;
+	cout << this->getIsDead();
 	temp.monsterState = MONSTERSTATE(m_eNextState);
 	temp.monsterDir = MONSTERDIRECTION(m_eDirc);
 	temp.monsterType = HUSH;

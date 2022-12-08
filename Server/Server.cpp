@@ -24,6 +24,8 @@ Client g_clients[2];
 PlayerData g_Player;
 PlayerData g_Player2;
 
+HANDLE h_InitPlayerEvent;
+
 vector<MonsterData> v_Monster;
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine, int nCmdShow)
@@ -32,7 +34,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	// 소켓 통신 스레드 생성
 	CreateThread(NULL, 0, ServerMain, NULL, 0, NULL);
-
+	h_InitPlayerEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	// 윈도우 클래스 등록
 	WNDCLASS wndclass;
 	wndclass.style = CS_HREDRAW | CS_VREDRAW;
@@ -219,6 +221,12 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 			printf("PlayerData recv failed\n");
 			break;
 		}
+		//플레이어 초기화 완료알림//
+		
+		g_Player = recvPlayerData;
+		SetEvent(h_InitPlayerEvent);
+		
+		//////
 
 		// 플레이어 정보를 받고 scene을 업데이트를 해준다.
 		// main->update();

@@ -12,7 +12,6 @@
 
 int numOfMonster = 0;
 
-
 CStage1::CStage1()
 {
 	wave = 1;
@@ -98,30 +97,37 @@ CStage1::~CStage1()
 
 void CStage1::Initialize()
 {
+	WaitForSingleObject(h_InitPlayerEvent, INFINITY);
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/UI/HPbar_1.bmp", L"HPbar");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/UI/HPicon_1.bmp", L"HPicon");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/UI/PowerGage2.bmp", L"PowerGage");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Field/Tutorial/tutorial_mainlayer.bmp", L"mapRoad");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Field/Tutorial/tutorial_backlayer1.bmp", L"mapBack");
+	
 }
 
 void CStage1::Update() {
+
 	dynamic_cast<Player*>(m_pPlayer)->Set_PlayerData(g_Player);
-	dynamic_cast<Player*>(m_pPlayer2)->Set_PlayerData(g_Player2);
+//	dynamic_cast<Player*>(m_pPlayer2)->Set_PlayerData(g_Player2);
+
+
 
 	m_pPlayer->Update();
-	m_pPlayer2->Update();
+	//m_pPlayer2->Update();
 
 	// 테스트 용
 	//g_Player = dynamic_cast<Player*>(m_pPlayer)->Get_PlayerData();
 	//g_Player2 = dynamic_cast<Player*>(m_pPlayer2)->Get_PlayerData();
-	m_pPlayer2->Set_Pos(g_Player.info.fX - 100, g_Player.info.fY);
+	//m_pPlayer2->Set_Pos(g_Player.info.fX - 100, g_Player.info.fY);
 	// g_Player, g_Player2의 정보를 각각 m_pPlayer, 2에 Set해주고 Update를 통해 좌표와 방향, 상태 정보를 업데이트 해준다.
 	// 아래의 몬스터 업데이트 후에 몬스터들의 정보를 저장해준 후에 클라이언트에 몬스터 정보들을 보내준다.
 	if (m_pHush != nullptr) {
 		m_pHush->Update();
+		cout << m_pHush->getIsDead();
 		v_Monster[0] = dynamic_cast<Husk*>(m_pHush)->Get_Data();
 		if (m_pHush->iHp <= 0) {
+		
 			Safe_Delete(m_pHush);
 		}
 	}

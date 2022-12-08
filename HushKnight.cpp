@@ -125,7 +125,7 @@ void HushKnight::Render(HDC hdc) {
 	int iScrollX = CMyScrollMgr::Get_ScrollX();
 	int iScrollY = CMyScrollMgr::Get_ScrollY();
 	HDC hMemDC = CBitmapMgr::Get_Instance()->FindImage(m_pFrameKey);
-	if (iHp != 0) {
+	if (!m_bIsDead) {
 		GdiTransparentBlt(hdc,
 			m_tRect.left + iScrollX, m_tRect.top + iScrollY,
 			m_tInfo.fCX, m_tInfo.fCY,

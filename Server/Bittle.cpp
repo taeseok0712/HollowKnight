@@ -100,6 +100,7 @@ void Bittle::Initialize() {
 
 int Bittle::Update() {
 	RECT rcTemp;
+
 	land();
 	if (followOn == FALSE) {
 		if (moveCycle % 400 == 0) {
@@ -383,6 +384,8 @@ void Bittle::Set_time(DWORD Hittime)
 
 MonsterData Bittle::Get_Data()
 {
+	if (this->iHp <= 0)
+		setDead(true);
 	MonsterData temp;
 	temp.info = m_tInfo;
 	temp.isDead = m_bIsDead;

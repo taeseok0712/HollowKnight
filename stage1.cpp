@@ -10,7 +10,7 @@
 #include "HushKnight.h"
 #include "OtherPlayer.h"
 #include "AbstractFactory.h"
-
+HANDLE h_InitMonsterEvent;
 
 CStage1::CStage1()
 {
@@ -126,7 +126,7 @@ void CStage1::Update() {
 	m_pPlayer->Update();
 	m_OtherPlayer->Update();
 
-
+	WaitForSingleObject(h_InitMonsterEvent, INFINITY);
 	for (auto& a : v_Monster)
 	{
 		if (a.monsterType == BITTLE) {

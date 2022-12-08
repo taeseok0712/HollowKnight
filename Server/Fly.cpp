@@ -56,7 +56,6 @@ void Fly::Initialize() {
 int Fly::Update() {
 	RECT rcTemp;
 
-
 	if (followOn == FALSE) {
 		if (moveCycle % 300 == 0) {
 			if (moveDirect == 1) {
@@ -344,6 +343,9 @@ void Fly::Set_time(DWORD Hittime)
 
 MonsterData Fly::Get_Data()
 {
+	if (this->iHp <= 0)
+		setDead(true);
+
 	MonsterData temp;
 	temp.info = m_tInfo;
 	temp.isDead = m_bIsDead;

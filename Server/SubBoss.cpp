@@ -67,7 +67,7 @@ void SubBoss::Initialize() {
 
 int SubBoss::Update() {
 	RECT rcTemp;
-
+	
 
 
 
@@ -499,6 +499,8 @@ void SubBoss::Set_time(DWORD Hittime)
 
 MonsterData SubBoss::Get_Data()
 {
+	if (this->iHp <= 0)
+		setDead(true);
 	MonsterData temp;
 	temp.info = m_tInfo;
 	temp.isDead = m_bIsDead;

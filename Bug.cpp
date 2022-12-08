@@ -212,7 +212,7 @@ void Bug::Render(HDC hdc) {
 	int iScroX = CMyScrollMgr::Get_ScrollX();
 	int iScroY = CMyScrollMgr::Get_ScrollY();
 	HDC hMemDC = CBitmapMgr::Get_Instance()->FindImage(m_pFrameKey);
-	if (iHp >= 0) {
+	if (!m_bIsDead) {
 		GdiTransparentBlt(hdc,
 			m_tRect.left + iScroX, m_tRect.top + iScroY,
 			m_tInfo.fCX, m_tInfo.fCY,

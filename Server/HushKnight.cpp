@@ -85,6 +85,7 @@ void HushKnight::Initialize()
 int HushKnight::Update() {
 	RECT rcTemp;
 	land();
+
 	if (followOn == FALSE) {
 		if (moveCycle % 300 == 0) {
 			if (moveDirect == 1) {
@@ -401,6 +402,8 @@ void HushKnight::Set_time(DWORD Hittime)
 
 MonsterData HushKnight::Get_Data()
 {
+	if (this->iHp <= 0)
+		setDead(true);
 	MonsterData temp;
 	temp.info = m_tInfo;
 	temp.isDead = m_bIsDead;

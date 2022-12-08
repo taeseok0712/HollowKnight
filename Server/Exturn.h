@@ -4,7 +4,7 @@
 extern HINSTANCE hInst;
 extern HWND g_hWND;
 extern int numOfPlayer;
-
+extern HANDLE h_InitPlayerEvent;
 
 extern PlayerData g_Player;
 extern PlayerData g_Player2;

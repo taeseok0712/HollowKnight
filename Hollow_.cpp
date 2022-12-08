@@ -67,7 +67,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //이벤트 생성
     h_WriteDataEvent = CreateEvent(NULL, FALSE, TRUE, NULL);
     h_SendDataEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-
+    h_InitMonsterEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
     // 소켓 통신 스레드 생성
     CreateThread(NULL, 0, ClientMain, NULL, 0, NULL);
@@ -118,6 +118,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     CloseHandle(h_SendDataEvent);
     CloseHandle(h_WriteDataEvent);
+    CloseHandle(h_InitMonsterEvent);
     WSACleanup();
 
 	return (int)msg.wParam;
@@ -258,7 +259,7 @@ DWORD WINAPI ClientMain(LPVOID arg)
     PlayerData pd = {}; //다른 플레이어 데이터용
     int GetSize = 0;
     int MonsterNum;
-    MonsterData Mdt = {};
+    MonsterData Mdt;
     bool b_Init = false;
     while (1) {
         WaitForSingleObject(h_SendDataEvent, INFINITE);
@@ -276,8 +277,10 @@ DWORD WINAPI ClientMain(LPVOID arg)
             if (!b_Init) {
                 retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0); //몬스터 데이터 받기
                 v_Monster.push_back(Mdt); //받은 데이터를 넣어준다
-                if (i == MonsterNum )//다넣으면 더이상 넣지 않는다
+                if (i == MonsterNum-1) {//다넣으면 더이상 넣지 않는다
                     b_Init = true;
+                    SetEvent(h_InitMonsterEvent);
+                }
             }
             else {
                 retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0);

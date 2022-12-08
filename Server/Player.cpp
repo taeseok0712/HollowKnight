@@ -85,6 +85,7 @@ void Player::Initialize()
 // 중력처리 -> 이동 -> 충돌 
 int Player::Update()
 {
+	
 	RECT rcTemp;
 
 	if (b_IsChange == false) {
@@ -159,35 +160,35 @@ int Player::Update()
 
 	}
 
-	if (CKeyMgr::Get_Instance()->KeyPressing(VK_RIGHT) && m_eCurState != STATE_LAND)
-	{
+	//if (CKeyMgr::Get_Instance()->KeyPressing(VK_RIGHT) && m_eCurState != STATE_LAND)
+	//{
 
-		m_tInfo.fX += m_fSpeed;
-		m_pFrameKey = L"move";
-		m_eDirc = DR_RIGHT;
-		m_eNextState = STATE_WALK;
-	}
-	if (CKeyMgr::Get_Instance()->KeyPressing(VK_LEFT) && m_eCurState != STATE_LAND)
-	{
+	//	m_tInfo.fX += m_fSpeed;
+	//	m_pFrameKey = L"move";
+	//	m_eDirc = DR_RIGHT;
+	//	m_eNextState = STATE_WALK;
+	//}
+	//if (CKeyMgr::Get_Instance()->KeyPressing(VK_LEFT) && m_eCurState != STATE_LAND)
+	//{
 
-		m_tInfo.fX -= m_fSpeed;
-		m_pFrameKey = L"move";
-		m_eDirc = DR_LEFT;
-		m_eNextState = STATE_WALK;
-	}
+	//	m_tInfo.fX -= m_fSpeed;
+	//	m_pFrameKey = L"move";
+	//	m_eDirc = DR_LEFT;
+	//	m_eNextState = STATE_WALK;
+	//}
 
 
-	if (CKeyMgr::Get_Instance()->KeyUp(VK_RIGHT) || CKeyMgr::Get_Instance()->KeyUp(VK_LEFT)) {
-		m_pFrameKey = L"idle";
-		m_eNextState = STATE_IDLE;
-	}
-	/*if (CKeyMgr::Get_Instance()->KeyPressing('C') && Attacked != true && m_eCurState != STATE_FALL)
-	{
-	   m_bIsJump = true;
-	   m_pFrameKey = L"jumpstart";
-	   CSoundMgr::Get_Instance()->PlaySound(L"hero_jump.wav", CSoundMgr::JUMP);
-	   m_eNextState = STATE_JUMP;
-	}*/
+	//if (CKeyMgr::Get_Instance()->KeyUp(VK_RIGHT) || CKeyMgr::Get_Instance()->KeyUp(VK_LEFT)) {
+	//	m_pFrameKey = L"idle";
+	//	m_eNextState = STATE_IDLE;
+	//}
+	///*if (CKeyMgr::Get_Instance()->KeyPressing('C') && Attacked != true && m_eCurState != STATE_FALL)
+	//{
+	//   m_bIsJump = true;
+	//   m_pFrameKey = L"jumpstart";
+	//   CSoundMgr::Get_Instance()->PlaySound(L"hero_jump.wav", CSoundMgr::JUMP);
+	//   m_eNextState = STATE_JUMP;
+	//}*/
 	if ((GetAsyncKeyState(VK_DOWN) & 0x8000) && (GetAsyncKeyState('X') & 0x8000)) {
 	
 		m_pFrameKey = L"attack_down";
@@ -257,24 +258,34 @@ int Player::Update()
 	if (Attacked == false) {
 		if (m_wave == 0) {
 			if (Check_Collision(this, pFly)) {
-				Hp -= 1;
-				Attacked = true;
+				if (pFly != nullptr) {
+					Hp -= 1;
+					Attacked = true;
+				}
 			}
 			if (Check_Collision(this, pBug)) {
-				Hp -= 1;
-				Attacked = true;
+				if (pBug != nullptr) {
+					Hp -= 1;
+					Attacked = true;
+				}
 			}
 			if (Check_Collision(this, pbittle)) {
-				Hp -= 1;
-				Attacked = true;
+				if (pbittle != nullptr) {
+					Hp -= 1;
+					Attacked = true;
+				}
 			}
 			if (Check_Collision(this, pHusk)) {
-				Hp -= 1;
-				Attacked = true;
+				if (pHusk != nullptr) {
+					Hp -= 1;
+					Attacked = true;
+				}
 			}
 			if (Check_Collision(this, pSubBoss)) {
-				Hp -= 1;
-				Attacked = true;
+				if (pSubBoss != nullptr) {
+					Hp -= 1;
+					Attacked = true;
+				}
 			}
 			//bool t = pSubBoss->effectOn;
 			/*if (t) {

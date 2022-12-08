@@ -267,77 +267,77 @@ int Player::Update()
 	}
 
 	////////////////////////////////////////////몬스터 플레이어 충돌///////////////////////////////////////
-	if (Attacked == false) {
-		if (m_wave == 0) {
+	//if (Attacked == false) {
+	//	if (m_wave == 0) {
 
-			if (Check_Collision(this, pFly)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			if (Check_Collision(this, pBug)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			if (Check_Collision(this, pbittle)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			if (Check_Collision(this, pHusk)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			if (Check_Collision(this, pSubBoss)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			if (pSubBoss != nullptr) {
-				bool t = pSubBoss->effectOn;
-				if (t) {
-					RECT rcTemp;
-					RECT a = (pSubBoss)->drawEffect;
+	//		if (Check_Collision(this, pFly)) {
+	//			Hp -= 1;
+	//			Attacked = true;
+	//		}
+	//		if (Check_Collision(this, pBug)) {
+	//			Hp -= 1;
+	//			Attacked = true;
+	//		}
+	//		if (Check_Collision(this, pbittle)) {
+	//			Hp -= 1;
+	//			Attacked = true;
+	//		}
+	//		if (Check_Collision(this, pHusk)) {
+	//			Hp -= 1;
+	//			Attacked = true;
+	//		}
+	//		if (Check_Collision(this, pSubBoss)) {
+	//			Hp -= 1;
+	//			Attacked = true;
+	//		}
+	//		if (pSubBoss != nullptr) {
+	//			bool t = pSubBoss->effectOn;
+	//			if (t) {
+	//				RECT rcTemp;
+	//				RECT a = (pSubBoss)->drawEffect;
 
-					if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
-						Hp -= 1;
-						Attacked = true;
-					}
-				}
-			}
-		}
-		/////////////////////////////////1////////////////////////////////////
-		if (m_wave == 2) {
-			if (Check_Collision(this, pbittle2)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			if (Check_Collision(this, pbittle3)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			if (Check_Collision(this, pbittle4)) {
-				Hp -= 1;
-				Attacked = true;
-			}
+	//				if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
+	//					Hp -= 1;
+	//					Attacked = true;
+	//				}
+	//			}
+	//		}
+	//	}
+	//	/////////////////////////////////1////////////////////////////////////
+	//	if (m_wave == 2) {
+	//		if (Check_Collision(this, pbittle2)) {
+	//			Hp -= 1;
+	//			Attacked = true;
+	//		}
+	//		if (Check_Collision(this, pbittle3)) {
+	//			Hp -= 1;
+	//			Attacked = true;
+	//		}
+	//		if (Check_Collision(this, pbittle4)) {
+	//			Hp -= 1;
+	//			Attacked = true;
+	//		}
 
-		}
-		if (m_wave == 3) {
-			if (Check_Collision(this, pHushK)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			bool t = pSubBoss->effectOn;
-			if (t) {
-				RECT rcTemp;
-				RECT a = (pSubBoss)->drawEffect;
+	//	}
+	//	if (m_wave == 3) {
+	//		if (Check_Collision(this, pHushK)) {
+	//			Hp -= 1;
+	//			Attacked = true;
+	//		}
+	//		bool t = pSubBoss->effectOn;
+	//		if (t) {
+	//			RECT rcTemp;
+	//			RECT a = (pSubBoss)->drawEffect;
 
-				if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
-					Hp -= 1;
-					Attacked = true;
-				}
-			}
+	//			if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
+	//				Hp -= 1;
+	//				Attacked = true;
+	//			}
+	//		}
 
-		}
-		///////////////////////////////////////////////////////////
-	}
+	//	}
+	//	///////////////////////////////////////////////////////////
+	//}
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
