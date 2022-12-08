@@ -17,7 +17,7 @@ CMenu::~CMenu()
 
 void CMenu::Initialize()
 {
-	CSoundMgr::Get_Instance()->PlayBGM(L"RESTING GROUNDS S51-14.wav");
+	
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Button/Start1.bmp", L"Start1");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Button/Start.bmp", L"Start");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Menu/menuBackground.bmp", L"menuBackground");
@@ -54,7 +54,7 @@ void CMenu::LateUpdate()
 		m_iTochange = 40;
 		if (CKeyMgr::Get_Instance()->KeyDown(VK_LBUTTON))
 		{	
-			CSoundMgr::Get_Instance()->StopAll();
+			
 		    CSceneMgr::Get_Instance()->SceneChange(CSceneMgr::SCENE_STAGE1);
 			
 		}

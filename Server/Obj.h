@@ -43,6 +43,12 @@ public:
 	void setDead(bool in);
 	bool getIsDead();
 
+
+	int MonsterID;
+
+	void setMonsterID(int in);
+	int getMonsterID();
+
 protected:
 	INFO m_tInfo;
 	RECT m_tRect;

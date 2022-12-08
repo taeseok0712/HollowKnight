@@ -7,23 +7,23 @@
 struct PlayerData
 {
 	INFO info;
-	PLAYERSTATE playerState;
-	string name; // 캐릭터 위에 플레이 닉네임 표시용
+	int playerState;
+	//string name; // 캐릭터 위에 플레이 닉네임 표시용
 	int playerHp;
 	bool isDead; //요기 수정됨 alive->isDead로 수정
-	Direction playerDir; //플레이어가 바라보는 방향   
+	int playerDir; //플레이어가 바라보는 방향   
 };
 
 struct MonsterData
 {
-	int monsterNum;
+	//int monsterNum;
 	MONSTERTYPE monsterType;
 	INFO info;
 	MONSTERSTATE monsterState;
 	bool isDead;
-	MONSTERDIRECTION monsterDir;
+	int monsterDir;
 
-	RECT monsterAttEff; // 보스몬스터 공격 이펙트
+	//RECT monsterAttEff; // 보스몬스터 공격 이펙트
 };
 
 struct ClientInfo
