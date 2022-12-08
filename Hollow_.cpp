@@ -265,18 +265,18 @@ DWORD WINAPI ClientMain(LPVOID arg)
         retval = send(sock, (char*)&playerDataPacket, sizeof(PlayerData), 0);//클라이언트 플레이어 데이터 전송
 
         //타 클라 플레이어 데이터 수신
-        retval = recv(sock, (char*)&OtherPlayerData, sizeof(PlayerData), 0);//클라이언트 플레이어 데이터 전송
+       // retval = recv(sock, (char*)&OtherPlayerData, sizeof(PlayerData), 0);//클라이언트 플레이어 데이터 전송
 
         //몬스터 정보 수신
 
         retval = recv(sock, (char*)&MonsterNum, sizeof(int), 0); //몬스터 갯수 받아오기
         
-        for (int i = 0; i < MonsterNum; ++i) 
+        for (int i = 0; i < MonsterNum; ++i)
         {
             if (!b_Init) {
                 retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0); //몬스터 데이터 받기
                 v_Monster.push_back(Mdt); //받은 데이터를 넣어준다
-                if (i == MonsterNum -1)//다넣으면 더이상 넣지 않는다
+                if (i == MonsterNum )//다넣으면 더이상 넣지 않는다
                     b_Init = true;
             }
             else {

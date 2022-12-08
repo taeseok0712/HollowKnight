@@ -24,7 +24,7 @@ Client g_clients[2];
 PlayerData g_Player;
 PlayerData g_Player2;
 
-MonsterData v_Monster[9];
+vector<MonsterData> v_Monster;
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine, int nCmdShow)
 {
@@ -48,7 +48,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	if (!RegisterClass(&wndclass)) return 1;
 
 	// 윈도우 생성
-	HWND hWnd = CreateWindow(_T("MyWndClass"), _T("Hollow Knight"),
+	HWND hWnd = CreateWindow(_T("MyWndClass"), _T("서버"),
 		WS_OVERLAPPEDWINDOW, 0, 0, 1600, 900,
 		NULL, NULL, hInstance, NULL);
 	g_hWND = hWnd;
@@ -77,7 +77,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		}
 		else
 		{
-			if (dwOldTime + 10 < GetTickCount())
+			if (dwOldTime + 10 < GetTickCount() && g_gameStart)
 			{
 
 				MainGame.Update();
@@ -165,12 +165,16 @@ DWORD WINAPI ServerMain(LPVOID arg)
 		// 스레드 생성
 		hThread[numOfPlayer - 1] = CreateThread(NULL, 0, ProcessClient,
 			(LPVOID)g_clients[numOfPlayer - 1].sock, 0, NULL);
-		if (numOfPlayer == MAXPLAYERNUM || g_gameStart) { // 게임이 시작했거나 플레이어 수가 MAX에 도달했을 경우 더 이상 클라이언트를 추가하지 않음
+		if (numOfPlayer == MAXPLAYERNUM + 1 || g_gameStart) { // 게임이 시작했거나 플레이어 수가 MAX에 도달했을 경우 더 이상 클라이언트를 추가하지 않음
 			closesocket(client_sock); 
 		}
 		else {
 			CloseHandle(hThread[numOfPlayer - 1]);
 			numOfPlayer++;
+			if (numOfPlayer == 2) {
+				g_gameStart = true;
+				numOfPlayer -= 1;
+			}
 		}
 	}
 
@@ -192,7 +196,7 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 	int addrlen;
 	char buf[BUFSIZE];
 
-	int clientNum = -1;
+	int clientNum = -1; 
 
 	// 클라이언트 정보 얻기
 	addrlen = sizeof(clientaddr);
@@ -219,29 +223,33 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 		// 플레이어 정보를 받고 scene을 업데이트를 해준다.
 		// main->update();
 		// 데이터 보내기 -> 여기서 업데이트 된 몬스터 정보와 다른 클라이언트 정보를 클라이언트에게 준다.
-
-		if (clientNum == 0) {			// otherPlayerdata에 m_pPlayer2의 데이터 넣기
-			g_Player = recvPlayerData;
-			otherPlayerdata = g_Player2;
-		}
-		else {                        // otherPlayerdata에 m_pPlayer의 데이터 넣기
-			g_Player2 = recvPlayerData;
-			otherPlayerdata = g_Player;
-		}
-
-		for (int i = 0; i < MAXPLAYERNUM; ++i) {
-			if (i != clientNum) {				// 다른 클라이언트의 플레이어 정보를 보낸다.
-				retval = send(g_clients[i].sock, (char*)&otherPlayerdata, sizeof(otherPlayerdata), 0);
-				if (retval == SOCKET_ERROR) {
-					printf("다른 플레이어 정보 보내는 도중 오류 발생\n");
-					err_quit("send()");
-					break;
-				}
-			}
-		}
+		////////////////////////////////////////////////////////////////////////////////////////////
+		//if (clientNum == 0) {			// otherPlayerdata에 m_pPlayer2의 데이터 넣기
+		//	g_Player = recvPlayerData;
+		//	otherPlayerdata = g_Player2;
+		//}
+		//else {                        // otherPlayerdata에 m_pPlayer의 데이터 넣기
+		//	g_Player2 = recvPlayerData;
+		//	otherPlayerdata = g_Player;
+		//}
+		////////////////////////////////////////////////////////////////////////////////////////
+		//for (int i = 0; i < MAXPLAYERNUM; ++i) {
+		//	if (i != clientNum) {				// 다른 클라이언트의 플레이어 정보를 보낸다.
+		//		retval = send(g_clients[i].sock, (char*)&otherPlayerdata, sizeof(otherPlayerdata), 0);
+		//		if (retval == SOCKET_ERROR) {
+		//			printf("다른 플레이어 정보 보내는 도중 오류 발생\n");
+		//			err_quit("send()");
+		//			break;
+		//		}
+		//	}
+		//}
+		///////////////////////////////////////////////////////////////////////////////////////////
 		// 몬스터 정보가 담긴 배열을 보낸다.
-		for (int i = 0; i < numOfMonster; ++i) {
-			retval = send(g_clients[i].sock, (char*)&v_Monster[i], sizeof(MonsterData), 0);
+		int num = v_Monster.size();
+		retval = send(g_clients[0].sock, (char*)&num, sizeof(int), 0); //몬스터 갯수 받아오기
+		
+		for (int i = 0; i <= numOfMonster; ++i) {
+			retval = send(g_clients[0].sock, (char*)&v_Monster[i], sizeof(MonsterData), 0);
 			if (retval == SOCKET_ERROR) {
 				printf("몬스터 정보 보내는 도중 오류 발생\n");
 				err_quit("send()");

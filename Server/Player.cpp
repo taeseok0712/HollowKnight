@@ -78,7 +78,7 @@ void Player::Initialize()
 	Scrollspeed_X = 10.f;
 	b_canChange = true;
 	b_IsChange = false;
-	CSoundMgr::Get_Instance()->PlayBGM(L"S19 Crossroads Main.wav");
+	
 }
 
 
@@ -91,9 +91,8 @@ int Player::Update()
 		if (b_canChange == true) {
 			if (m_tInfo.fX > 8700) {
 			
-				CSoundMgr::Get_Instance()->StopAll();
-				CSoundMgr::Get_Instance()->PlaySound(L"final_boss_chain_break.wave", CSoundMgr::EFFECT);
-				CSoundMgr::Get_Instance()->PlayBGM(L"bossmap.wav");
+			
+		
 				b_canChange = false;
 			}
 		}
@@ -190,7 +189,7 @@ int Player::Update()
 	   m_eNextState = STATE_JUMP;
 	}*/
 	if ((GetAsyncKeyState(VK_DOWN) & 0x8000) && (GetAsyncKeyState('X') & 0x8000)) {
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_unsheath.wav", CSoundMgr::ATT);
+	
 		m_pFrameKey = L"attack_down";
 		m_eNextState = STATE_ATT;
 		Attck = L"up";
@@ -198,7 +197,7 @@ int Player::Update()
 	//	Attck_ON = true;
 	}
 	else if ((GetAsyncKeyState(VK_UP) & 0x8000) && (GetAsyncKeyState('X') & 0x8000)) {
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_unsheath.wav", CSoundMgr::ATT);
+		
 		m_pFrameKey = L"attack_up";
 		m_eNextState = STATE_ATT;
 		Attck = L"up";
@@ -209,7 +208,7 @@ int Player::Update()
 	
 	else if (((GetAsyncKeyState('X') & 0x8000) || (GetAsyncKeyState('x') & 0x8000)) && Attacked != true)
 	{
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_unsheath.wav", CSoundMgr::ATT);
+		
 		m_pFrameKey = L"attack";
 		m_eNextState = STATE_ATT;
 		Attck = L"side";
@@ -220,17 +219,17 @@ int Player::Update()
 
 	if (m_eCurState == STATE_WALK) {
 
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_run_footsteps_stone.wav", CSoundMgr::WALK);
+		
 	}
 	else if (m_eCurState != STATE_WALK) {
 
-		CSoundMgr::Get_Instance()->StopSound(CSoundMgr::WALK);
+		
 	}
 	if (m_eCurState == STATE_FALL) {
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_falling.wav", CSoundMgr::FALL);
+		
 	}
 	else if (m_eCurState != STATE_FALL) {
-		CSoundMgr::Get_Instance()->StopSound(CSoundMgr::FALL);
+		
 	}
 
 
@@ -277,8 +276,8 @@ int Player::Update()
 				Hp -= 1;
 				Attacked = true;
 			}
-			bool t = pSubBoss->effectOn;
-			if (t) {
+			//bool t = pSubBoss->effectOn;
+			/*if (t) {
 				RECT rcTemp;
 				RECT a = (pSubBoss)->drawEffect;
 
@@ -286,7 +285,7 @@ int Player::Update()
 					Hp -= 1;
 					Attacked = true;
 				}
-			}
+			}*/
 		}
 		/////////////////////////////////1////////////////////////////////////
 		if (m_wave == 2) {
@@ -334,7 +333,7 @@ int Player::Update()
 		if (CheckCollE2M(pHusk)) {
 			dynamic_cast<Husk*>(pHusk)->Set_time(GetTickCount());
 			dynamic_cast<Husk*>(pHusk)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+		
 		}
 
 
@@ -342,13 +341,13 @@ int Player::Update()
 		if (CheckCollE2M(pBug)) {
 			dynamic_cast<Bug*>(pBug)->Set_time(GetTickCount());
 			dynamic_cast<Bug*>(pBug)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+			
 		}
 
 		if (CheckCollE2M(pbittle)) {
 			dynamic_cast<Bittle*>(pbittle)->Set_time(GetTickCount());
 			dynamic_cast<Bittle*>(pbittle)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+			
 		}
 
 
@@ -356,13 +355,13 @@ int Player::Update()
 		if (CheckCollE2M(pFly)) {
 			dynamic_cast<Fly*>(pFly)->Set_time(GetTickCount());
 			dynamic_cast<Fly*>(pFly)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+			
 		}
 
 		if (CheckCollE2M(pSubBoss)) {
 			dynamic_cast<SubBoss*>(pSubBoss)->Set_time(GetTickCount());
 			dynamic_cast<SubBoss*>(pSubBoss)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+			
 		}
 	}
 	///1¿þÀÌºê///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -370,37 +369,37 @@ int Player::Update()
 		if (CheckCollE2M(pbittle2)) {
 			dynamic_cast<Bittle*>(pbittle2)->Set_time(GetTickCount());
 			dynamic_cast<Bittle*>(pbittle2)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+			
 		}
 
 		if (CheckCollE2M(pbittle3)) {
 			dynamic_cast<Bittle*>(pbittle3)->Set_time(GetTickCount());
 			dynamic_cast<Bittle*>(pbittle3)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+			
 		}
 
 		if (CheckCollE2M(pbittle4)) {
 			dynamic_cast<Bittle*>(pbittle4)->Set_time(GetTickCount());
 			dynamic_cast<Bittle*>(pbittle4)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+			
 		}
 	}
 	if (m_wave == 3) {
 		if (CheckCollE2M(pHushK)) {
 			dynamic_cast<HushKnight*>(pHushK)->Set_time(GetTickCount());
 			dynamic_cast<HushKnight*>(pHushK)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+			
 		}
 		if (CheckCollE2M(pSubBoss)) {
 			dynamic_cast<SubBoss*>(pSubBoss)->Set_time(GetTickCount());
 			dynamic_cast<SubBoss*>(pSubBoss)->hitOn = TRUE;
-			CSoundMgr::Get_Instance()->PlaySound(L"monsterhited.wav", CSoundMgr::EFFECT);
+			
 		}
 
 	}
 	////////////////////////////////////////////////µÚÁü/////////////////////////////////////////////////////////
 	if (Attacked == true && m_bIsDead == false) {
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_damage.wav", CSoundMgr::ATTED);
+		
 		m_pFrameKey = L"attacked";
 		m_eNextState = STATE_HIT;
 		if (m_eDirc == DR_RIGHT) {
@@ -418,8 +417,7 @@ int Player::Update()
 
 
 	if (Hp <= 0) {
-		CSoundMgr::Get_Instance()->StopSound(CSoundMgr::ATTED);
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_death_v2.wav", CSoundMgr::EFFECT);
+		
 		m_pFrameKey = L"dead";
 		m_eNextState = STATE_DEAD;
 		Attacked = true;
@@ -444,7 +442,7 @@ int Player::Update()
 		m_eNextState = STATE_IDLE;
 	}
 	if (m_eCurState == STATE_LAND && m_tFrame.iFrameStart == 1) {
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_land_soft.wav", CSoundMgr::LAND);
+		
 	}
 	////////////////////////////////////////////////////////////////////////////////////
 
@@ -463,7 +461,7 @@ int Player::Update()
 	
 	if ( m_wave == 3 &&Sound_On==true) {
 
-		CSoundMgr::Get_Instance()->PlaySound(L"a.monsterEmer.wav", CSoundMgr::MONSTER);
+		
 		Sound_On = false;
 	}
 	
@@ -663,7 +661,7 @@ void Player::IsJumping()
 	{
 		m_bIsJump = true;
 		m_pFrameKey = L"jumpstart";
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_jump.wav", CSoundMgr::JUMP);
+		
 		m_eNextState = STATE_JUMP;
 	}
 }
@@ -796,10 +794,12 @@ bool Player::CheckCollE2M(CObj * monster)
 	RECT Dst;
 	if (Attck_ON) {
 		SetRect(&Attack_box, Attack_box.left, Attack_box.top, Attack_box.right, Attack_box.bottom);
-		SetRect(&monster->HitBox, monster->HitBox.left, monster->HitBox.top, monster->HitBox.right, monster->HitBox.bottom);
-		if (IntersectRect(&Dst, &Attack_box, &monster->HitBox))
-		{
-			return true;
+		if (monster != nullptr) {
+			SetRect(&monster->HitBox, monster->HitBox.left, monster->HitBox.top, monster->HitBox.right, monster->HitBox.bottom);
+			if (IntersectRect(&Dst, &Attack_box, &monster->HitBox))
+			{
+				return true;
+			}
 		}
 		else {
 			return false;

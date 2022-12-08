@@ -50,6 +50,7 @@ class CObj;
 typedef list<CObj*>			OBJLIST;
 typedef OBJLIST::iterator	OBJITER;
 
+#include "Enum.h"
 
 struct PlayerData
 {
@@ -63,9 +64,10 @@ struct PlayerData
 };
 struct MonsterData
 {
-	std::string monsterType;
+	//int monsterNum;
+	MONSTERTYPE monsterType;
 	INFO info;
-	int monsterState;
+	MONSTERSTATE monsterState;
 	//string name; //나중에 추가하기위해 일단 제외해둠
 	bool isDead; //요기 수정됨 alive->isDead로 수정 구 
 	int MonsterDir; //몬스터가 바라보는 방향

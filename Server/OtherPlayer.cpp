@@ -78,7 +78,7 @@ void OtherPlayer::Initialize()
 	Scrollspeed_X = 10.f;
 	b_canChange = true;
 	b_IsChange = false;
-	CSoundMgr::Get_Instance()->PlayBGM(L"S19 Crossroads Main.wav");
+	
 
 
 }
@@ -98,9 +98,7 @@ int OtherPlayer::Update()
 		if (b_canChange == true) {
 			if (m_tInfo.fX > 8700) {
 
-				CSoundMgr::Get_Instance()->StopAll();
-				CSoundMgr::Get_Instance()->PlaySound(L"final_boss_chain_break.wave", CSoundMgr::EFFECT);
-				CSoundMgr::Get_Instance()->PlayBGM(L"bossmap.wav");
+				
 				b_canChange = false;
 			}
 		}
@@ -187,7 +185,7 @@ int OtherPlayer::Update()
 	
 	////////////////////////////////////////////////µÚÁü/////////////////////////////////////////////////////////
 	if (Attacked == true && m_bIsDead == false) {
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_damage.wav", CSoundMgr::ATTED);
+		//CSoundMgr::Get_Instance()->PlaySound(L"hero_damage.wav", CSoundMgr::ATTED);
 		m_pFrameKey = L"attacked";
 		m_eNextState = STATE_HIT;
 		if (m_eDirc == DR_RIGHT) {
@@ -205,8 +203,7 @@ int OtherPlayer::Update()
 
 
 	if (Hp <= 0) {
-		CSoundMgr::Get_Instance()->StopSound(CSoundMgr::ATTED);
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_death_v2.wav", CSoundMgr::EFFECT);
+		
 		m_pFrameKey = L"dead";
 		m_eNextState = STATE_DEAD;
 		Attacked = true;
@@ -231,7 +228,7 @@ int OtherPlayer::Update()
 		m_eNextState = STATE_IDLE;
 	}
 	if (m_eCurState == STATE_LAND && m_tFrame.iFrameStart == 1) {
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_land_soft.wav", CSoundMgr::LAND);
+		
 	}
 	////////////////////////////////////////////////////////////////////////////////////
 

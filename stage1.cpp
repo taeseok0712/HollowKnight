@@ -129,7 +129,7 @@ void CStage1::Update() {
 
 	for (auto& a : v_Monster)
 	{
-		if (a.monsterType == "bittle") {
+		if (a.monsterType == BITTLE) {
 			if (m_pbittle != nullptr) {
 				dynamic_cast<Bittle*>(m_pbittle)->SetData(a);
 				m_pbittle->Update();
@@ -139,7 +139,7 @@ void CStage1::Update() {
 				}
 			}
 		}
-		if (a.monsterType == "fly") {
+		if (a.monsterType == FLY) {
 			if (m_pFly != nullptr) {
 				dynamic_cast<Fly*>(m_pFly)->SetData(a);
 				m_pFly->Update();
@@ -149,7 +149,7 @@ void CStage1::Update() {
 				}
 			}
 		}
-		if (a.monsterType == "husk") {
+		if (a.monsterType == HUSH) {
 			if (m_pHush != nullptr) {
 				dynamic_cast<Husk*>(m_pHush)->SetData(a);
 				m_pHush->Update();
@@ -159,7 +159,7 @@ void CStage1::Update() {
 				}
 			}
 		}
-		if (a.monsterType == "hush_knight") {
+		if (a.monsterType == HUSHKNIGHT) {
 			if (m_pHushKni != nullptr) {
 				dynamic_cast<HushKnight*>(m_pHushKni)->SetData(a);
 				m_pHushKni->Update();
@@ -171,111 +171,7 @@ void CStage1::Update() {
 		}
 	}
 
-	//if (m_pHush != nullptr) {
-	//	m_pHush->Update();
-	//	if (m_pHush->iHp <= 0) {
-	//		Safe_Delete(m_pHush);
-	//	}
-	//}
-	//if (m_pFly != nullptr) {
-	//	m_pFly->Update();
-	//	if (m_pFly->iHp <= 0) {
-	//		Safe_Delete(m_pFly);
-	//	}
-	//}
-	//if (m_pBug != nullptr) {
-	//	m_pBug->Update();
-	//	if (m_pBug->iHp <= 0) {
-	//		Safe_Delete(m_pBug);
-	//	}
-	//}
-	//
-	//if (m_pSub != nullptr) {
-	//	m_pSub->Update();
-	//	if (m_pSub->iHp <= 0) {
-	//		Safe_Delete(m_pSub);
-	//		wave++;
-	//	}
-	//}
-	//if (m_pbittle != nullptr) {
-	//	m_pbittle->Update();
-	//	if (m_pbittle->iHp <= 0) {
-	//		Safe_Delete(m_pbittle);
-	//	}
-	//}
-	/////////////////////////////////////////////////////1/////////////////////////
-	//if (wave == 2 && dynamic_cast<Player*>(m_pPlayer)->getStage() == false) {
-	//	dynamic_cast<Player*>(m_pPlayer)->Set_Wave(wave);
-	//	if (m_pbittle2 == nullptr) {
-	//		m_pbittle2 = new Bittle(8000.f, 1600.f);
-	//		//m_pbittle->Initialize();
-	//		dynamic_cast<Bittle*>(m_pbittle2)->Set_Info(m_pPlayer);
-	//		dynamic_cast<Player*>(m_pPlayer)->Set_Infobit2(m_pbittle2);
-	//	}
-	//	if (m_pbittle3 == nullptr) {
-	//		m_pbittle3 = new Bittle(7400.f, 1500.f);
-	//		//m_pbittle->Initialize();
-	//		dynamic_cast<Bittle*>(m_pbittle3)->Set_Info(m_pPlayer);
-	//		dynamic_cast<Player*>(m_pPlayer)->Set_Infobit3(m_pbittle3);
-	//	}
-
-	//	if (m_pbittle4 == nullptr) {
-	//		m_pbittle4 = new Bittle(6200.f, 1300.f);
-	//		//m_pbittle->Initialize();
-	//		dynamic_cast<Bittle*>(m_pbittle4)->Set_Info(m_pPlayer);
-	//		dynamic_cast<Player*>(m_pPlayer)->Set_Infobit4(m_pbittle4);
-	//	}
-	//	wave += 1;
-	//}
-
-	/*if (m_pbittle2 != nullptr) {
-		m_pbittle2->Update();
-		if (m_pbittle2->iHp <= 0) {
-			Safe_Delete(m_pbittle2);
-		}
-	}
-	if (m_pbittle3 != nullptr) {
-		m_pbittle3->Update();
-		if (m_pbittle3->iHp <= 0) {
-			Safe_Delete(m_pbittle3);
-		}
-	}
-	if (m_pbittle4 != nullptr) {
-		m_pbittle4->Update();
-		if (m_pbittle4->iHp <= 0) {
-			Safe_Delete(m_pbittle4);
-		}
-	}
-	if (m_pHushKni != nullptr) {
-		m_pHushKni->Update();
-		if (m_pHushKni->iHp <= 0) {
-			Safe_Delete(m_pHushKni);
-		}
-	}
-
-	if (wave == 3 && Wave2clear==true) {
-		
-		dynamic_cast<Player*>(m_pPlayer)->Set_Wave(wave);
-		dynamic_cast<Player*>(m_pPlayer)->SoundON();
-		if (m_pSub == nullptr) {
-			m_pSub = new SubBoss;
-			m_pSub->Initialize();
-			dynamic_cast<SubBoss*>(m_pSub)->Set_Info(m_pPlayer);
-			dynamic_cast<Player*>(m_pPlayer)->Set_InfoSubBoss(m_pSub);
-
-			if (m_pHushKni == nullptr) {
-				m_pHushKni = new HushKnight(8000.f,1100.f);
-				m_pHushKni->Initialize();
-				dynamic_cast<HushKnight*>(m_pHushKni)->Set_Info(m_pPlayer);
-				dynamic_cast<Player*>(m_pPlayer)->Set_InfoHushK(m_pHushKni);
-			}
-		}
-		
-		wave += 1;
-		
-	}*/
 	
-	///////////////////////////////////////////////////////////
 
 	PlayerHp = dynamic_cast<Player*>(m_pPlayer)->GetHp();
 

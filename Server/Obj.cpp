@@ -41,15 +41,17 @@ bool CObj::Check_Collision(CObj* Player, CObj* monster)
 	RECT Dst;
 	SetRect(&Player->HitBox, Player->HitBox.left, Player->HitBox.top
 		, Player->HitBox.right, Player->HitBox.bottom);
-	SetRect(&monster->HitBox, monster->HitBox.left, monster->HitBox.top
-		, monster->HitBox.right, monster->HitBox.bottom);
+	if (monster != nullptr) {
+		SetRect(&monster->HitBox, monster->HitBox.left, monster->HitBox.top
+			, monster->HitBox.right, monster->HitBox.bottom);
 
-	if (IntersectRect(&Dst, &Player->HitBox, &monster->HitBox))
-	{
-		return true;
-	}
-	else {
-		return false;
+		if (IntersectRect(&Dst, &Player->HitBox, &monster->HitBox))
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
 
@@ -61,4 +63,14 @@ void CObj::setDead(bool in)
 bool CObj::getIsDead()
 {
 	return this->m_bIsDead;
+}
+
+void CObj::setMonsterID(int in)
+{
+	this->MonsterID = in;
+}
+
+int CObj::getMonsterID()
+{
+	return this->MonsterID;
 }

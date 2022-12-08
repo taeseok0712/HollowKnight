@@ -349,6 +349,6 @@ MonsterData Fly::Get_Data()
 	temp.isDead = m_bIsDead;
 	temp.monsterState = MONSTERSTATE(m_eNextState);
 	temp.monsterDir = MONSTERDIRECTION(m_eDirc);
-	temp.monsterType = HUSH;
+	temp.monsterType = FLY;
 	return temp;
 }

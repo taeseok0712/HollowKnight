@@ -249,7 +249,8 @@ int SubBoss::Update() {
 
 			if (a) {
 				if (IntersectRect(&rcTemp, &playerAttackBox, &drawEffect)) {
-					CSoundMgr::Get_Instance()->PlaySound(L"hero_parry.wav", CSoundMgr::PARRY);
+					
+					
 					effectDir = DR_RIGHT;
 					parryingOn = TRUE;
 					
