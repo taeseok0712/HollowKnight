@@ -78,12 +78,6 @@ void OtherPlayer::Initialize()
 	Scrollspeed_X = 10.f;
 	b_canChange = true;
 	b_IsChange = false;
-<<<<<<< HEAD
-=======
-	
-
-
->>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
 }
 
 
@@ -260,7 +254,7 @@ int OtherPlayer::Update()
 void OtherPlayer::LateUpdate()
 {
 	CObj::FrameMove();
-	// IsJumping();
+	//IsJumping();
 	FrameChange();
 }
 

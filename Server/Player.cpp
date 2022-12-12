@@ -79,6 +79,7 @@ void Player::Initialize()
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/effect/Att_side.bmp", L"side");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/effect/Attacked.bmp", L"attackedEff");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/effect/Att_UD.bmp", L"up");
+
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/Player.bmp", L"Player");
 
 
@@ -109,19 +110,9 @@ int Player::Update()
 {
 	// WaitForSingleObject(h_InitPlayerEvent, INFINITY);
 	RECT rcTemp;
-<<<<<<< HEAD
 	// cout << m_eCurState << endl;
 
 
-=======
-	if (b_IsChange == false) {
-		if (b_canChange == true) {
-			if (m_tInfo.fX > 8700) {
-				b_canChange = false;
-			}
-		}
-	}
->>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
 	HitBox.left = m_tRect.left + 100;
 	HitBox.right = m_tRect.right - 104;
 	HitBox.top = m_tRect.top - 10;
@@ -133,7 +124,6 @@ int Player::Update()
 		Attack_box.right = Attack_box.left + m_tInfo.fCX;
 		Attack_box.bottom = Attack_box.top + m_tInfo.fCY;
 	}
-
 	else if (m_eDirc == DR_LEFT) {
 		Attack_box.left = HitBox.right - 254.f;
 		Attack_box.top = HitBox.top + 20.f;
@@ -141,7 +131,6 @@ int Player::Update()
 		Attack_box.bottom = Attack_box.top + m_tInfo.fCY;
 	}
 
-<<<<<<< HEAD
 	for (int i = 0; i < 22; ++i) {
 		if (IntersectRect(&rcTemp, &HitBox, &wall[i])) {
 			SetRect(&rcTemp, 0, 0, rcTemp.right - rcTemp.left, rcTemp.bottom - rcTemp.top);
@@ -226,18 +215,9 @@ int Player::Update()
 	//	m_eNextState = STATE_ATT;
 	//	Attck = L"up";
 	//	UDS = UP;
-=======
-	if ((GetAsyncKeyState(VK_DOWN) & 0x8000) && (GetAsyncKeyState('X') & 0x8000)) {
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_unsheath.wav", CSoundMgr::ATT);
-		m_pFrameKey = L"attack_down";
-		m_eNextState = STATE_ATT;
-		Attck = L"up";
-		UDS = DOWN;
->>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
 	//	Attck_ON = true;
 	//}
 
-<<<<<<< HEAD
 	//
 	//else if (((GetAsyncKeyState('X') & 0x8000) || (GetAsyncKeyState('x') & 0x8000)) && Attacked != true)
 	//{
@@ -248,35 +228,10 @@ int Player::Update()
 	//	UDS = SIDE;
 	//	Attck_ON = true;
 	//}
-=======
-	
-	else if (((GetAsyncKeyState('X') & 0x8000) || (GetAsyncKeyState('x') & 0x8000)) && Attacked != true)
-	{
-		CSoundMgr::Get_Instance()->PlaySound(L"hero_unsheath.wav", CSoundMgr::ATT);
-		m_pFrameKey = L"attack";
-		m_eNextState = STATE_ATT;
-		Attck = L"side";
-		UDS = SIDE;
-		Attck_ON = true;
-	}
-	//for (int i = 0; i < 22; ++i) {
-	//	if (IntersectRect(&rcTemp, &HitBox, &wall[i])) {
-	//		SetRect(&rcTemp, 0, 0, rcTemp.right - rcTemp.left, rcTemp.bottom - rcTemp.top);
-	//		if (wall[i].top > m_tInfo.fY) {
-	//			Collnum = i;
-	//			IsColl = true;
-	//		}
->>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
 
-	//		if (rcTemp.right >= rcTemp.bottom) {
-	//			if ((HitBox.bottom + HitBox.top) / 2 < (wall[i].bottom + wall[i].top) / 2) {
-	//				m_tInfo.fY -= rcTemp.bottom; // 플레이어 중심점 (inpos)
 
-	//			}
-	//			else {
-	//				m_tInfo.fY += rcTemp.bottom; // 플레이어 중심점
+	if (m_eCurState == STATE_WALK) {
 
-<<<<<<< HEAD
 		
 	}
 	else if (m_eCurState != STATE_WALK) {
@@ -289,23 +244,9 @@ int Player::Update()
 	else if (m_eCurState != STATE_FALL) {
 		
 	}
-=======
-	//			}
-	//		}
 
-	//		else
-	//		{
-	//			if ((m_tRect.right + m_tRect.left) / 2 < (wall[i].right + wall[i].left) / 2) {
-	//				m_tInfo.fX -= rcTemp.right;
->>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
 
-	//			}
-	//			else {
-	//				m_tInfo.fX += rcTemp.right;
 
-	//			}
-
-<<<<<<< HEAD
 	//if (m_eCurState == STATE_ATT && m_tFrame.iFrameStart == 4) {
 	//	m_pFrameKey = L"idle";
 	//	m_eNextState = STATE_IDLE;
@@ -326,115 +267,38 @@ int Player::Update()
 	//}
 
 	////////////////////////////////////////////몬스터 플레이어 충돌///////////////////////////////////////
-	//if (Attacked == false) {
-	//	if (m_wave == 0) {
-	//		if (Check_Collision(this, pFly)) {
-	//			if (pFly != nullptr) {
-	//				Hp -= 1;
-	//				Attacked = true;
-	//			}
-	//		}
-	//		if (Check_Collision(this, pBug)) {
-	//			if (pBug != nullptr) {
-	//				Hp -= 1;
-	//				Attacked = true;
-	//			}
-	//		}
-	//		if (Check_Collision(this, pbittle)) {
-	//			if (pbittle != nullptr) {
-	//				Hp -= 1;
-	//				Attacked = true;
-	//			}
-	//		}
-	//		if (Check_Collision(this, pHusk)) {
-	//			if (pHusk != nullptr) {
-	//				Hp -= 1;
-	//				Attacked = true;
-	//			}
-	//		}
-	//		if (Check_Collision(this, pSubBoss)) {
-	//			if (pSubBoss != nullptr) {
-	//				Hp -= 1;
-	//				Attacked = true;
-	//			}
-	//		}
-	//		//bool t = pSubBoss->effectOn;
-	//		/*if (t) {
-	//			RECT rcTemp;
-	//			RECT a = (pSubBoss)->drawEffect;
-
-	//			if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
-	//				Hp -= 1;
-	//				Attacked = true;
-	//			}
-	//		}*/
-	//	}
-	//	/////////////////////////////////1////////////////////////////////////
-	//	if (m_wave == 3) {
-	//		if (Check_Collision(this, pbittle2)) {
-	//			Hp -= 1;
-	//			Attacked = true;
-	//		}
-	//		if (Check_Collision(this, pbittle3)) {
-	//			Hp -= 1;
-	//			Attacked = true;
-	//		}
-	//		if (Check_Collision(this, pbittle4)) {
-	//			Hp -= 1;
-	//			Attacked = true;
-	//		}
-	//	}
-	//	if (m_wave == 4) {
-	//		if (Check_Collision(this, pHushK)) {
-	//			Hp -= 1;
-	//			Attacked = true;
-	//		}
-	//		bool t = pSubBoss->effectOn;
-	//		if (t) {
-	//			RECT rcTemp;
-	//			RECT a = (pSubBoss)->drawEffect;
-
-	//			if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
-	//				Hp -= 1;
-	//				Attacked = true;
-	//			}
-	//		}
-	//	}
-=======
-	//		}
-	//	}
-	//}
-
-	//if (IntersectRect(&rcTemp, &HitBox, &wall[Collnum])) {
-	//	IsColl = true;
-	//}
-	//else {
-	//	IsColl = false;
-	//}
-
-	//////////////////////////////////////////////몬스터 플레이어 충돌///////////////////////////////////////
 	if (Attacked == false) {
 		if (m_wave == 0) {
-			//if (Check_Collision(this, pFly)) {
-			//	Hp -= 1;
-			//	Attacked = true;
-			//}
-			//if (Check_Collision(this, pBug)) {
-			//	Hp -= 1;
-			//	Attacked = true;
-			//}
-			//if (Check_Collision(this, pbittle)) {
-			//	Hp -= 1;
-			//	Attacked = true;
-			//}
-			if (Check_Collision(this, pHusk)) {
-				Hp -= 1;
-				Attacked = true;
+			if (Check_Collision(this, pFly)) {
+				if (pFly != nullptr) {
+					Hp -= 1;
+					Attacked = true;
+				}
 			}
-			//if (Check_Collision(this, pSubBoss)) {
-			//	Hp -= 1;
-			//	Attacked = true;
-			//}
+			if (Check_Collision(this, pBug)) {
+				if (pBug != nullptr) {
+					Hp -= 1;
+					Attacked = true;
+				}
+			}
+			if (Check_Collision(this, pbittle)) {
+				if (pbittle != nullptr) {
+					Hp -= 1;
+					Attacked = true;
+				}
+			}
+			if (Check_Collision(this, pHusk)) {
+				if (pHusk != nullptr) {
+					Hp -= 1;
+					Attacked = true;
+				}
+			}
+			if (Check_Collision(this, pSubBoss)) {
+				if (pSubBoss != nullptr) {
+					Hp -= 1;
+					Attacked = true;
+				}
+			}
 			//bool t = pSubBoss->effectOn;
 			/*if (t) {
 				RECT rcTemp;
@@ -445,9 +309,9 @@ int Player::Update()
 					Attacked = true;
 				}
 			}*/
-	}
+		}
 		/////////////////////////////////1////////////////////////////////////
-		if (m_wave == 2) {
+		if (m_wave == 3) {
 			if (Check_Collision(this, pbittle2)) {
 				Hp -= 1;
 				Attacked = true;
@@ -460,9 +324,8 @@ int Player::Update()
 				Hp -= 1;
 				Attacked = true;
 			}
-
 		}
-		if (m_wave == 3) {
+		if (m_wave == 4) {
 			if (Check_Collision(this, pHushK)) {
 				Hp -= 1;
 				Attacked = true;
@@ -478,9 +341,8 @@ int Player::Update()
 				}
 			}
 		}
->>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
 		///////////////////////////////////////////////////////////
-	// }
+	}
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -488,14 +350,11 @@ int Player::Update()
 
 	////////////////////////////////////////////몬스터 이펙트 충돌///////////////////////////////////////
 
-	if (m_wave == 1) {
+	if (m_wave == 0) {
 		if (CheckCollE2M(pHusk)) {
 			dynamic_cast<Husk*>(pHusk)->Set_time(GetTickCount());
 			dynamic_cast<Husk*>(pHusk)->hitOn = TRUE;
-<<<<<<< HEAD
 		
-=======
->>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
 		}
 
 
@@ -531,31 +390,19 @@ int Player::Update()
 		if (CheckCollE2M(pbittle2)) {
 			dynamic_cast<Bittle*>(pbittle2)->Set_time(GetTickCount());
 			dynamic_cast<Bittle*>(pbittle2)->hitOn = TRUE;
-<<<<<<< HEAD
 
-=======
-			
->>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
 		}
 
 		if (CheckCollE2M(pbittle3)) {
 			dynamic_cast<Bittle*>(pbittle3)->Set_time(GetTickCount());
 			dynamic_cast<Bittle*>(pbittle3)->hitOn = TRUE;
-<<<<<<< HEAD
 
-=======
-			
->>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
 		}
 
 		if (CheckCollE2M(pbittle4)) {
 			dynamic_cast<Bittle*>(pbittle4)->Set_time(GetTickCount());
 			dynamic_cast<Bittle*>(pbittle4)->hitOn = TRUE;
-<<<<<<< HEAD
 
-=======
-			
->>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
 		}
 	}
 	if (m_wave == 4) {
@@ -567,15 +414,11 @@ int Player::Update()
 		if (CheckCollE2M(pSubBoss)) {
 			dynamic_cast<SubBoss*>(pSubBoss)->Set_time(GetTickCount());
 			dynamic_cast<SubBoss*>(pSubBoss)->hitOn = TRUE;
-<<<<<<< HEAD
-=======
 			
->>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
 		}
 
 	}
 	////////////////////////////////////////////////뒤짐/////////////////////////////////////////////////////////
-<<<<<<< HEAD
 	//if (Attacked == true && m_bIsDead == false) {
 	//	
 	//	m_pFrameKey = L"attacked";
@@ -599,29 +442,6 @@ int Player::Update()
 	//	m_pFrameKey = L"dead";
 	//	m_eNextState = STATE_DEAD;
 	//	Attacked = true;
-=======
-	if (Attacked == true && m_bIsDead == false) {
-		
-		m_pFrameKey = L"attacked";
-		m_eNextState = STATE_HIT;
-		if (m_eDirc == DR_RIGHT) {
-			m_tInfo.fX -= 10;
-		}
-		else if (m_eDirc == DR_LEFT) {
-			m_tInfo.fX += 10;
-		}
-		if (m_eCurState == STATE_HIT && m_tFrame.iFrameStart == 5) {
-			m_pFrameKey = L"idle";
-			m_eNextState = STATE_IDLE;
-			Attacked = false;
-		}
-	}
-	if (Hp <= 0) {
-		
-		m_pFrameKey = L"dead";
-		m_eNextState = STATE_DEAD;
-		Attacked = true;
->>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
 
 	//}
 	//if (Hp <= 0 && deadswitch == false) {
@@ -638,7 +458,6 @@ int Player::Update()
 
 	//////////////////////////////렌딩//////////////////////////////////////////////////
 
-<<<<<<< HEAD
 	//if (m_eCurState == STATE_LAND && m_tFrame.iFrameStart == 2) {
 	//	m_pFrameKey = L"idle";
 	//	m_eNextState = STATE_IDLE;
@@ -646,15 +465,6 @@ int Player::Update()
 	//if (m_eCurState == STATE_LAND && m_tFrame.iFrameStart == 1) {
 	//	
 	//}
-=======
-	if (m_eCurState == STATE_LAND && m_tFrame.iFrameStart == 2) {
-		m_pFrameKey = L"idle";
-		m_eNextState = STATE_IDLE;
-	}
-	if (m_eCurState == STATE_LAND && m_tFrame.iFrameStart == 1) {
-		
-	}
->>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
 	////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -670,15 +480,12 @@ int Player::Update()
 
 	////////////////////////등장사운드///////////////////////////////////////
 	
-<<<<<<< HEAD
-=======
 	if ( m_wave == 3 &&Sound_On==true) {
 
 		
 		Sound_On = false;
 	}
 	
->>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
 	return 0;
 }
 
@@ -689,96 +496,96 @@ void Player::LateUpdate()
 	IsOffset();
 	FrameChange();
 }
-//
-//void Player::Render(HDC hdc)
-//{
-//	CObj::UpdateRect();
-//
-//	if (m_bIsDead != true) {
-//		int iScrollX = CMyScrollMgr::Get_ScrollX();
-//
-//		int iScrollY = CMyScrollMgr::Get_ScrollY();
-//		HDC hMemDC = CBitmapMgr::Get_Instance()->FindImage(m_pFrameKey);
-//
-//		GdiTransparentBlt(hdc,
-//			m_tRect.left + iScrollX, HitBox.top + iScrollY,
-//			m_tInfo.fCX, m_tInfo.fCY,
-//			hMemDC,
-//			m_eDirc * m_tInfo.fCX, m_tFrame.iFrameStart * m_tInfo.fCY,// 출력할 그림의 시작 좌표. 
-//			m_tInfo.fCX, m_tInfo.fCY,//그림의 전체 가로세로 크기 
-//			RGB(255, 0, 0));
-//
-//
-//		HDC hAttDC = CBitmapMgr::Get_Instance()->FindImage(Attck);
-//		if (Attck_ON && Hp > 0) {
-//			if (UDS == SIDE) {
-//				if (m_eDirc == DR_RIGHT && m_eCurState == STATE_ATT) {
-//					GdiTransparentBlt(hdc,
-//						Attack_box.left + iScrollX, Attack_box.top + iScrollY,
-//						m_tInfo.fCX, m_tInfo.fCY,
-//						hAttDC,
-//						m_tFrame.iFrameStart * 200, 0 * 105,// 출력할 그림의 시작 좌표. 
-//						200, 105,//그림의 전체 가로세로 크기 
-//						RGB(255, 0, 0));
-//				}
-//				else if (m_eDirc == DR_LEFT && m_eCurState == STATE_ATT) {
-//					GdiTransparentBlt(hdc,
-//						Attack_box.left + iScrollX, Attack_box.top + iScrollY,
-//						m_tInfo.fCX, m_tInfo.fCY,
-//						hAttDC,
-//						m_tFrame.iFrameStart * 200, 105,// 출력할 그림의 시작 좌표. 
-//						200, 105,//그림의 전체 가로세로 크기 
-//						RGB(255, 0, 0));
-//
-//				}
-//			}
-//
-//			if (UDS == UP && m_eCurState == STATE_ATT) {
-//				GdiTransparentBlt(hdc,
-//					Attack_box.left + iScrollX, Attack_box.top + iScrollY,
-//					170, 150,
-//					hAttDC,
-//					0, (m_tFrame.iFrameStart % 2) * 200,// 출력할 그림의 시작 좌표. 
-//					170, 200,//그림의 전체 가로세로 크기 
-//					RGB(255, 0, 0));
-//
-//			}
-//
-//		}
-//
-//		HDC hAttedDC = CBitmapMgr::Get_Instance()->FindImage(L"attackedEff");
-//		if (Attacked) {
-//
-//			if (m_eDirc == DR_RIGHT) {
-//				GdiTransparentBlt(hdc,
-//					HitBox.left + iScrollX - 70, HitBox.top + iScrollY,
-//					m_tInfo.fCX, m_tInfo.fCY,
-//					hAttedDC,
-//					m_tFrame.iFrameStart * 800, 0,// 출력할 그림의 시작 좌표. 
-//					800, 300,//그림의 전체 가로세로 크기 
-//					RGB(255, 0, 0));
-//			}
-//			else if (m_eDirc == DR_LEFT) {
-//				GdiTransparentBlt(hdc,
-//					HitBox.left + iScrollX - 70, HitBox.top + iScrollY,
-//					m_tInfo.fCX, m_tInfo.fCY,
-//					hAttedDC,
-//					m_tFrame.iFrameStart * 800, 300,// 출력할 그림의 시작 좌표. 
-//					800, 300,//그림의 전체 가로세로 크기 
-//					RGB(255, 0, 0));
-//			}
-//
-//		}
-//		if (UDS != SIDE) {
-//			//   Rectangle(hdc, Attack_box.left + iScrollX, Attack_box.top+ iScrollY, Attack_box.right + iScrollX, Attack_box.bottom + iScrollY);
-//		}
-//		//   Rectangle(hdc, wall[Collnum].left + iScrollX, wall[Collnum].top + iScrollY, wall[Collnum].right + iScrollX, wall[Collnum].bottom + iScrollY);
-//
-//
-//
-//
-//	}
-//}
+
+void Player::Render(HDC hdc)
+{
+	CObj::UpdateRect();
+
+	if (m_bIsDead != true) {
+		int iScrollX = CMyScrollMgr::Get_ScrollX();
+
+		int iScrollY = CMyScrollMgr::Get_ScrollY();
+		HDC hMemDC = CBitmapMgr::Get_Instance()->FindImage(m_pFrameKey);
+
+		GdiTransparentBlt(hdc,
+			m_tRect.left + iScrollX, HitBox.top + iScrollY,
+			m_tInfo.fCX, m_tInfo.fCY,
+			hMemDC,
+			m_eDirc * m_tInfo.fCX, m_tFrame.iFrameStart * m_tInfo.fCY,// 출력할 그림의 시작 좌표. 
+			m_tInfo.fCX, m_tInfo.fCY,//그림의 전체 가로세로 크기 
+			RGB(255, 0, 0));
+
+
+		HDC hAttDC = CBitmapMgr::Get_Instance()->FindImage(Attck);
+		if (Attck_ON && Hp > 0) {
+			if (UDS == SIDE) {
+				if (m_eDirc == DR_RIGHT && m_eCurState == STATE_ATT) {
+					GdiTransparentBlt(hdc,
+						Attack_box.left + iScrollX, Attack_box.top + iScrollY,
+						m_tInfo.fCX, m_tInfo.fCY,
+						hAttDC,
+						m_tFrame.iFrameStart * 200, 0 * 105,// 출력할 그림의 시작 좌표. 
+						200, 105,//그림의 전체 가로세로 크기 
+						RGB(255, 0, 0));
+				}
+				else if (m_eDirc == DR_LEFT && m_eCurState == STATE_ATT) {
+					GdiTransparentBlt(hdc,
+						Attack_box.left + iScrollX, Attack_box.top + iScrollY,
+						m_tInfo.fCX, m_tInfo.fCY,
+						hAttDC,
+						m_tFrame.iFrameStart * 200, 105,// 출력할 그림의 시작 좌표. 
+						200, 105,//그림의 전체 가로세로 크기 
+						RGB(255, 0, 0));
+
+				}
+			}
+
+			if (UDS == UP && m_eCurState == STATE_ATT) {
+				GdiTransparentBlt(hdc,
+					Attack_box.left + iScrollX, Attack_box.top + iScrollY,
+					170, 150,
+					hAttDC,
+					0, (m_tFrame.iFrameStart % 2) * 200,// 출력할 그림의 시작 좌표. 
+					170, 200,//그림의 전체 가로세로 크기 
+					RGB(255, 0, 0));
+
+			}
+
+		}
+
+		HDC hAttedDC = CBitmapMgr::Get_Instance()->FindImage(L"attackedEff");
+		if (Attacked) {
+
+			if (m_eDirc == DR_RIGHT) {
+				GdiTransparentBlt(hdc,
+					HitBox.left + iScrollX - 70, HitBox.top + iScrollY,
+					m_tInfo.fCX, m_tInfo.fCY,
+					hAttedDC,
+					m_tFrame.iFrameStart * 800, 0,// 출력할 그림의 시작 좌표. 
+					800, 300,//그림의 전체 가로세로 크기 
+					RGB(255, 0, 0));
+			}
+			else if (m_eDirc == DR_LEFT) {
+				GdiTransparentBlt(hdc,
+					HitBox.left + iScrollX - 70, HitBox.top + iScrollY,
+					m_tInfo.fCX, m_tInfo.fCY,
+					hAttedDC,
+					m_tFrame.iFrameStart * 800, 300,// 출력할 그림의 시작 좌표. 
+					800, 300,//그림의 전체 가로세로 크기 
+					RGB(255, 0, 0));
+			}
+
+		}
+		if (UDS != SIDE) {
+			//   Rectangle(hdc, Attack_box.left + iScrollX, Attack_box.top+ iScrollY, Attack_box.right + iScrollX, Attack_box.bottom + iScrollY);
+		}
+		//   Rectangle(hdc, wall[Collnum].left + iScrollX, wall[Collnum].top + iScrollY, wall[Collnum].right + iScrollX, wall[Collnum].bottom + iScrollY);
+
+
+
+
+	}
+}
 
 
 void Player::Release()
@@ -788,92 +595,6 @@ void Player::Release()
 
 void Player::IsJumping()
 {
-<<<<<<< HEAD
-=======
-	float fy = 0.f;
-	static bool drop = false;
-	static bool first_frame = true;
-	if (m_bIsJump)
-	{
-		m_fJumpPower = 20.f;
-		//자유낙하 공식. 
-		FSpeed = 5;
-		Scrollspeed_Y = FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
-		//  y = 파워 * 시간 - 중력 * 시간 제곱 * 0.5f 
-		if (m_fJumpPower * m_fJumpAccel >= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f && !drop) {
-			m_tInfo.fY -= m_fJumpPower * m_fJumpAccel - GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f;
-			 //s= 1/2 a t^2 
-			
-			m_fJumpAccel += 0.20f;
-
-			if (first_frame)
-				first_frame = false;
-			else if (IsColl == true)
-				drop = true;
-		}
-		if ((m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) || drop) {
-			
-			m_tInfo.fY += FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
-			m_pFrameKey = L" jump_falling";
-			m_eNextState = STATE_FALL;
-
-			if (IsColl == true)
-			{
-				m_tInfo.fY = wall[Collnum].top - 60;
-				drop = false;
-				first_frame = true;
-			}
-
-		}
-		if (IsColl == true)
-		{
-			//m_tInfo.fY = wall[Collnum].top - 60;
-
-			m_bIsJump = false;
-			m_pFrameKey = L" jump_landing";
-			m_eNextState = STATE_LAND;
-			m_fJumpAccel = 0.f;
-		}
-	}
-	else {
-		m_fJumpPower = 10;
-
-		if (m_fJumpPower * m_fJumpAccel >= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
-			m_tInfo.fY -= m_fJumpPower * m_fJumpAccel - GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f;
-			m_fJumpAccel += 0.20f;
-		}
-		if (m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
-			m_tInfo.fY += FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
-			Scrollspeed_Y = FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
-
-
-		}
-
-		if (IsColl == true)
-		{
-			m_tInfo.fY = wall[Collnum].top - 60;
-			if (isLand == false) {
-				if (m_eCurState == STATE_FALL && m_eNextState != STATE_LAND) {
-					m_pFrameKey = L" jump_landing";
-					m_eNextState = STATE_LAND;
-					m_fJumpAccel = 0.f;
-					isLand = true;
-				}
-			}
-		}
-	}
-	if (IsColl == false) {
-		isLand = false;
-	}
-
-	//if (CKeyMgr::Get_Instance()->KeyPressing('C') && Attacked != true && m_eCurState != STATE_FALL)
-	//{
-	//	m_bIsJump = true;
-	//	m_pFrameKey = L"jumpstart";
-	//	
-	//	m_eNextState = STATE_JUMP;
-	//}
->>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
 }
 
 
@@ -925,6 +646,7 @@ void Player::FrameChange()
 			m_tFrame.iFrameScene = 0;
 			m_tFrame.dwFrameTime = GetTickCount();
 			m_tFrame.dwFrameSpeed = 70;
+
 			break;
 		case Player::STATE_IDLE:
 			m_tFrame.iFrameStart = 0;
@@ -1092,7 +814,6 @@ void Player::Set_PlayerData(PlayerData playerdata)
 	this->m_bIsDead = playerdata.isDead;
 	this->m_eNextState = STATE(playerdata.playerState);
 	this->Hp = playerdata.playerHp;
-<<<<<<< HEAD
 	this->m_eDirc = playerdata.playerDir;
 	this->Attck_ON = playerdata.attakOn;
 
@@ -1131,7 +852,4 @@ void Player::Set_PlayerData(PlayerData playerdata)
 	default:
 		break;
 	}
-=======
-	this->m_eDirc = Direction(playerdata.playerDir);
->>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
 }

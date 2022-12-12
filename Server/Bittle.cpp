@@ -274,23 +274,22 @@ void Bittle::LateUpdate() {
 	FrameChange();
 	
 }
-//
-//void Bittle::Render(HDC hdc) {
-//
-//	CObj::UpdateRect();
-//	int iScrollX = CMyScrollMgr::Get_ScrollX();
-//	int iScrollY = CMyScrollMgr::Get_ScrollY();
-//	HDC hMemDC = CBitmapMgr::Get_Instance()->FindImage(m_pFrameKey);
-//	if (iHp != 0) {
-//		GdiTransparentBlt(hdc,
-//			m_tRect.left + iScrollX, m_tRect.top + iScrollY,
-//			m_tInfo.fCX, m_tInfo.fCY,
-//			hMemDC,
-//			m_eDirc * m_tInfo.fCX, m_tFrame.iFrameStart * m_tInfo.fCY,// 출력할 그림의 시작 좌표. 
-//			m_tInfo.fCX, m_tInfo.fCY,//그림의 전체 가로세로 크기 
-//			RGB(255, 0, 0));
-//	}
-//}
+void Bittle::Render(HDC hdc) {
+
+	CObj::UpdateRect();
+	int iScrollX = CMyScrollMgr::Get_ScrollX();
+	int iScrollY = CMyScrollMgr::Get_ScrollY();
+	HDC hMemDC = CBitmapMgr::Get_Instance()->FindImage(m_pFrameKey);
+	if (iHp != 0) {
+		GdiTransparentBlt(hdc,
+			m_tRect.left + iScrollX, m_tRect.top + iScrollY,
+			m_tInfo.fCX, m_tInfo.fCY,
+			hMemDC,
+			m_eDirc * m_tInfo.fCX, m_tFrame.iFrameStart * m_tInfo.fCY,// 출력할 그림의 시작 좌표. 
+			m_tInfo.fCX, m_tInfo.fCY,//그림의 전체 가로세로 크기 
+			RGB(255, 0, 0));
+	}
+}
 
 void Bittle::Release() {
 
