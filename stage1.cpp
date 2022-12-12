@@ -110,7 +110,7 @@ CStage1::CStage1()
 	}
 	/////////////////////////웨이브//////////////////////////////
 
-	
+
 	/////////////////////////////////////////////////////////////
 
 }
@@ -160,11 +160,9 @@ void CStage1::Update() {
 	}
 	// WaitForSingleObject(h_InitMonsterEvent, INFINITY);
 	// WaitForSingleObject(h_InitMonsterEvent, INFINITY);
-=========
-	m_OtherPlayer->Update();
-	
-	WaitForSingleObject(h_InitMonsterEvent, INFINITY);
->>>>>>>>> Temporary merge branch 2
+
+	//WaitForSingleObject(h_InitMonsterEvent, INFINITY);
+
 	for (auto& a : v_Monster)
 	{
 		if (a.monsterType == BITTLE) {
@@ -267,7 +265,7 @@ void CStage1::Update() {
 
 	if (OtherPlayerData.isDead)
 		Safe_Delete(m_OtherPlayer);
-	
+
 	if (PlayerHp < 0) {
 		CSoundMgr::Get_Instance()->StopAll();
 		ENDFLAG = true;
@@ -309,7 +307,7 @@ void CStage1::LateUpdate()
 		m_pHushKni->LateUpdate();
 	}
 
-	if (m_pbittle4 == nullptr && m_pbittle3 == nullptr && m_pbittle2 == nullptr&& waveNum == 3) {
+	if (m_pbittle4 == nullptr && m_pbittle3 == nullptr && m_pbittle2 == nullptr && waveNum == 3) {
 		Wave2clear = true;
 	}
 	if (waveNum == 5 && m_pHushKni == nullptr && m_pSub == nullptr) {
@@ -357,7 +355,7 @@ void CStage1::Render(HDC hDC)
 	int iScrollX = CMyScrollMgr::Get_ScrollX();
 	int iScrollY = CMyScrollMgr::Get_ScrollY();
 	HDC mMemDC2 = CBitmapMgr::Get_Instance()->FindImage(L"mapBack");
-	
+
 	BitBlt(hDC, 0, 0, WINCX, WINCY, mMemDC2, 0, 0, SRCCOPY);
 
 	if (m_pHush != nullptr) {
@@ -411,8 +409,8 @@ void CStage1::Render(HDC hDC)
 		RGB(255, 0, 0));
 	for (int i = 0; i < PlayerHp; ++i) {
 		GdiTransparentBlt(hDC,
-			175+(50*i), 100,
-			75,75,
+			175 + (50 * i), 100,
+			75, 75,
 			hHPiconDC,
 			0, 0,// 출력할 그림의 시작 좌표. 
 			100, 100,//그림의 전체 가로세로 크기 
@@ -429,5 +427,5 @@ void CStage1::Render(HDC hDC)
 
 void CStage1::Release()
 {
-	
+
 }

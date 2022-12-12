@@ -74,7 +74,7 @@ void RecvPlayerInfo(SOCKET sock)
 
 };
 
-void SendEndFlag(SOCKET sock) 
+void SendEndFlag(SOCKET sock)
 {
     int retval;
     retval = recv(sock, (char*)&ENDFLAG, sizeof(bool), 0);//엔드 플레그 전송
@@ -86,7 +86,7 @@ void RecvSceneID(SOCKET sock)
     retval = recv(sock, (char*)&NEXT_SCENE, sizeof(SCENEID), 0);//Scene ID 수신
 
 };
-void RecvMonsterData(SOCKET sock, int& MonsterNum,int &temp)
+void RecvMonsterData(SOCKET sock, int& MonsterNum, int& temp)
 {
     int retval;
     MonsterData Mdt;
@@ -118,9 +118,9 @@ void RecvMonsterData(SOCKET sock, int& MonsterNum,int &temp)
 
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-                     _In_opt_ HINSTANCE hPrevInstance,
-                     _In_ LPWSTR    lpCmdLine,
-                     _In_ int       nCmdShow)
+    _In_opt_ HINSTANCE hPrevInstance,
+    _In_ LPWSTR    lpCmdLine,
+    _In_ int       nCmdShow)
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
@@ -149,51 +149,51 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MyRegisterClass(hInstance);
 
     // 애플리케이션 초기화를 수행합니다:
-    if (!InitInstance (hInstance, nCmdShow))
+    if (!InitInstance(hInstance, nCmdShow))
     {
         return FALSE;
     }
- 
+
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_HOLLOW));
 
     MSG msg;
-	msg.message = WM_NULL;
-	CMainGame MainGame;
-	MainGame.Initialize();
-	DWORD dwOldTime = GetTickCount();
+    msg.message = WM_NULL;
+    CMainGame MainGame;
+    MainGame.Initialize();
+    DWORD dwOldTime = GetTickCount();
 
 
-	while (WM_QUIT != msg.message)
-	{
-		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
+    while (WM_QUIT != msg.message)
+    {
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        {
+            TranslateMessage(&msg);
 
-			DispatchMessage(&msg);
-		}
-		else
-		{
-			if (dwOldTime + 10 < GetTickCount())
-			{
+            DispatchMessage(&msg);
+        }
+        else
+        {
+            if (dwOldTime + 10 < GetTickCount())
+            {
 
-				MainGame.Update();
-				MainGame.LateUpdate();
-				MainGame.Render();
-				dwOldTime = GetTickCount();
+                MainGame.Update();
+                MainGame.LateUpdate();
+                MainGame.Render();
+                dwOldTime = GetTickCount();
 
 
 
-			}
-		}
-	}
+            }
+        }
+    }
 
     CloseHandle(h_SendDataEvent);
     CloseHandle(h_WriteDataEvent);
     CloseHandle(h_InitMonsterEvent);
     WSACleanup();
 
-	return (int)msg.wParam;
+    return (int)msg.wParam;
 }
 
 
@@ -208,17 +208,17 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 
     wcex.cbSize = sizeof(WNDCLASSEX);
 
-    wcex.style          = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc    = WndProc;
-    wcex.cbClsExtra     = 0;
-    wcex.cbWndExtra     = 0;
-    wcex.hInstance      = hInstance;
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_HOLLOW));
-    wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-	wcex.lpszMenuName = NULL;//MAKEINTRESOURCEW(IDC_HOLLOW);
-    wcex.lpszClassName  = szWindowClass;
-    wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+    wcex.style = CS_HREDRAW | CS_VREDRAW;
+    wcex.lpfnWndProc = WndProc;
+    wcex.cbClsExtra = 0;
+    wcex.cbWndExtra = 0;
+    wcex.hInstance = hInstance;
+    wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_HOLLOW));
+    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wcex.lpszMenuName = NULL;//MAKEINTRESOURCEW(IDC_HOLLOW);
+    wcex.lpszClassName = szWindowClass;
+    wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
     return RegisterClassExW(&wcex);
 }
@@ -236,21 +236,21 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
 
-	hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
-	RECT rc = { 0, 0, 1600, 900 };
-	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE); //출력 영역 크기를 조절하는 함수. 
-	HWND hWnd = CreateWindowW(szWindowClass, L"Hollow Knight", WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, 0, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance, nullptr);
+    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
+    RECT rc = { 0, 0, 1600, 900 };
+    AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE); //출력 영역 크기를 조절하는 함수. 
+    HWND hWnd = CreateWindowW(szWindowClass, L"Hollow Knight", WS_OVERLAPPEDWINDOW,
+        CW_USEDEFAULT, 0, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance, nullptr);
 
-	if (!hWnd)
-	{
-		return FALSE;
-	}
-	g_hWND = hWnd;
-	ShowWindow(hWnd, nCmdShow);
-	UpdateWindow(hWnd);
+    if (!hWnd)
+    {
+        return FALSE;
+    }
+    g_hWND = hWnd;
+    ShowWindow(hWnd, nCmdShow);
+    UpdateWindow(hWnd);
 
-	return TRUE;
+    return TRUE;
 
 
 
@@ -269,7 +269,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 
-//	PAINTSTRUCT ps;
+    //	PAINTSTRUCT ps;
     switch (message)
     {
     case WM_DESTROY:
@@ -307,87 +307,75 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 // TCP 클라이언트 시작 부분
 DWORD WINAPI ClientMain(LPVOID arg)
 {
-	int retval;
+    int retval;
 
-	// 소켓 생성
+    // 소켓 생성
 
-  
-	sock = socket(AF_INET, SOCK_STREAM, 0);
-	if (sock == INVALID_SOCKET) err_quit("socket()");
 
- 
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock == INVALID_SOCKET) err_quit("socket()");
+
+
     cout << "서버IP 입력: ";
     cin >> SERVER_IP;
-     
+
     SetEvent(h_ConnectServerEvent);
 
-   // WaitForSingleObject(h_ConnectServerEvent, INFINITE); //클라이언트에 접속할 서버ip주소와 자신의 닉네임 입력 전까진 대기시키기
+    // WaitForSingleObject(h_ConnectServerEvent, INFINITE); //클라이언트에 접속할 서버ip주소와 자신의 닉네임 입력 전까진 대기시키기
 
-	// connect()
-	struct sockaddr_in serveraddr;
-	memset(&serveraddr, 0, sizeof(serveraddr));
-	serveraddr.sin_family = AF_INET;
-	serveraddr.sin_addr.s_addr = inet_addr(SERVER_IP.c_str());
-	serveraddr.sin_port = htons(SERVERPORT);
-	retval = connect(sock, (struct sockaddr*)&serveraddr, sizeof(serveraddr));
-	if (retval == SOCKET_ERROR) err_quit("connect()");
+     // connect()
+    struct sockaddr_in serveraddr;
+    memset(&serveraddr, 0, sizeof(serveraddr));
+    serveraddr.sin_family = AF_INET;
+    serveraddr.sin_addr.s_addr = inet_addr(SERVER_IP.c_str());
+    serveraddr.sin_port = htons(SERVERPORT);
+    retval = connect(sock, (struct sockaddr*)&serveraddr, sizeof(serveraddr));
+    if (retval == SOCKET_ERROR) err_quit("connect()");
 
-	// 서버와 데이터 통신
-    
+    // 서버와 데이터 통신
+
 
     PlayerData pd = {}; //다른 플레이어 데이터용
     int GetSize = 0;
     int MonsterNum = -1;
     int temp = -1;
-   
-=========
-   
-    
->>>>>>>>> Temporary merge branch 2
-    bool b_Init = false;
+
+
     while (1) {
         WaitForSingleObject(h_SendDataEvent, INFINITE);
         SendPlayerInfo(sock);
-        //temp = MonsterNum;
-        //retval = recv(sock, (char*)&MonsterNum, sizeof(int), 0); //몬스터 갯수 받아오기
-  /*      SendEndFlag(sock);
-        if(ENDFLAG)
-            RecvSceneID(sock);*/
-        //몬스터 정보 수신
-        //for (int i = 0; i < MonsterNum; ++i)
-        //{
-        //    
-        //    if (temp != MonsterNum) {
-        //        retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0); //몬스터 데이터 받기
-        //        if (temp <= i)
-        //            v_Monster.push_back(Mdt); //받은 데이터를 넣어준다
-        //        if (i == MonsterNum - 1) {//다넣으면 더이상 넣지 않는다
-        //            temp = MonsterNum;
-        //        // SetEvent(h_InitMonsterEvent);
-        //        }
-        //    }
-        //    else {
-        //        retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0);
-        //        if (i < temp)
-        //            v_Monster[i] = Mdt; //서버로부터 몬스터 데이터를 받아와 갱신해준다.
-        //    }
-        // }
-        //
-        //retval = recv(sock, (char*)&waveNum, sizeof(int), MSG_WAITALL);
-            }
-         }
-        
-        retval = recv(sock, (char*)&waveNum, sizeof(int), MSG_WAITALL);
-=========
+        RecvPlayerInfo(sock);
+        /*      SendEndFlag(sock);
+              if(ENDFLAG)
+                  RecvSceneID(sock);*/
+                  //몬스터 정보 수신
+                  //for (int i = 0; i < MonsterNum; ++i)
+                  //{
+                  //    
+                  //    if (temp != MonsterNum) {
+                  //        retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0); //몬스터 데이터 받기
+                  //        if (temp <= i)
+                  //            v_Monster.push_back(Mdt); //받은 데이터를 넣어준다
+                  //        if (i == MonsterNum - 1) {//다넣으면 더이상 넣지 않는다
+                  //            temp = MonsterNum;
+                  //        // SetEvent(h_InitMonsterEvent);
+                  //        }
+                  //    }
+                  //    else {
+                  //        retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0);
+                  //        if (i < temp)
+                  //            v_Monster[i] = Mdt; //서버로부터 몬스터 데이터를 받아와 갱신해준다.
+                  //    }
+                  // }
+                  //
+                  //retval = recv(sock, (char*)&waveNum, sizeof(int), MSG_WAITALL);  
+        RecvMonsterData(sock, MonsterNum, temp);
 
-        
-        RecvMonsterData(sock, b_Init);
->>>>>>>>> Temporary merge branch 2
 
         SetEvent(h_WriteDataEvent);
         if (ENDFLAG)
             break;
-	}
+    }
 
-	return 0;
+    return 0;
 }
