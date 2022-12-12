@@ -9,5 +9,9 @@ extern HANDLE h_InitPlayerEvent;
 extern PlayerData g_Player;
 extern PlayerData g_Player2;
 extern vector<MonsterData> v_Monster;
+<<<<<<< HEAD
 extern int numOfMonster;
 extern int waveNum;
+=======
+extern int numOfMonster;
+>>>>>>> ccd12ab2419cce183e7638c8d55a527d50ead7ca
