@@ -36,5 +36,7 @@ struct ClientInfo
 	bool isReady;
 };
 
+
+
 typedef list<CObj*>			OBJLIST;
 typedef OBJLIST::iterator	OBJITER;

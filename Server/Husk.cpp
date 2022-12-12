@@ -355,7 +355,7 @@ void Husk::findPlayer() {
 	else {
 		followOn = FALSE;
 	}
-	if (numOfPlayer == 2) {
+	if (numOfPlayer == 2 && !followOn) {
 		p = m_pPlayer2->Get_Rect();
 		p.left = p.left + 100;
 		p.right = p.right - 104;

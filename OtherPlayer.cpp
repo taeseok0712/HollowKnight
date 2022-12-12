@@ -593,7 +593,7 @@ void OtherPlayer::SetState()
 
 	m_eDirc = Direction(OtherPlayerData.playerDir);
 	m_eNextState = STATE(OtherPlayerData.playerState);
-
+	m_bIsDead = OtherPlayerData.isDead;
 	switch (m_eNextState)
 	{
 	case OtherPlayer::STATE_ATT:
