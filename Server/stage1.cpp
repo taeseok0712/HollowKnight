@@ -26,11 +26,11 @@ CStage1::CStage1()
 		m_pPlayer->Initialize();
 		g_Player = dynamic_cast<Player*>(m_pPlayer)->Get_PlayerData();
 	}
-	if (m_pPlayer2 == nullptr) {
+	/*if (m_pPlayer2 == nullptr) {
 		m_pPlayer2 = new Player;
 		m_pPlayer2->Initialize();
 		g_Player2 = dynamic_cast<Player*>(m_pPlayer2)->Get_PlayerData();
-	}
+	}*/
 	if (m_pHush == nullptr) {
 		m_pHush = new Husk;
 		m_pHush->Initialize();
@@ -39,7 +39,7 @@ CStage1::CStage1()
 		dynamic_cast<Husk*>(m_pHush)->Set_Info(m_pPlayer);
 		dynamic_cast<Husk*>(m_pHush)->Set_Info2(m_pPlayer2);
 		dynamic_cast<Player*>(m_pPlayer)->Set_InfoHusk(m_pHush);
-		dynamic_cast<Player*>(m_pPlayer2)->Set_InfoHusk(m_pHush);
+		//dynamic_cast<Player*>(m_pPlayer2)->Set_InfoHusk(m_pHush);
 	}
 
 	if (m_pFly == nullptr) {
@@ -50,7 +50,7 @@ CStage1::CStage1()
 		dynamic_cast<Fly*>(m_pFly)->Set_Info(m_pPlayer);
 		dynamic_cast<Fly*>(m_pFly)->Set_Info2(m_pPlayer2);
 		dynamic_cast<Player*>(m_pPlayer)->Set_InfoFly(m_pFly);
-		dynamic_cast<Player*>(m_pPlayer2)->Set_InfoFly(m_pFly);
+		//dynamic_cast<Player*>(m_pPlayer2)->Set_InfoFly(m_pFly);
 	}
 
 	//if (m_pBug == nullptr) {
@@ -124,7 +124,7 @@ void CStage1::Update() {
 	// 아래의 몬스터 업데이트 후에 몬스터들의 정보를 저장해준 후에 클라이언트에 몬스터 정보들을 보내준다.
 	if (m_pHush != nullptr) {
 		m_pHush->Update();
-		cout << m_pHush->getIsDead();
+
 		v_Monster[0] = dynamic_cast<Husk*>(m_pHush)->Get_Data();
 		if (m_pHush->iHp <= 0) {
 		
@@ -263,7 +263,7 @@ void CStage1::Update() {
 void CStage1::LateUpdate()
 {
 	m_pPlayer->LateUpdate();
-	m_pPlayer2->LateUpdate();
+	//m_pPlayer2->LateUpdate();
 
 	if (m_pHush != nullptr) {
 		m_pHush->LateUpdate();
@@ -305,7 +305,7 @@ void CStage1::LateUpdate()
 void CStage1::Render(HDC hDC)
 {
 	m_pPlayer->UpdateRect();
-	m_pPlayer2->UpdateRect();
+	//m_pPlayer2->UpdateRect();
 
 	if (m_pHush != nullptr) {
 		m_pHush->UpdateRect();
@@ -368,7 +368,7 @@ void CStage1::Render(HDC hDC)
 		m_pHushKni->Render(hDC);
 	}
 	m_pPlayer->Render(hDC);
-	m_pPlayer2->Render(hDC);
+	//m_pPlayer2->Render(hDC);
 	HDC mMemDC = CBitmapMgr::Get_Instance()->FindImage(L"mapRoad");
 	HDC hHpDC = CBitmapMgr::Get_Instance()->FindImage(L"HPbar");
 	HDC hHPiconDC = CBitmapMgr::Get_Instance()->FindImage(L"HPicon");

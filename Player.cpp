@@ -10,7 +10,24 @@
 
 Player::Player() :m_pFrameKey(L"")
 {
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/00. idle.bmp", L"idle");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/01. move.bmp", L"move");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/02. jump_start.bmp", L"jumpstart");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/04. jump_falling.bmp", L" jump_falling");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/05. jump_landing.bmp", L" jump_landing");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/06. att_normal_1.bmp", L"attack");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/09. att_down_to_top.bmp", L"attack_up");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/08. att_top_to_down.bmp", L"attack_down");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/10. attacked.bmp", L"attacked");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/11. hero_dead.bmp", L"dead");
 
+
+	////ÀÌÆåÆ®/////
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/effect/Att_side.bmp", L"side");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/effect/Attacked.bmp", L"attackedEff");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/effect/Att_UD.bmp", L"up");
+
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/Player.bmp", L"Player");
 	SetRect(&wall[0], 0, 0, 118, 2160); // 1
 	SetRect(&wall[1], 118, 1957, 2052, 2160); // 26
 	SetRect(&wall[2], 2052, 1745, 2896, 2160);  // 22
@@ -97,6 +114,7 @@ int Player::Update()
 	playerDataPacket.playerDir = this->m_eDirc;
 	playerDataPacket.playerHp = this->Hp;
 	playerDataPacket.playerState = this->m_eCurState;
+	playerDataPacket.attakOn = this->Attck_ON;
 	//playerDataPacket.FrameKey = this->m_pFrameKey;
 
 	if (b_IsChange == false) {
@@ -810,7 +828,7 @@ void Player::FrameChange()
 bool Player::CheckCollE2M(CObj * monster)
 {
 	RECT Dst;
-	
+
 	if (Attck_ON) {
 		SetRect(&Attack_box, Attack_box.left, Attack_box.top, Attack_box.right, Attack_box.bottom);
 		if (monster != nullptr) {

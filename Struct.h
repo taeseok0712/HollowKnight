@@ -60,6 +60,7 @@ struct PlayerData
 	int playerHp; 
 	bool isDead; //요기 수정됨 alive->isDead로 수정
 	int playerDir; //플레이어가 바라보는 방향
+	bool attakOn;
 	//TCHAR* FrameKey;
 };
 struct MonsterData

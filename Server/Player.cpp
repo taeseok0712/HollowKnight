@@ -10,6 +10,25 @@
 
 Player::Player() :m_pFrameKey(L"")
 {
+	WaitForSingleObject(h_InitPlayerEvent, INFINITY);
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/00. idle.bmp", L"idle");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/01. move.bmp", L"move");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/02. jump_start.bmp", L"jumpstart");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/04. jump_falling.bmp", L" jump_falling");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/05. jump_landing.bmp", L" jump_landing");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/06. att_normal_1.bmp", L"attack");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/09. att_down_to_top.bmp", L"attack_up");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/08. att_top_to_down.bmp", L"attack_down");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/10. attacked.bmp", L"attacked");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/11. hero_dead.bmp", L"dead");
+
+
+	////이펙트/////
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/effect/Att_side.bmp", L"side");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/effect/Attacked.bmp", L"attackedEff");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/effect/Att_UD.bmp", L"up");
+
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/Player.bmp", L"Player");
 
 	SetRect(&wall[0], 0, 0, 118, 2160); // 1
 	SetRect(&wall[1], 118, 1957, 2052, 2160); // 26
@@ -43,13 +62,8 @@ Player::~Player()
 
 void Player::Initialize()
 {
-	m_tInfo.fX = 800.f;
-	m_tInfo.fY = 500.f;
-	m_tInfo.fCX = 256.f;
-	m_tInfo.fCY = 128.f;
-	CanHit = true;
-	Sound_On = false;
-	Hp = 6;
+
+	WaitForSingleObject(h_InitPlayerEvent,INFINITY);
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/00. idle.bmp", L"idle");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/01. move.bmp", L"move");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/02. jump_start.bmp", L"jumpstart");
@@ -68,11 +82,21 @@ void Player::Initialize()
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/effect/Att_UD.bmp", L"up");
 
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/Player.bmp", L"Player");
+
+
+	m_tInfo.fX = 800.f;
+	m_tInfo.fY = 500.f;
+	m_tInfo.fCX = 256.f;
+	m_tInfo.fCY = 128.f;
+	CanHit = true;
+	Sound_On = false;
+	Hp = 6;
+	
 	m_fJumpAccel = 0.2f;
 	m_fJumpPower = 20.f;
 	m_eDirc = DR_RIGHT;
-	m_eNextState = STATE_FALL;
-	m_pFrameKey = L" jump_falling";
+	//m_eNextState = STATE_IDLE;
+	//m_pFrameKey = L" idle";
 	Attck = L"side";
 	m_fSpeed = 10.f;
 	Scrollspeed_X = 10.f;
@@ -85,9 +109,9 @@ void Player::Initialize()
 // 중력처리 -> 이동 -> 충돌 
 int Player::Update()
 {
-	
+	WaitForSingleObject(h_InitPlayerEvent, INFINITY);
 	RECT rcTemp;
-
+	cout << m_eCurState << endl;
 	if (b_IsChange == false) {
 		if (b_canChange == true) {
 			if (m_tInfo.fX > 8700) {
@@ -189,33 +213,33 @@ int Player::Update()
 	//   CSoundMgr::Get_Instance()->PlaySound(L"hero_jump.wav", CSoundMgr::JUMP);
 	//   m_eNextState = STATE_JUMP;
 	//}*/
-	if ((GetAsyncKeyState(VK_DOWN) & 0x8000) && (GetAsyncKeyState('X') & 0x8000)) {
-	
-		m_pFrameKey = L"attack_down";
-		m_eNextState = STATE_ATT;
-		Attck = L"up";
-		UDS = DOWN;
+	//if ((GetAsyncKeyState(VK_DOWN) & 0x8000) && (GetAsyncKeyState('X') & 0x8000)) {
+	//
+	//	m_pFrameKey = L"attack_down";
+	//	m_eNextState = STATE_ATT;
+	//	Attck = L"up";
+	//	UDS = DOWN;
+	////	Attck_ON = true;
+	//}
+	//else if ((GetAsyncKeyState(VK_UP) & 0x8000) && (GetAsyncKeyState('X') & 0x8000)) {
+	//	
+	//	m_pFrameKey = L"attack_up";
+	//	m_eNextState = STATE_ATT;
+	//	Attck = L"up";
+	//	UDS = UP;
 	//	Attck_ON = true;
-	}
-	else if ((GetAsyncKeyState(VK_UP) & 0x8000) && (GetAsyncKeyState('X') & 0x8000)) {
-		
-		m_pFrameKey = L"attack_up";
-		m_eNextState = STATE_ATT;
-		Attck = L"up";
-		UDS = UP;
-		Attck_ON = true;
-	}
+	//}
 
-	
-	else if (((GetAsyncKeyState('X') & 0x8000) || (GetAsyncKeyState('x') & 0x8000)) && Attacked != true)
-	{
-		
-		m_pFrameKey = L"attack";
-		m_eNextState = STATE_ATT;
-		Attck = L"side";
-		UDS = SIDE;
-		Attck_ON = true;
-	}
+	//
+	//else if (((GetAsyncKeyState('X') & 0x8000) || (GetAsyncKeyState('x') & 0x8000)) && Attacked != true)
+	//{
+	//	
+	//	m_pFrameKey = L"attack";
+	//	m_eNextState = STATE_ATT;
+	//	Attck = L"side";
+	//	UDS = SIDE;
+	//	Attck_ON = true;
+	//}
 
 
 	if (m_eCurState == STATE_WALK) {
@@ -235,24 +259,24 @@ int Player::Update()
 
 
 
-	if (m_eCurState == STATE_ATT && m_tFrame.iFrameStart == 4) {
-		m_pFrameKey = L"idle";
-		m_eNextState = STATE_IDLE;
+	//if (m_eCurState == STATE_ATT && m_tFrame.iFrameStart == 4) {
+	//	m_pFrameKey = L"idle";
+	//	m_eNextState = STATE_IDLE;
 
-	}
-	if (m_eCurState == STATE_ATTU && m_tFrame.iFrameStart == 4) {
-		m_pFrameKey = L"idle";
-		m_eNextState = STATE_IDLE;
+	//}
+	//if (m_eCurState == STATE_ATTU && m_tFrame.iFrameStart == 4) {
+	//	m_pFrameKey = L"idle";
+	//	m_eNextState = STATE_IDLE;
 
-	}
-	if (m_eCurState == STATE_ATTD && m_tFrame.iFrameStart == 4) {
-		m_pFrameKey = L"idle";
-		m_eNextState = STATE_IDLE;
+	//}
+	//if (m_eCurState == STATE_ATTD && m_tFrame.iFrameStart == 4) {
+	//	m_pFrameKey = L"idle";
+	//	m_eNextState = STATE_IDLE;
 
-	}
-	if (m_eNextState != STATE_ATT) {
-		Attck_ON = false;
-	}
+	//}
+	//if (m_eNextState != STATE_ATT) {
+	//	Attck_ON = false;
+	//}
 
 	////////////////////////////////////////////몬스터 플레이어 충돌///////////////////////////////////////
 	if (Attacked == false) {
@@ -409,52 +433,52 @@ int Player::Update()
 
 	}
 	////////////////////////////////////////////////뒤짐/////////////////////////////////////////////////////////
-	if (Attacked == true && m_bIsDead == false) {
-		
-		m_pFrameKey = L"attacked";
-		m_eNextState = STATE_HIT;
-		if (m_eDirc == DR_RIGHT) {
-			m_tInfo.fX -= 10;
-		}
-		else if (m_eDirc == DR_LEFT) {
-			m_tInfo.fX += 10;
-		}
-		if (m_eCurState == STATE_HIT && m_tFrame.iFrameStart == 5) {
-			m_pFrameKey = L"idle";
-			m_eNextState = STATE_IDLE;
-			Attacked = false;
-		}
-	}
+	//if (Attacked == true && m_bIsDead == false) {
+	//	
+	//	m_pFrameKey = L"attacked";
+	//	m_eNextState = STATE_HIT;
+	//	if (m_eDirc == DR_RIGHT) {
+	//		m_tInfo.fX -= 10;
+	//	}
+	//	else if (m_eDirc == DR_LEFT) {
+	//		m_tInfo.fX += 10;
+	//	}
+	//	if (m_eCurState == STATE_HIT && m_tFrame.iFrameStart == 5) {
+	//		m_pFrameKey = L"idle";
+	//		m_eNextState = STATE_IDLE;
+	//		Attacked = false;
+	//	}
+	//}
 
 
-	if (Hp <= 0) {
-		
-		m_pFrameKey = L"dead";
-		m_eNextState = STATE_DEAD;
-		Attacked = true;
+	//if (Hp <= 0) {
+	//	
+	//	m_pFrameKey = L"dead";
+	//	m_eNextState = STATE_DEAD;
+	//	Attacked = true;
 
-	}
-	if (Hp <= 0 && deadswitch == false) {
-		deadswitch = true;
-		deadtime = GetTickCount();
-	}
-	if (m_eCurState == STATE_DEAD && m_tFrame.iFrameStart == 8) {
-		m_bIsDead = true;
-		if (deadtime + 5000 < GetTickCount()) {
-			Hp = -1;
-		}
-	}
+	//}
+	//if (Hp <= 0 && deadswitch == false) {
+	//	deadswitch = true;
+	//	deadtime = GetTickCount();
+	//}
+	//if (m_eCurState == STATE_DEAD && m_tFrame.iFrameStart == 8) {
+	//	m_bIsDead = true;
+	//	if (deadtime + 5000 < GetTickCount()) {
+	//		Hp = -1;
+	//	}
+	//}
 
 
 	//////////////////////////////렌딩//////////////////////////////////////////////////
 
-	if (m_eCurState == STATE_LAND && m_tFrame.iFrameStart == 2) {
-		m_pFrameKey = L"idle";
-		m_eNextState = STATE_IDLE;
-	}
-	if (m_eCurState == STATE_LAND && m_tFrame.iFrameStart == 1) {
-		
-	}
+	//if (m_eCurState == STATE_LAND && m_tFrame.iFrameStart == 2) {
+	//	m_pFrameKey = L"idle";
+	//	m_eNextState = STATE_IDLE;
+	//}
+	//if (m_eCurState == STATE_LAND && m_tFrame.iFrameStart == 1) {
+	//	
+	//}
 	////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -585,96 +609,96 @@ void Player::Release()
 
 void Player::IsJumping()
 {
-	float fy = 0.f;
+	//float fy = 0.f;
 
-	static bool drop = false;
-	static bool first_frame = true;
-	if (m_bIsJump)
-	{
-		m_fJumpPower = 20.f;
-		//자유낙하 공식. 
-		FSpeed = 5;
-		Scrollspeed_Y = FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
-		//  y = 파워 * 시간 - 중력 * 시간 제곱 * 0.5f 
-		if (m_fJumpPower * m_fJumpAccel >= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f && !drop) {
-			m_tInfo.fY -= m_fJumpPower * m_fJumpAccel - GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f;
-			 //s= 1/2 a t^2 
-			
-			m_fJumpAccel += 0.20f;
+	//static bool drop = false;
+	//static bool first_frame = true;
+	//if (m_bIsJump)
+	//{
+	//	m_fJumpPower = 20.f;
+	//	//자유낙하 공식. 
+	//	FSpeed = 5;
+	//	Scrollspeed_Y = FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
+	//	//  y = 파워 * 시간 - 중력 * 시간 제곱 * 0.5f 
+	//	if (m_fJumpPower * m_fJumpAccel >= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f && !drop) {
+	//		m_tInfo.fY -= m_fJumpPower * m_fJumpAccel - GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f;
+	//		 //s= 1/2 a t^2 
+	//		
+	//		m_fJumpAccel += 0.20f;
 
-			if (first_frame)
-				first_frame = false;
-			else if (IsColl == true)
-				drop = true;
-		}
-		if ((m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) || drop) {
-			
-			m_tInfo.fY += FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
-			m_pFrameKey = L" jump_falling";
-			m_eNextState = STATE_FALL;
+	//		if (first_frame)
+	//			first_frame = false;
+	//		else if (IsColl == true)
+	//			drop = true;
+	//	}
+	//	if ((m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) || drop) {
+	//		
+	//		m_tInfo.fY += FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
+	//		m_pFrameKey = L" jump_falling";
+	//		m_eNextState = STATE_FALL;
 
-			if (IsColl == true)
-			{
-				m_tInfo.fY = wall[Collnum].top - 60;
-				drop = false;
-				first_frame = true;
-			}
+	//		if (IsColl == true)
+	//		{
+	//			m_tInfo.fY = wall[Collnum].top - 60;
+	//			drop = false;
+	//			first_frame = true;
+	//		}
 
-		}
-
-
-		if (IsColl == true)
-		{
-			//m_tInfo.fY = wall[Collnum].top - 60;
-
-			m_bIsJump = false;
-			m_pFrameKey = L" jump_landing";
-			m_eNextState = STATE_LAND;
-			m_fJumpAccel = 0.f;
-		}
-	}
-	else {
-		m_fJumpPower = 10;
-
-		if (m_fJumpPower * m_fJumpAccel >= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
-			m_tInfo.fY -= m_fJumpPower * m_fJumpAccel - GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f;
-			m_fJumpAccel += 0.20f;
-		}
-		if (m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
-			m_tInfo.fY += FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
-			Scrollspeed_Y = FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
+	//	}
 
 
-		}
+	//	if (IsColl == true)
+	//	{
+	//		//m_tInfo.fY = wall[Collnum].top - 60;
 
-		if (IsColl == true)
-		{
-			m_tInfo.fY = wall[Collnum].top - 60;
-			if (isLand == false) {
-				if (m_eCurState == STATE_FALL && m_eNextState != STATE_LAND) {
+	//		m_bIsJump = false;
+	//		m_pFrameKey = L" jump_landing";
+	//		m_eNextState = STATE_LAND;
+	//		m_fJumpAccel = 0.f;
+	//	}
+	//}
+	//else {
+	//	m_fJumpPower = 10;
 
-					m_pFrameKey = L" jump_landing";
-					m_eNextState = STATE_LAND;
-					m_fJumpAccel = 0.f;
-					isLand = true;
-
-				}
-			}
-
-		}
-	}
-	if (IsColl == false) {
-		isLand = false;
-	}
+	//	if (m_fJumpPower * m_fJumpAccel >= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
+	//		m_tInfo.fY -= m_fJumpPower * m_fJumpAccel - GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f;
+	//		m_fJumpAccel += 0.20f;
+	//	}
+	//	if (m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
+	//		m_tInfo.fY += FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
+	//		Scrollspeed_Y = FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
 
 
-	if (CKeyMgr::Get_Instance()->KeyPressing('C') && Attacked != true && m_eCurState != STATE_FALL)
-	{
-		m_bIsJump = true;
-		m_pFrameKey = L"jumpstart";
-		
-		m_eNextState = STATE_JUMP;
-	}
+	//	}
+
+	//	if (IsColl == true)
+	//	{
+	//		m_tInfo.fY = wall[Collnum].top - 60;
+	//		if (isLand == false) {
+	//			if (m_eCurState == STATE_FALL && m_eNextState != STATE_LAND) {
+
+	//				m_pFrameKey = L" jump_landing";
+	//				m_eNextState = STATE_LAND;
+	//				m_fJumpAccel = 0.f;
+	//				isLand = true;
+
+	//			}
+	//		}
+
+	//	}
+	//}
+	//if (IsColl == false) {
+	//	isLand = false;
+	//}
+
+
+	//if (CKeyMgr::Get_Instance()->KeyPressing('C') && Attacked != true && m_eCurState != STATE_FALL)
+	//{
+	//	m_bIsJump = true;
+	//	m_pFrameKey = L"jumpstart";
+	//	
+	//	m_eNextState = STATE_JUMP;
+	//}
 }
 
 
@@ -895,4 +919,41 @@ void Player::Set_PlayerData(PlayerData playerdata)
 	this->m_eNextState = STATE(playerdata.playerState);
 	this->Hp = playerdata.playerHp;
 	this->m_eDirc = playerdata.playerDir;
+	this->Attck_ON = playerdata.attakOn;
+
+	switch (m_eNextState)
+	{
+	case Player::STATE_ATT:
+		m_pFrameKey = L"attack";
+		break;
+	case Player::STATE_IDLE:
+		m_pFrameKey = L"idle";
+		break;
+	case Player::STATE_WALK:
+		m_pFrameKey = L"move";
+		break;
+	case Player::STATE_HIT:
+		m_pFrameKey = L"attacked";
+		break;
+	case Player::STATE_JUMP:
+		m_pFrameKey = L"jumpstart";
+		break;
+	case Player::STATE_FALL:
+		m_pFrameKey = L" jump_falling";
+		break;
+	case Player::STATE_LAND:
+		m_pFrameKey = L" jump_landing";
+		break;
+	case Player::STATE_DEAD:
+		m_pFrameKey = L"dead";
+		break;
+	case Player::STATE_ATTD:
+		m_pFrameKey = L"idle";
+		break;
+	case Player::STATE_ATTU:
+		m_pFrameKey = L"idle";
+		break;
+	default:
+		break;
+	}
 }

@@ -409,7 +409,7 @@ MonsterData Husk::Get_Data()
 	MonsterData temp;
 	temp.info = m_tInfo;
 	temp.isDead = m_bIsDead;
-	cout << this->getIsDead();
+
 	temp.monsterState = MONSTERSTATE(m_eNextState);
 	temp.monsterDir = MONSTERDIRECTION(m_eDirc);
 	temp.monsterType = HUSH;
