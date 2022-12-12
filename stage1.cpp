@@ -14,6 +14,9 @@ HANDLE h_InitMonsterEvent;
 
 CStage1::CStage1()
 {
+	WaitForSingleObject(h_ConnectServerEvent, INFINITE);
+	CUR_SCENE = SCENE_STAGE1;
+	NEXT_SCENE = SCENE_STAGE1;
 	if (m_pPlayer == nullptr) {
 		m_pPlayer = new Player;
 		m_pPlayer->Initialize();
@@ -261,6 +264,7 @@ void CStage1::Update() {
 	
 	if (PlayerHp < 0) {
 		CSoundMgr::Get_Instance()->StopAll();
+		ENDFLAG = true;
 		CSceneMgr::Get_Instance()->SceneChange(CSceneMgr::SCENE_MENU);
 	}
 }
@@ -304,6 +308,10 @@ void CStage1::LateUpdate()
 	}
 	if (waveNum == 5 && m_pHushKni == nullptr && m_pSub == nullptr) {
 		CSoundMgr::Get_Instance()->StopAll();
+		CSceneMgr::Get_Instance()->SceneChange(CSceneMgr::SCENE_MENU);
+		ENDFLAG = true;
+	}
+	if (CUR_SCENE != NEXT_SCENE) {
 		CSceneMgr::Get_Instance()->SceneChange(CSceneMgr::SCENE_MENU);
 	}
 

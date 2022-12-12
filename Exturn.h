@@ -13,8 +13,11 @@ extern HANDLE h_ConnectServerEvent;
 
 
 extern SCENEID CUR_SCENE;
+extern SCENEID NEXT_SCENE;
 extern string SERVER_IP;
 extern string NickName;
+
+extern bool ENDFLAG;
 
 //extern SCENEID SID;
 

@@ -44,8 +44,10 @@ HANDLE h_ConnectServerEvent;
 
 //서버 접속용
 SCENEID CUR_SCENE;
+SCENEID NEXT_SCENE;
 string SERVER_IP = "127.0.0.1";
 string NickName;
+bool ENDFLAG = false;
 
 
 
@@ -65,29 +67,52 @@ void SendPlayerInfo(SOCKET sock)
     retval = send(sock, (char*)&playerDataPacket, sizeof(PlayerData), 0);//클라이언트 플레이어 데이터 전송
 
 };
-
-void RecvMonsterData(SOCKET sock, bool& b_Init)
+void RecvPlayerInfo(SOCKET sock)
 {
-    int MonsterNum;
-    MonsterData Mdt;
     int retval;
+    retval = recv(sock, (char*)&OtherPlayerData, sizeof(PlayerData), 0);//클라이언트 플레이어 데이터 전송
+
+};
+
+void SendEndFlag(SOCKET sock) 
+{
+    int retval;
+    retval = recv(sock, (char*)&ENDFLAG, sizeof(bool), 0);//엔드 플레그 전송
+}
+
+void RecvSceneID(SOCKET sock)
+{
+    int retval;
+    retval = recv(sock, (char*)&NEXT_SCENE, sizeof(SCENEID), 0);//Scene ID 수신
+
+};
+void RecvMonsterData(SOCKET sock, int& MonsterNum,int &temp)
+{
+    int retval;
+    MonsterData Mdt;
+    temp = MonsterNum;
     retval = recv(sock, (char*)&MonsterNum, sizeof(int), 0); //몬스터 갯수 받아오기
 
     for (int i = 0; i < MonsterNum; ++i)
     {
-        if (!b_Init) {
+
+        if (temp != MonsterNum) {
             retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0); //몬스터 데이터 받기
-            v_Monster.push_back(Mdt); //받은 데이터를 넣어준다
+            if (temp <= i)
+                v_Monster.push_back(Mdt); //받은 데이터를 넣어준다
             if (i == MonsterNum - 1) {//다넣으면 더이상 넣지 않는다
-                b_Init = true;
-                SetEvent(h_InitMonsterEvent);
+                temp = MonsterNum;
+                // SetEvent(h_InitMonsterEvent);
             }
         }
         else {
             retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0);
-            v_Monster[i] = Mdt; //서버로부터 몬스터 데이터를 받아와 갱신해준다.
+            if (i < temp)
+                v_Monster[i] = Mdt; //서버로부터 몬스터 데이터를 받아와 갱신해준다.
         }
     }
+
+    retval = recv(sock, (char*)&waveNum, sizeof(int), MSG_WAITALL);
 };
 
 
@@ -290,6 +315,12 @@ DWORD WINAPI ClientMain(LPVOID arg)
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == INVALID_SOCKET) err_quit("socket()");
 
+ 
+    cout << "서버IP 입력: ";
+    cin >> SERVER_IP;
+     
+    SetEvent(h_ConnectServerEvent);
+
    // WaitForSingleObject(h_ConnectServerEvent, INFINITE); //클라이언트에 접속할 서버ip주소와 자신의 닉네임 입력 전까진 대기시키기
 
 	// connect()
@@ -308,49 +339,45 @@ DWORD WINAPI ClientMain(LPVOID arg)
     int GetSize = 0;
     int MonsterNum = -1;
     int temp = -1;
-    MonsterData Mdt;
+   
     bool b_Init = false;
     while (1) {
         WaitForSingleObject(h_SendDataEvent, INFINITE);
         SendPlayerInfo(sock);
         //타 클라 플레이어 데이터 수신
-        retval = recv(sock, (char*)&OtherPlayerData, sizeof(PlayerData), 0);//클라이언트 플레이어 데이터 전송
-
+        RecvPlayerInfo(sock);
+        RecvMonsterData(sock, MonsterNum, temp);
         //몬스터 정보 수신
-        temp = MonsterNum;
-        retval = recv(sock, (char*)&MonsterNum, sizeof(int), 0); //몬스터 갯수 받아오기
+        //temp = MonsterNum;
+        //retval = recv(sock, (char*)&MonsterNum, sizeof(int), 0); //몬스터 갯수 받아오기
+  /*      SendEndFlag(sock);
+        if(ENDFLAG)
+            RecvSceneID(sock);*/
 
-        for (int i = 0; i < MonsterNum; ++i)
-        {
-            //if (!b_Init) {
-            //    retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0); //몬스터 데이터 받기
-            //    v_Monster.push_back(Mdt); //받은 데이터를 넣어준다
-            //    if (i == MonsterNum - 1) {//다넣으면 더이상 넣지 않는다
-            //        b_Init = true;
-            //        // SetEvent(h_InitMonsterEvent);
-            //    }
-            //}
-            if (temp != MonsterNum) {
-                retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0); //몬스터 데이터 받기
-                if (temp <= i)
-                    v_Monster.push_back(Mdt); //받은 데이터를 넣어준다
-                if (i == MonsterNum - 1) {//다넣으면 더이상 넣지 않는다
-                    temp = MonsterNum;
-                // SetEvent(h_InitMonsterEvent);
-                }
-            }
-            else {
-                retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0);
-                if (i < temp)
-                    v_Monster[i] = Mdt; //서버로부터 몬스터 데이터를 받아와 갱신해준다.
-            }
-         }
-        
-        retval = recv(sock, (char*)&waveNum, sizeof(int), MSG_WAITALL);
+        //for (int i = 0; i < MonsterNum; ++i)
+        //{
+        //    
+        //    if (temp != MonsterNum) {
+        //        retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0); //몬스터 데이터 받기
+        //        if (temp <= i)
+        //            v_Monster.push_back(Mdt); //받은 데이터를 넣어준다
+        //        if (i == MonsterNum - 1) {//다넣으면 더이상 넣지 않는다
+        //            temp = MonsterNum;
+        //        // SetEvent(h_InitMonsterEvent);
+        //        }
+        //    }
+        //    else {
+        //        retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0);
+        //        if (i < temp)
+        //            v_Monster[i] = Mdt; //서버로부터 몬스터 데이터를 받아와 갱신해준다.
+        //    }
+        // }
+        //
+        //retval = recv(sock, (char*)&waveNum, sizeof(int), MSG_WAITALL);
 
         SetEvent(h_WriteDataEvent);
-        
-		//break;
+        if (ENDFLAG)
+            break;
 	}
 
 	return 0;

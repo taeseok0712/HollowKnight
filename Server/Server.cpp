@@ -190,6 +190,9 @@ DWORD WINAPI ServerMain(LPVOID arg)
 }
 
 // 클라이언트와 데이터 통신
+bool EndFlag = false;
+SCENEID NEXT_SCENE = SCENE_STAGE1;
+
 DWORD WINAPI ProcessClient(LPVOID arg)
 {
 	int retval;
@@ -277,6 +280,13 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 			err_quit("send()");
 			break;
 		}
+
+		//retval = recv(g_clients[clientNum].sock, (char*)&EndFlag, sizeof(bool), 0);
+		//if (EndFlag) {
+		//	NEXT_SCENE = SCENE_MENU;
+		//	retval = send(g_clients[clientNum].sock, (char*)&NEXT_SCENE, sizeof(SCENEID), 0);//Scene ID 수신
+		//}
+			
 	}
 	// 소켓 닫기
 	closesocket(client_sock);

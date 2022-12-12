@@ -8,14 +8,13 @@
 CMenu::CMenu()
 {
 	CUR_SCENE = SCENE_MENU;
+	NEXT_SCENE = SCENE_MENU;
 	CSoundMgr::Get_Instance()->PlayBGM(L"RESTING GROUNDS S51-14.wav");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Button/Start1.bmp", L"Start1");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Button/Start.bmp", L"Start");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Menu/menuBackground.bmp", L"menuBackground");
-	cout << "서버IP 입력: ";
-	cin >> SERVER_IP;
-
-	cout << SERVER_IP;
+	
+	
 }
 
 
@@ -63,6 +62,7 @@ void CMenu::LateUpdate()
 		if (CKeyMgr::Get_Instance()->KeyDown(VK_LBUTTON))
 		{
 			CSoundMgr::Get_Instance()->StopAll();
+		
 			CSceneMgr::Get_Instance()->SceneChange(CSceneMgr::SCENE_STAGE1);
 			
 		}
