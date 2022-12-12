@@ -159,6 +159,12 @@ void CStage1::Update() {
 		}
 	}
 	// WaitForSingleObject(h_InitMonsterEvent, INFINITY);
+	// WaitForSingleObject(h_InitMonsterEvent, INFINITY);
+=========
+	m_OtherPlayer->Update();
+	
+	WaitForSingleObject(h_InitMonsterEvent, INFINITY);
+>>>>>>>>> Temporary merge branch 2
 	for (auto& a : v_Monster)
 	{
 		if (a.monsterType == BITTLE) {

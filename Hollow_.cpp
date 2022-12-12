@@ -340,20 +340,20 @@ DWORD WINAPI ClientMain(LPVOID arg)
     int MonsterNum = -1;
     int temp = -1;
    
+=========
+   
+    
+>>>>>>>>> Temporary merge branch 2
     bool b_Init = false;
     while (1) {
         WaitForSingleObject(h_SendDataEvent, INFINITE);
         SendPlayerInfo(sock);
-        //타 클라 플레이어 데이터 수신
-        RecvPlayerInfo(sock);
-        RecvMonsterData(sock, MonsterNum, temp);
-        //몬스터 정보 수신
         //temp = MonsterNum;
         //retval = recv(sock, (char*)&MonsterNum, sizeof(int), 0); //몬스터 갯수 받아오기
   /*      SendEndFlag(sock);
         if(ENDFLAG)
             RecvSceneID(sock);*/
-
+        //몬스터 정보 수신
         //for (int i = 0; i < MonsterNum; ++i)
         //{
         //    
@@ -374,6 +374,15 @@ DWORD WINAPI ClientMain(LPVOID arg)
         // }
         //
         //retval = recv(sock, (char*)&waveNum, sizeof(int), MSG_WAITALL);
+            }
+         }
+        
+        retval = recv(sock, (char*)&waveNum, sizeof(int), MSG_WAITALL);
+=========
+
+        
+        RecvMonsterData(sock, b_Init);
+>>>>>>>>> Temporary merge branch 2
 
         SetEvent(h_WriteDataEvent);
         if (ENDFLAG)
