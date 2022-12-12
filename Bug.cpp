@@ -203,7 +203,7 @@ int Bug::Update() {
 
 void Bug::LateUpdate() {
 	CObj::FrameMove();
-	findPlayer();
+	// findPlayer();
 	FrameChange();
 	land();
 }
@@ -258,29 +258,29 @@ void Bug::FrameChange()
 }
 
 void Bug::findPlayer() {
-	RECT rcTemp;
-	RECT rcTemp2;
-	p = m_pPlayer->Get_Rect();
+	//RECT rcTemp;
+	//RECT rcTemp2;
+	//p = m_pPlayer->Get_Rect();
 
-	p.left = p.left + 100;
-	p.right = p.right - 104;
-	p.top = p.top;
-	p.bottom = p.bottom;
+	//p.left = p.left + 100;
+	//p.right = p.right - 104;
+	//p.top = p.top;
+	//p.bottom = p.bottom;
 
-	if (IntersectRect(&rcTemp, &monsterSight, &p)) { // 몬스터 시야 와 플레이어가 충돌할시
+	//if (IntersectRect(&rcTemp, &monsterSight, &p)) { // 몬스터 시야 와 플레이어가 충돌할시
 
-		followOn = TRUE;
+	//	followOn = TRUE;
 
-		if (IntersectRect(&rcTemp2, &monsterAttack, &p)) { // 몬스터 공격범위와 플레이어가 충돌할시
-			if (attackOn == FALSE) {
-				attackOn = TRUE;
+	//	if (IntersectRect(&rcTemp2, &monsterAttack, &p)) { // 몬스터 공격범위와 플레이어가 충돌할시
+	//		if (attackOn == FALSE) {
+	//			attackOn = TRUE;
 
-			}
-		}
-	}
-	else {
-		followOn = FALSE;
-	}
+	//		}
+	//	}
+	//}
+	//else {
+	//	followOn = FALSE;
+	//}
 }
 
 void Bug::Set_Info(CObj* player)

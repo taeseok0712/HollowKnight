@@ -78,9 +78,6 @@ void OtherPlayer::Initialize()
 	Scrollspeed_X = 10.f;
 	b_canChange = true;
 	b_IsChange = false;
-	
-
-
 }
 
 

@@ -51,6 +51,8 @@ string NickName;
 
 PlayerData OtherPlayerData;
 std::vector<MonsterData> v_Monster;
+int waveNum;
+
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -304,19 +306,47 @@ DWORD WINAPI ClientMain(LPVOID arg)
 
     PlayerData pd = {}; //다른 플레이어 데이터용
     int GetSize = 0;
-   
-    
+    int MonsterNum = -1;
+    int temp = -1;
+    MonsterData Mdt;
     bool b_Init = false;
     while (1) {
         WaitForSingleObject(h_SendDataEvent, INFINITE);
         SendPlayerInfo(sock);
         //타 클라 플레이어 데이터 수신
-       // retval = recv(sock, (char*)&OtherPlayerData, sizeof(PlayerData), 0);//클라이언트 플레이어 데이터 전송
+        retval = recv(sock, (char*)&OtherPlayerData, sizeof(PlayerData), 0);//클라이언트 플레이어 데이터 전송
 
         //몬스터 정보 수신
+        temp = MonsterNum;
+        retval = recv(sock, (char*)&MonsterNum, sizeof(int), 0); //몬스터 갯수 받아오기
 
+        for (int i = 0; i < MonsterNum; ++i)
+        {
+            //if (!b_Init) {
+            //    retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0); //몬스터 데이터 받기
+            //    v_Monster.push_back(Mdt); //받은 데이터를 넣어준다
+            //    if (i == MonsterNum - 1) {//다넣으면 더이상 넣지 않는다
+            //        b_Init = true;
+            //        // SetEvent(h_InitMonsterEvent);
+            //    }
+            //}
+            if (temp != MonsterNum) {
+                retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0); //몬스터 데이터 받기
+                if (temp <= i)
+                    v_Monster.push_back(Mdt); //받은 데이터를 넣어준다
+                if (i == MonsterNum - 1) {//다넣으면 더이상 넣지 않는다
+                    temp = MonsterNum;
+                // SetEvent(h_InitMonsterEvent);
+                }
+            }
+            else {
+                retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0);
+                if (i < temp)
+                    v_Monster[i] = Mdt; //서버로부터 몬스터 데이터를 받아와 갱신해준다.
+            }
+         }
         
-        RecvMonsterData(sock, b_Init);
+        retval = recv(sock, (char*)&waveNum, sizeof(int), MSG_WAITALL);
 
         SetEvent(h_WriteDataEvent);
         

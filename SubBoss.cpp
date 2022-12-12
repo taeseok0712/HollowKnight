@@ -68,41 +68,38 @@ void SubBoss::Initialize() {
 int SubBoss::Update() {
 	RECT rcTemp;
 
+	//if (followOn == FALSE) {
+	//	if (moveCycle % 300 == 0) {
+	//		if (moveDirect == 1) {
+	//			moveDirect = 0;
+	//		}
+	//		else {
+	//			moveDirect = 1;
+	//		}
 
-
-
-	if (followOn == FALSE) {
-		if (moveCycle % 300 == 0) {
-			if (moveDirect == 1) {
-				moveDirect = 0;
-			}
-			else {
-				moveDirect = 1;
-			}
-
-		}
-	}
+	//	}
+	//}
 	HitBox.left = m_tRect.left + 390;
 	HitBox.right = m_tRect.right - 394;
 	HitBox.top = m_tRect.top + 220;
 	HitBox.bottom = m_tRect.bottom - 110;
 
-	if (effectOn == FALSE) {
-		if (m_eDirc == DR_RIGHT) {
-			drawEffect.left = HitBox.left + 128;
-			drawEffect.right = HitBox.right + 128;
-			drawEffect.top = HitBox.top;
-			drawEffect.bottom = HitBox.bottom;
-		}
-		else {
-			drawEffect.left = HitBox.left - 128;
-			drawEffect.right = HitBox.right - 128;
-			drawEffect.top = HitBox.top;
-			drawEffect.bottom = HitBox.bottom;
-		}
-	}
+	//if (effectOn == FALSE) {
+	//	if (m_eDirc == DR_RIGHT) {
+	//		drawEffect.left = HitBox.left + 128;
+	//		drawEffect.right = HitBox.right + 128;
+	//		drawEffect.top = HitBox.top;
+	//		drawEffect.bottom = HitBox.bottom;
+	//	}
+	//	else {
+	//		drawEffect.left = HitBox.left - 128;
+	//		drawEffect.right = HitBox.right - 128;
+	//		drawEffect.top = HitBox.top;
+	//		drawEffect.bottom = HitBox.bottom;
+	//	}
+	//}
 
-	playerAttackBox = dynamic_cast<Player*>(m_pPlayer)->Attack_box;
+	//playerAttackBox = dynamic_cast<Player*>(m_pPlayer)->Attack_box;
 
 	monsterSight.left = m_tRect.left - 300; // 몬스터 사이트 범위안에 들어오면 따라가기 시작
 	monsterSight.right = m_tRect.right + 300;
@@ -114,242 +111,242 @@ int SubBoss::Update() {
 	monsterAttack.top = HitBox.top;
 	monsterAttack.bottom = HitBox.bottom;
 
-	for (int i = 0; i < 22; ++i) {
-		if (IntersectRect(&rcTemp, &HitBox, &wall[i])) {
-			SetRect(&rcTemp, 0, 0, rcTemp.right - rcTemp.left, rcTemp.bottom - rcTemp.top);
-			if (wall[i].top > m_tInfo.fY) {
-				Collnum = i;
-				IsColl = true;
-			}
-		}
-		if (rcTemp.right > rcTemp.bottom) {
-			if ((HitBox.bottom + HitBox.top) / 2 < (wall[i].bottom + wall[i].top) / 2) {
-				m_tInfo.fY -= rcTemp.bottom; // 플레이어 중심점 (inpos)
+	//for (int i = 0; i < 22; ++i) {
+	//	if (IntersectRect(&rcTemp, &HitBox, &wall[i])) {
+	//		SetRect(&rcTemp, 0, 0, rcTemp.right - rcTemp.left, rcTemp.bottom - rcTemp.top);
+	//		if (wall[i].top > m_tInfo.fY) {
+	//			Collnum = i;
+	//			IsColl = true;
+	//		}
+	//	}
+	//	if (rcTemp.right > rcTemp.bottom) {
+	//		if ((HitBox.bottom + HitBox.top) / 2 < (wall[i].bottom + wall[i].top) / 2) {
+	//			m_tInfo.fY -= rcTemp.bottom; // 플레이어 중심점 (inpos)
 
-			}
-			else {
-				m_tInfo.fY += rcTemp.bottom; // 플레이어 중심점
+	//		}
+	//		else {
+	//			m_tInfo.fY += rcTemp.bottom; // 플레이어 중심점
 
-			}
-		}
-		//오른쪽 왼쪽 충돌
-		else
-		{
-			if ((HitBox.right + HitBox.left) / 2 < (wall[i].right + wall[i].left) / 2) {
-				m_tInfo.fX -= rcTemp.right;
+	//		}
+	//	}
+	//	//오른쪽 왼쪽 충돌
+	//	else
+	//	{
+	//		if ((HitBox.right + HitBox.left) / 2 < (wall[i].right + wall[i].left) / 2) {
+	//			m_tInfo.fX -= rcTemp.right;
 
-			}
-			else {
-				m_tInfo.fX += rcTemp.right;
+	//		}
+	//		else {
+	//			m_tInfo.fX += rcTemp.right;
 
-			}
+	//		}
 
-		}
-	}
-	if (IntersectRect(&rcTemp, &HitBox, &wall[Collnum])) {
-		IsColl = true;
+	//	}
+	//}
+	//if (IntersectRect(&rcTemp, &HitBox, &wall[Collnum])) {
+	//	IsColl = true;
 
-	}
-	else {
-		IsColl = false;
+	//}
+	//else {
+	//	IsColl = false;
 
-	}
+	//}
 
-	if (followOn == FALSE) { // 평소 걸어다니기
-		m_fSpeed = 2.f;
-		if (moveDirect == 1) {
-			m_tInfo.fX += m_fSpeed;
-			m_pFrameKey = L"SubBoss_move";
-			m_eDirc = DR_RIGHT;
-			m_eNextState = STATE_WALK;
-			++moveCycle;
+	//if (followOn == FALSE) { // 평소 걸어다니기
+	//	m_fSpeed = 2.f;
+	//	if (moveDirect == 1) {
+	//		m_tInfo.fX += m_fSpeed;
+	//		m_pFrameKey = L"SubBoss_move";
+	//		m_eDirc = DR_RIGHT;
+	//		m_eNextState = STATE_WALK;
+	//		++moveCycle;
 
-		}
-		else {
-			m_tInfo.fX -= m_fSpeed;
-			m_pFrameKey = L"SubBoss_move";
-			m_eDirc = DR_LEFT;
-			m_eNextState = STATE_WALK;
-			++moveCycle;
-		}
-	}
-	else if (hitOn) {
-		attackOn = FALSE;
-		effectOn = FALSE;
-		parryingOn = FALSE;
-		attackDelay = 0;
-		m_fSpeed = 2.f;
-		if (m_eDirc == DR_LEFT) {
-			/*if (m_tFrame.iFrameStart < 1) {
-			   m_tInfo.fX += m_fSpeed;
-			   hitOn = FALSE;
-			}*/
-			if (m_tFrame.iFrameStart < 8) {
-				m_tInfo.fX += m_fSpeed;
-				if (time + 100 < GetTickCount()) {
-					hitOn = FALSE;
-					iHp -= 1;
+	//	}
+	//	else {
+	//		m_tInfo.fX -= m_fSpeed;
+	//		m_pFrameKey = L"SubBoss_move";
+	//		m_eDirc = DR_LEFT;
+	//		m_eNextState = STATE_WALK;
+	//		++moveCycle;
+	//	}
+	//}
+	//else if (hitOn) {
+	//	attackOn = FALSE;
+	//	effectOn = FALSE;
+	//	parryingOn = FALSE;
+	//	attackDelay = 0;
+	//	m_fSpeed = 2.f;
+	//	if (m_eDirc == DR_LEFT) {
+	//		/*if (m_tFrame.iFrameStart < 1) {
+	//		   m_tInfo.fX += m_fSpeed;
+	//		   hitOn = FALSE;
+	//		}*/
+	//		if (m_tFrame.iFrameStart < 8) {
+	//			m_tInfo.fX += m_fSpeed;
+	//			if (time + 100 < GetTickCount()) {
+	//				hitOn = FALSE;
+	//				iHp -= 1;
 
-				}
-			}
-			m_pFrameKey = L"SubBoss_idle";
-			m_eDirc = DR_LEFT;
-			m_eNextState = STATE_IDLE;
+	//			}
+	//		}
+	//		m_pFrameKey = L"SubBoss_idle";
+	//		m_eDirc = DR_LEFT;
+	//		m_eNextState = STATE_IDLE;
 
-		}
-		else {
-			/*if (m_tFrame.iFrameStart < 1) {
-			   m_tInfo.fX -= m_fSpeed;
-			   hitOn = FALSE;
-			}*/
-			if (m_tFrame.iFrameStart < 8) {
-				m_tInfo.fX += m_fSpeed;
-				if (time + 100 < GetTickCount()) {
-					hitOn = FALSE;
-					iHp -= 1;
+	//	}
+	//	else {
+	//		/*if (m_tFrame.iFrameStart < 1) {
+	//		   m_tInfo.fX -= m_fSpeed;
+	//		   hitOn = FALSE;
+	//		}*/
+	//		if (m_tFrame.iFrameStart < 8) {
+	//			m_tInfo.fX += m_fSpeed;
+	//			if (time + 100 < GetTickCount()) {
+	//				hitOn = FALSE;
+	//				iHp -= 1;
 
-				}
-			}
-			m_pFrameKey = L"SubBoss_idle";
-			m_eDirc = DR_RIGHT;
-			m_eNextState = STATE_IDLE;
-		}
-	}
-	else if (attackOn) { // 캐릭터 공격하기
+	//			}
+	//		}
+	//		m_pFrameKey = L"SubBoss_idle";
+	//		m_eDirc = DR_RIGHT;
+	//		m_eNextState = STATE_IDLE;
+	//	}
+	//}
+	//else if (attackOn) { // 캐릭터 공격하기
 
-		if (m_eDirc == DR_LEFT) {
-			if (!parryingOn) {
-				effectDir = DR_LEFT;
-			}
-			m_pFrameKey = L"SubBoss_attack";
-			m_eDirc = DR_LEFT;
-			m_eNextState = STATE_ATT;
-
-
-			if (m_tFrame.iFrameStart == 5) {
-				if (effectOn == FALSE) {
-					effectOn = TRUE;
-				}
-			}
-
-			if (parryingOn) {
-				drawEffect.left += 20.f;
-				drawEffect.right += 20.f;
-			}
-			else if (effectOn && m_tFrame.iFrameStart >= 5) {
-				drawEffect.left -= 20.f;
-				drawEffect.right -= 20.f;
-			}
+	//	if (m_eDirc == DR_LEFT) {
+	//		if (!parryingOn) {
+	//			effectDir = DR_LEFT;
+	//		}
+	//		m_pFrameKey = L"SubBoss_attack";
+	//		m_eDirc = DR_LEFT;
+	//		m_eNextState = STATE_ATT;
 
 
+	//		if (m_tFrame.iFrameStart == 5) {
+	//			if (effectOn == FALSE) {
+	//				effectOn = TRUE;
+	//			}
+	//		}
+
+	//		if (parryingOn) {
+	//			drawEffect.left += 20.f;
+	//			drawEffect.right += 20.f;
+	//		}
+	//		else if (effectOn && m_tFrame.iFrameStart >= 5) {
+	//			drawEffect.left -= 20.f;
+	//			drawEffect.right -= 20.f;
+	//		}
 
 
-			BOOL a;
-			a = dynamic_cast<Player*>(m_pPlayer)->Attck_ON;
-
-			if (a) {
-				if (IntersectRect(&rcTemp, &playerAttackBox, &drawEffect)) {
-					CSoundMgr::Get_Instance()->PlaySound(L"hero_parry.wav", CSoundMgr::PARRY);
-					effectDir = DR_RIGHT;
-					parryingOn = TRUE;
-					
-				}
-			}
-			if (m_tFrame.iFrameStart == 10) { // 모션이 다 끝나고 공격 종료하기 
-				attackOn = FALSE;
-				effectOn = FALSE;
-				parryingOn = FALSE;
-				attackDelay = 0;
-				if ((p.right + p.left) / 2 < (monsterAttack.right + monsterAttack.left) / 2) {
-					m_eDirc = DR_LEFT;
-
-				}
-				else {
-					m_eDirc = DR_RIGHT;
-				}
-			}
-		}
-		else {
-			if (!parryingOn) {
-				effectDir = DR_RIGHT;
-			}
-
-			m_pFrameKey = L"SubBoss_attack";
-			m_eDirc = DR_RIGHT;
-			m_eNextState = STATE_ATT;
-
-			if (m_tFrame.iFrameStart == 5) {
-				if (effectOn == FALSE) {
-					effectOn = TRUE;
-				}
-			}
-
-			if (parryingOn) {
-				drawEffect.left -= 10.f;
-				drawEffect.right -= 10.f;
-			}
-			else if (effectOn && m_tFrame.iFrameStart >= 5) {
-				drawEffect.left += 10.f;
-				drawEffect.right += 10.f;
-			}
 
 
-			BOOL a;
-			a = dynamic_cast<Player*>(m_pPlayer)->Attck_ON;
-			if (a) {
-				if (IntersectRect(&rcTemp, &playerAttackBox, &drawEffect)) {
-					effectDir = DR_LEFT;
-					parryingOn = TRUE;
-				}
-			}
+	//		BOOL a;
+	//		a = dynamic_cast<Player*>(m_pPlayer)->Attck_ON;
 
-			if (m_tFrame.iFrameStart == 10) { // 모션이 다 끝나고 공격 종료하기 
-				attackOn = FALSE;
-				effectOn = FALSE;
-				parryingOn = FALSE;
-				attackDelay = 0;
-				if ((p.right + p.left) / 2 < (monsterAttack.right + monsterAttack.left) / 2) {
-					m_eDirc = DR_LEFT;
+	//		if (a) {
+	//			if (IntersectRect(&rcTemp, &playerAttackBox, &drawEffect)) {
+	//				CSoundMgr::Get_Instance()->PlaySound(L"hero_parry.wav", CSoundMgr::PARRY);
+	//				effectDir = DR_RIGHT;
+	//				parryingOn = TRUE;
+	//				
+	//			}
+	//		}
+	//		if (m_tFrame.iFrameStart == 10) { // 모션이 다 끝나고 공격 종료하기 
+	//			attackOn = FALSE;
+	//			effectOn = FALSE;
+	//			parryingOn = FALSE;
+	//			attackDelay = 0;
+	//			if ((p.right + p.left) / 2 < (monsterAttack.right + monsterAttack.left) / 2) {
+	//				m_eDirc = DR_LEFT;
 
-				}
-				else {
-					m_eDirc = DR_RIGHT;
-				}
-			}
-		}
-	}
-	else if (followOn) { // 캐릭터 따라가기
-		m_fSpeed = 2.f;
-		if (p.right <= HitBox.left) {
-			m_tInfo.fX -= m_fSpeed;
-			m_pFrameKey = L"SubBoss_move";
-			m_eDirc = DR_LEFT;
-			m_eNextState = STATE_WALK;
-			moveDirect = 0;
+	//			}
+	//			else {
+	//				m_eDirc = DR_RIGHT;
+	//			}
+	//		}
+	//	}
+	//	else {
+	//		if (!parryingOn) {
+	//			effectDir = DR_RIGHT;
+	//		}
 
-		}
-		if (p.left >= HitBox.right) {
-			m_tInfo.fX += m_fSpeed;
-			m_pFrameKey = L"SubBoss_move";
-			m_eDirc = DR_RIGHT;
-			m_eNextState = STATE_WALK;
-			moveDirect = 1;
-		}
+	//		m_pFrameKey = L"SubBoss_attack";
+	//		m_eDirc = DR_RIGHT;
+	//		m_eNextState = STATE_ATT;
 
-		if (!attackOn) {
-			attackDelay++;
-		}
+	//		if (m_tFrame.iFrameStart == 5) {
+	//			if (effectOn == FALSE) {
+	//				effectOn = TRUE;
+	//			}
+	//		}
 
-		if (attackDelay == 60) {
-			attackOn = TRUE;
-		}
-	}
+	//		if (parryingOn) {
+	//			drawEffect.left -= 10.f;
+	//			drawEffect.right -= 10.f;
+	//		}
+	//		else if (effectOn && m_tFrame.iFrameStart >= 5) {
+	//			drawEffect.left += 10.f;
+	//			drawEffect.right += 10.f;
+	//		}
+
+
+	//		BOOL a;
+	//		a = dynamic_cast<Player*>(m_pPlayer)->Attck_ON;
+	//		if (a) {
+	//			if (IntersectRect(&rcTemp, &playerAttackBox, &drawEffect)) {
+	//				effectDir = DR_LEFT;
+	//				parryingOn = TRUE;
+	//			}
+	//		}
+
+	//		if (m_tFrame.iFrameStart == 10) { // 모션이 다 끝나고 공격 종료하기 
+	//			attackOn = FALSE;
+	//			effectOn = FALSE;
+	//			parryingOn = FALSE;
+	//			attackDelay = 0;
+	//			if ((p.right + p.left) / 2 < (monsterAttack.right + monsterAttack.left) / 2) {
+	//				m_eDirc = DR_LEFT;
+
+	//			}
+	//			else {
+	//				m_eDirc = DR_RIGHT;
+	//			}
+	//		}
+	//	}
+	//}
+	//else if (followOn) { // 캐릭터 따라가기
+	//	m_fSpeed = 2.f;
+	//	if (p.right <= HitBox.left) {
+	//		m_tInfo.fX -= m_fSpeed;
+	//		m_pFrameKey = L"SubBoss_move";
+	//		m_eDirc = DR_LEFT;
+	//		m_eNextState = STATE_WALK;
+	//		moveDirect = 0;
+
+	//	}
+	//	if (p.left >= HitBox.right) {
+	//		m_tInfo.fX += m_fSpeed;
+	//		m_pFrameKey = L"SubBoss_move";
+	//		m_eDirc = DR_RIGHT;
+	//		m_eNextState = STATE_WALK;
+	//		moveDirect = 1;
+	//	}
+
+	//	if (!attackOn) {
+	//		attackDelay++;
+	//	}
+
+	//	if (attackDelay == 60) {
+	//		attackOn = TRUE;
+	//	}
+	//}
 	return 0;
 }
 
 void SubBoss::LateUpdate() {
 	CObj::FrameMove();
-	findPlayer();
+	//findPlayer();
 	FrameChange();
 	land();
 
@@ -436,20 +433,20 @@ void SubBoss::FrameChange() {
 
 
 void SubBoss::findPlayer() {
-	RECT rcTemp;
+	//RECT rcTemp;
 
-	p = m_pPlayer->Get_Rect();
-	p.left = p.left + 100;
-	p.right = p.right - 104;
-	p.top = p.top;
-	p.bottom = p.bottom;
+	//p = m_pPlayer->Get_Rect();
+	//p.left = p.left + 100;
+	//p.right = p.right - 104;
+	//p.top = p.top;
+	//p.bottom = p.bottom;
 
-	if (IntersectRect(&rcTemp, &monsterSight, &p)) { // 몬스터 시야 와 플레이어가 충돌할시
-		followOn = TRUE;
-	}
-	else {
-		followOn = FALSE;
-	}
+	//if (IntersectRect(&rcTemp, &monsterSight, &p)) { // 몬스터 시야 와 플레이어가 충돌할시
+	//	followOn = TRUE;
+	//}
+	//else {
+	//	followOn = FALSE;
+	//}
 }
 
 void SubBoss::Set_Info(CObj * player)
