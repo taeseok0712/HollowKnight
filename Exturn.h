@@ -13,3 +13,5 @@ extern PlayerData playerDataPacket;
 extern PlayerData OtherPlayerData;
 
 extern std::vector<MonsterData> v_Monster;
+
+extern int waveNum;

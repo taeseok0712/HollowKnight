@@ -10,7 +10,7 @@
 
 Player::Player() :m_pFrameKey(L"")
 {
-	WaitForSingleObject(h_InitPlayerEvent, INFINITY);
+	// WaitForSingleObject(h_InitPlayerEvent, INFINITY);
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/00. idle.bmp", L"idle");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/01. move.bmp", L"move");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/02. jump_start.bmp", L"jumpstart");
@@ -62,8 +62,7 @@ Player::~Player()
 
 void Player::Initialize()
 {
-
-	WaitForSingleObject(h_InitPlayerEvent,INFINITY);
+	// WaitForSingleObject(h_InitPlayerEvent, INFINITY);
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/00. idle.bmp", L"idle");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/01. move.bmp", L"move");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/02. jump_start.bmp", L"jumpstart");
@@ -109,19 +108,10 @@ void Player::Initialize()
 // 중력처리 -> 이동 -> 충돌 
 int Player::Update()
 {
-	WaitForSingleObject(h_InitPlayerEvent, INFINITY);
+	// WaitForSingleObject(h_InitPlayerEvent, INFINITY);
 	RECT rcTemp;
-	cout << m_eCurState << endl;
-	if (b_IsChange == false) {
-		if (b_canChange == true) {
-			if (m_tInfo.fX > 8700) {
-			
-			
-		
-				b_canChange = false;
-			}
-		}
-	}
+	// cout << m_eCurState << endl;
+
 
 	HitBox.left = m_tRect.left + 100;
 	HitBox.right = m_tRect.right - 104;
@@ -177,11 +167,9 @@ int Player::Update()
 
 	if (IntersectRect(&rcTemp, &HitBox, &wall[Collnum])) {
 		IsColl = true;
-
 	}
 	else {
 		IsColl = false;
-
 	}
 
 	//if (CKeyMgr::Get_Instance()->KeyPressing(VK_RIGHT) && m_eCurState != STATE_LAND)
@@ -279,84 +267,82 @@ int Player::Update()
 	//}
 
 	////////////////////////////////////////////몬스터 플레이어 충돌///////////////////////////////////////
-	if (Attacked == false) {
-		if (m_wave == 0) {
-			if (Check_Collision(this, pFly)) {
-				if (pFly != nullptr) {
-					Hp -= 1;
-					Attacked = true;
-				}
-			}
-			if (Check_Collision(this, pBug)) {
-				if (pBug != nullptr) {
-					Hp -= 1;
-					Attacked = true;
-				}
-			}
-			if (Check_Collision(this, pbittle)) {
-				if (pbittle != nullptr) {
-					Hp -= 1;
-					Attacked = true;
-				}
-			}
-			if (Check_Collision(this, pHusk)) {
-				if (pHusk != nullptr) {
-					Hp -= 1;
-					Attacked = true;
-				}
-			}
-			if (Check_Collision(this, pSubBoss)) {
-				if (pSubBoss != nullptr) {
-					Hp -= 1;
-					Attacked = true;
-				}
-			}
-			//bool t = pSubBoss->effectOn;
-			/*if (t) {
-				RECT rcTemp;
-				RECT a = (pSubBoss)->drawEffect;
+	//if (Attacked == false) {
+	//	if (m_wave == 0) {
+	//		if (Check_Collision(this, pFly)) {
+	//			if (pFly != nullptr) {
+	//				Hp -= 1;
+	//				Attacked = true;
+	//			}
+	//		}
+	//		if (Check_Collision(this, pBug)) {
+	//			if (pBug != nullptr) {
+	//				Hp -= 1;
+	//				Attacked = true;
+	//			}
+	//		}
+	//		if (Check_Collision(this, pbittle)) {
+	//			if (pbittle != nullptr) {
+	//				Hp -= 1;
+	//				Attacked = true;
+	//			}
+	//		}
+	//		if (Check_Collision(this, pHusk)) {
+	//			if (pHusk != nullptr) {
+	//				Hp -= 1;
+	//				Attacked = true;
+	//			}
+	//		}
+	//		if (Check_Collision(this, pSubBoss)) {
+	//			if (pSubBoss != nullptr) {
+	//				Hp -= 1;
+	//				Attacked = true;
+	//			}
+	//		}
+	//		//bool t = pSubBoss->effectOn;
+	//		/*if (t) {
+	//			RECT rcTemp;
+	//			RECT a = (pSubBoss)->drawEffect;
 
-				if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
-					Hp -= 1;
-					Attacked = true;
-				}
-			}*/
-		}
-		/////////////////////////////////1////////////////////////////////////
-		if (m_wave == 2) {
-			if (Check_Collision(this, pbittle2)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			if (Check_Collision(this, pbittle3)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			if (Check_Collision(this, pbittle4)) {
-				Hp -= 1;
-				Attacked = true;
-			}
+	//			if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
+	//				Hp -= 1;
+	//				Attacked = true;
+	//			}
+	//		}*/
+	//	}
+	//	/////////////////////////////////1////////////////////////////////////
+	//	if (m_wave == 3) {
+	//		if (Check_Collision(this, pbittle2)) {
+	//			Hp -= 1;
+	//			Attacked = true;
+	//		}
+	//		if (Check_Collision(this, pbittle3)) {
+	//			Hp -= 1;
+	//			Attacked = true;
+	//		}
+	//		if (Check_Collision(this, pbittle4)) {
+	//			Hp -= 1;
+	//			Attacked = true;
+	//		}
+	//	}
+	//	if (m_wave == 4) {
+	//		if (Check_Collision(this, pHushK)) {
+	//			Hp -= 1;
+	//			Attacked = true;
+	//		}
+	//		bool t = pSubBoss->effectOn;
+	//		if (t) {
+	//			RECT rcTemp;
+	//			RECT a = (pSubBoss)->drawEffect;
 
-		}
-		if (m_wave == 3) {
-			if (Check_Collision(this, pHushK)) {
-				Hp -= 1;
-				Attacked = true;
-			}
-			bool t = pSubBoss->effectOn;
-			if (t) {
-				RECT rcTemp;
-				RECT a = (pSubBoss)->drawEffect;
-
-				if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
-					Hp -= 1;
-					Attacked = true;
-				}
-			}
-
-		}
+	//			if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
+	//				Hp -= 1;
+	//				Attacked = true;
+	//			}
+	//		}
+	//	}
 		///////////////////////////////////////////////////////////
-	}
+	// }
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -400,26 +386,26 @@ int Player::Update()
 		}
 	}
 	///1웨이브///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if (m_wave == 2) {
+	if (m_wave == 3) {
 		if (CheckCollE2M(pbittle2)) {
 			dynamic_cast<Bittle*>(pbittle2)->Set_time(GetTickCount());
 			dynamic_cast<Bittle*>(pbittle2)->hitOn = TRUE;
-			
+
 		}
 
 		if (CheckCollE2M(pbittle3)) {
 			dynamic_cast<Bittle*>(pbittle3)->Set_time(GetTickCount());
 			dynamic_cast<Bittle*>(pbittle3)->hitOn = TRUE;
-			
+
 		}
 
 		if (CheckCollE2M(pbittle4)) {
 			dynamic_cast<Bittle*>(pbittle4)->Set_time(GetTickCount());
 			dynamic_cast<Bittle*>(pbittle4)->hitOn = TRUE;
-			
+
 		}
 	}
-	if (m_wave == 3) {
+	if (m_wave == 4) {
 		if (CheckCollE2M(pHushK)) {
 			dynamic_cast<HushKnight*>(pHushK)->Set_time(GetTickCount());
 			dynamic_cast<HushKnight*>(pHushK)->hitOn = TRUE;
@@ -428,7 +414,6 @@ int Player::Update()
 		if (CheckCollE2M(pSubBoss)) {
 			dynamic_cast<SubBoss*>(pSubBoss)->Set_time(GetTickCount());
 			dynamic_cast<SubBoss*>(pSubBoss)->hitOn = TRUE;
-			
 		}
 
 	}
@@ -493,12 +478,6 @@ int Player::Update()
 
 
 	////////////////////////등장사운드///////////////////////////////////////
-	
-	if ( m_wave == 3 &&Sound_On==true) {
-
-		
-		Sound_On = false;
-	}
 	
 	return 0;
 }
@@ -609,96 +588,6 @@ void Player::Release()
 
 void Player::IsJumping()
 {
-	//float fy = 0.f;
-
-	//static bool drop = false;
-	//static bool first_frame = true;
-	//if (m_bIsJump)
-	//{
-	//	m_fJumpPower = 20.f;
-	//	//자유낙하 공식. 
-	//	FSpeed = 5;
-	//	Scrollspeed_Y = FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
-	//	//  y = 파워 * 시간 - 중력 * 시간 제곱 * 0.5f 
-	//	if (m_fJumpPower * m_fJumpAccel >= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f && !drop) {
-	//		m_tInfo.fY -= m_fJumpPower * m_fJumpAccel - GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f;
-	//		 //s= 1/2 a t^2 
-	//		
-	//		m_fJumpAccel += 0.20f;
-
-	//		if (first_frame)
-	//			first_frame = false;
-	//		else if (IsColl == true)
-	//			drop = true;
-	//	}
-	//	if ((m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) || drop) {
-	//		
-	//		m_tInfo.fY += FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
-	//		m_pFrameKey = L" jump_falling";
-	//		m_eNextState = STATE_FALL;
-
-	//		if (IsColl == true)
-	//		{
-	//			m_tInfo.fY = wall[Collnum].top - 60;
-	//			drop = false;
-	//			first_frame = true;
-	//		}
-
-	//	}
-
-
-	//	if (IsColl == true)
-	//	{
-	//		//m_tInfo.fY = wall[Collnum].top - 60;
-
-	//		m_bIsJump = false;
-	//		m_pFrameKey = L" jump_landing";
-	//		m_eNextState = STATE_LAND;
-	//		m_fJumpAccel = 0.f;
-	//	}
-	//}
-	//else {
-	//	m_fJumpPower = 10;
-
-	//	if (m_fJumpPower * m_fJumpAccel >= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
-	//		m_tInfo.fY -= m_fJumpPower * m_fJumpAccel - GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f;
-	//		m_fJumpAccel += 0.20f;
-	//	}
-	//	if (m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) {
-	//		m_tInfo.fY += FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
-	//		Scrollspeed_Y = FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
-
-
-	//	}
-
-	//	if (IsColl == true)
-	//	{
-	//		m_tInfo.fY = wall[Collnum].top - 60;
-	//		if (isLand == false) {
-	//			if (m_eCurState == STATE_FALL && m_eNextState != STATE_LAND) {
-
-	//				m_pFrameKey = L" jump_landing";
-	//				m_eNextState = STATE_LAND;
-	//				m_fJumpAccel = 0.f;
-	//				isLand = true;
-
-	//			}
-	//		}
-
-	//	}
-	//}
-	//if (IsColl == false) {
-	//	isLand = false;
-	//}
-
-
-	//if (CKeyMgr::Get_Instance()->KeyPressing('C') && Attacked != true && m_eCurState != STATE_FALL)
-	//{
-	//	m_bIsJump = true;
-	//	m_pFrameKey = L"jumpstart";
-	//	
-	//	m_eNextState = STATE_JUMP;
-	//}
 }
 
 

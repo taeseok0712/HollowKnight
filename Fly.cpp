@@ -224,7 +224,7 @@ int Fly::Update() {
 
 void Fly::LateUpdate() {
 	CObj::FrameMove();
-	findPlayer();
+	// findPlayer();
 	FrameChange();
 	land();
 }

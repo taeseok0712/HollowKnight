@@ -354,7 +354,7 @@ void HushKnight::findPlayer() {
 	else {
 		followOn = FALSE;
 	}
-	if (numOfPlayer == 2) {
+	if (numOfPlayer == 2 && !followOn) {
 		p = m_pPlayer2->Get_Rect();
 		p.left = p.left + 100;
 		p.right = p.right - 104;
@@ -380,6 +380,7 @@ void HushKnight::Set_Info2(CObj* player)
 {
 	m_pPlayer2 = player;
 }
+
 void HushKnight::land() {
 
 	float fy = 0.f;
@@ -409,6 +410,6 @@ MonsterData HushKnight::Get_Data()
 	temp.isDead = m_bIsDead;
 	temp.monsterState = MONSTERSTATE(m_eNextState);
 	temp.monsterDir = MONSTERDIRECTION(m_eDirc);
-	temp.monsterType = HUSH;
+	temp.monsterType = HUSHKNIGHT;
 	return temp;
 }

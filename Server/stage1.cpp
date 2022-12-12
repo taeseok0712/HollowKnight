@@ -14,74 +14,68 @@ int numOfMonster = 0;
 
 CStage1::CStage1()
 {
-	wave = 1;
-	//for (int i = 0; i < numOfPlayer; ++i) {
-	//	if (m_pPlayers[i] == nullptr) {
-	//		m_pPlayers[i] = new Player;
-	//		m_pPlayers[i]->Initialize();						.
-	//	}
-	//}
+	waveNum = 1;
 	if (m_pPlayer == nullptr) {
 		m_pPlayer = new Player;
 		m_pPlayer->Initialize();
 		g_Player = dynamic_cast<Player*>(m_pPlayer)->Get_PlayerData();
 	}
-	/*if (m_pPlayer2 == nullptr) {
+
+	if (m_pPlayer2 == nullptr) {
 		m_pPlayer2 = new Player;
 		m_pPlayer2->Initialize();
 		g_Player2 = dynamic_cast<Player*>(m_pPlayer2)->Get_PlayerData();
-	}*/
+	}
+
 	if (m_pHush == nullptr) {
 		m_pHush = new Husk;
 		m_pHush->Initialize();
 		v_Monster.push_back(dynamic_cast<Husk*>(m_pHush)->Get_Data());
-		numOfMonster++;
 		dynamic_cast<Husk*>(m_pHush)->Set_Info(m_pPlayer);
 		dynamic_cast<Husk*>(m_pHush)->Set_Info2(m_pPlayer2);
 		dynamic_cast<Player*>(m_pPlayer)->Set_InfoHusk(m_pHush);
-		//dynamic_cast<Player*>(m_pPlayer2)->Set_InfoHusk(m_pHush);
+		dynamic_cast<Player*>(m_pPlayer2)->Set_InfoHusk(m_pHush);
 	}
 
 	if (m_pFly == nullptr) {
 		m_pFly = new Fly;
 		m_pFly->Initialize();
 		v_Monster.push_back(dynamic_cast<Fly*>(m_pFly)->Get_Data());
-		
 		dynamic_cast<Fly*>(m_pFly)->Set_Info(m_pPlayer);
 		dynamic_cast<Fly*>(m_pFly)->Set_Info2(m_pPlayer2);
 		dynamic_cast<Player*>(m_pPlayer)->Set_InfoFly(m_pFly);
-		//dynamic_cast<Player*>(m_pPlayer2)->Set_InfoFly(m_pFly);
+		dynamic_cast<Player*>(m_pPlayer2)->Set_InfoFly(m_pFly);
 	}
 
-	//if (m_pBug == nullptr) {
-	//	m_pBug = new Bug;
-	//	m_pBug->Initialize();
-	//	v_Monster.push_back(dynamic_cast<Bug*>(m_pBug)->Get_Data());
-	//	dynamic_cast<Bug*>(m_pBug)->Set_Info(m_pPlayer);
-	//	dynamic_cast<Bug*>(m_pBug)->Set_Info2(m_pPlayer2);
-	//	dynamic_cast<Player*>(m_pPlayer)->Set_InfoBug(m_pBug);
-	//	dynamic_cast<Player*>(m_pPlayer2)->Set_InfoBug(m_pBug);
+	if (m_pBug == nullptr) {
+		m_pBug = new Bug;
+		m_pBug->Initialize();
+		v_Monster.push_back(dynamic_cast<Bug*>(m_pBug)->Get_Data());
+		dynamic_cast<Bug*>(m_pBug)->Set_Info(m_pPlayer);
+		dynamic_cast<Bug*>(m_pBug)->Set_Info2(m_pPlayer2);
+		dynamic_cast<Player*>(m_pPlayer)->Set_InfoBug(m_pBug);
+		dynamic_cast<Player*>(m_pPlayer2)->Set_InfoBug(m_pBug);
 
-	//}
-	//if (m_pbittle == nullptr) {
-	//	m_pbittle = new Bittle;
-	//	m_pbittle->Initialize();
-	//	numOfMonster++;
-	//	v_Monster.push_back(dynamic_cast<Bittle*>(m_pbittle)->Get_Data());
-	//	dynamic_cast<Bittle*>(m_pbittle)->Set_Info(m_pPlayer);
-	//	dynamic_cast<Bittle*>(m_pbittle)->Set_Info2(m_pPlayer2);
-	//	dynamic_cast<Player*>(m_pPlayer)->Set_Infobit(m_pbittle);
-	//	dynamic_cast<Player*>(m_pPlayer2)->Set_Infobit(m_pbittle);
-	//}
-	//if (m_pSub == nullptr) {
-	//	m_pSub = new SubBoss;
-	//	m_pSub->Initialize();
-	//	numOfMonster++;
-	//	dynamic_cast<SubBoss*>(m_pSub)->Set_Info(m_pPlayer);
-	//	dynamic_cast<SubBoss*>(m_pSub)->Set_Info2(m_pPlayer2);
-	//	dynamic_cast<Player*>(m_pPlayer)->Set_InfoSubBoss(m_pSub);
-	//	dynamic_cast<Player*>(m_pPlayer2)->Set_InfoSubBoss(m_pSub);
-	//}
+	}
+	
+	if (m_pbittle == nullptr) {
+		m_pbittle = new Bittle;
+		m_pbittle->Initialize();
+		v_Monster.push_back(dynamic_cast<Bittle*>(m_pbittle)->Get_Data(1));
+		dynamic_cast<Bittle*>(m_pbittle)->Set_Info(m_pPlayer);
+		dynamic_cast<Bittle*>(m_pbittle)->Set_Info2(m_pPlayer2);
+		dynamic_cast<Player*>(m_pPlayer)->Set_Infobit(m_pbittle);
+		dynamic_cast<Player*>(m_pPlayer2)->Set_Infobit(m_pbittle);
+	}
+	if (m_pSub == nullptr) {
+		m_pSub = new SubBoss;
+		m_pSub->Initialize();
+		v_Monster.push_back(dynamic_cast<SubBoss*>(m_pSub)->Get_Data());
+		dynamic_cast<SubBoss*>(m_pSub)->Set_Info(m_pPlayer);
+		dynamic_cast<SubBoss*>(m_pSub)->Set_Info2(m_pPlayer2);
+		dynamic_cast<Player*>(m_pPlayer)->Set_InfoSubBoss(m_pSub);
+		dynamic_cast<Player*>(m_pPlayer2)->Set_InfoSubBoss(m_pSub);
+	}
 
 	/////////////////////////웨이브//////////////////////////////
 
@@ -97,37 +91,27 @@ CStage1::~CStage1()
 
 void CStage1::Initialize()
 {
-	WaitForSingleObject(h_InitPlayerEvent, INFINITY);
+	// WaitForSingleObject(h_InitPlayerEvent, INFINITY);
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/UI/HPbar_1.bmp", L"HPbar");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/UI/HPicon_1.bmp", L"HPicon");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/UI/PowerGage2.bmp", L"PowerGage");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Field/Tutorial/tutorial_mainlayer.bmp", L"mapRoad");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Field/Tutorial/tutorial_backlayer1.bmp", L"mapBack");
-	
 }
 
 void CStage1::Update() {
 
 	dynamic_cast<Player*>(m_pPlayer)->Set_PlayerData(g_Player);
-//	dynamic_cast<Player*>(m_pPlayer2)->Set_PlayerData(g_Player2);
-
-
+	dynamic_cast<Player*>(m_pPlayer2)->Set_PlayerData(g_Player2);
 
 	m_pPlayer->Update();
-	//m_pPlayer2->Update();
+	m_pPlayer2->Update();
 
-	// 테스트 용
-	//g_Player = dynamic_cast<Player*>(m_pPlayer)->Get_PlayerData();
-	//g_Player2 = dynamic_cast<Player*>(m_pPlayer2)->Get_PlayerData();
-	//m_pPlayer2->Set_Pos(g_Player.info.fX - 100, g_Player.info.fY);
-	// g_Player, g_Player2의 정보를 각각 m_pPlayer, 2에 Set해주고 Update를 통해 좌표와 방향, 상태 정보를 업데이트 해준다.
 	// 아래의 몬스터 업데이트 후에 몬스터들의 정보를 저장해준 후에 클라이언트에 몬스터 정보들을 보내준다.
 	if (m_pHush != nullptr) {
 		m_pHush->Update();
-
 		v_Monster[0] = dynamic_cast<Husk*>(m_pHush)->Get_Data();
 		if (m_pHush->iHp <= 0) {
-		
 			Safe_Delete(m_pHush);
 		}
 	}
@@ -138,122 +122,110 @@ void CStage1::Update() {
 			Safe_Delete(m_pFly);
 		}
 	}
-	/*if (m_pBug != nullptr) {
+	if (m_pBug != nullptr) {
 		m_pBug->Update();
 		v_Monster[2] = dynamic_cast<Bug*>(m_pBug)->Get_Data();
 		if (m_pBug->iHp <= 0) {
 			Safe_Delete(m_pBug);
 		}
-	}*/
+	}
 	
-	//if (m_pSub != nullptr) {
-	//	m_pSub->Update();
-	//	v_Monster[3] = dynamic_cast<SubBoss*>(m_pSub)->Get_Data();
-	//	if (m_pSub->iHp <= 0) {
-	//		Safe_Delete(m_pSub);
-	//		wave++;
-	//	}
-	//}
-	//if (m_pbittle != nullptr) {
-	//	m_pbittle->Update();
-	//	v_Monster[4] = dynamic_cast<Bittle*>(m_pbittle)->Get_Data();
-	//	if (m_pbittle->iHp <= 0) {
-	//		Safe_Delete(m_pbittle);
-	//	}
-	//}
-	///////////////////////////////////////////////////////1/////////////////////////
-	//if (wave == 2 && dynamic_cast<Player*>(m_pPlayer)->getStage() == false) {
-	//	dynamic_cast<Player*>(m_pPlayer)->Set_Wave(wave);
-	//	if (m_pbittle2 == nullptr) {
-	//		m_pbittle2 = new Bittle(8000.f, 1600.f);
-	//		numOfMonster++;
-	//		//m_pbittle->Initialize();
-	//		dynamic_cast<Bittle*>(m_pbittle2)->Set_Info(m_pPlayer);
-	//		dynamic_cast<Bittle*>(m_pbittle2)->Set_Info2(m_pPlayer2);
-	//		dynamic_cast<Player*>(m_pPlayer)->Set_Infobit2(m_pbittle2);
-	//		dynamic_cast<Player*>(m_pPlayer2)->Set_Infobit2(m_pbittle2);
-	//	}
-	//	if (m_pbittle3 == nullptr) {
-	//		m_pbittle3 = new Bittle(7400.f, 1500.f);
-	//		numOfMonster++;
-	//		//m_pbittle->Initialize();
-	//		dynamic_cast<Bittle*>(m_pbittle3)->Set_Info(m_pPlayer);
-	//		dynamic_cast<Bittle*>(m_pbittle3)->Set_Info2(m_pPlayer2);
-	//		dynamic_cast<Player*>(m_pPlayer)->Set_Infobit3(m_pbittle3);
-	//		dynamic_cast<Player*>(m_pPlayer2)->Set_Infobit3(m_pbittle3);
-	//	}
+	if (m_pSub != nullptr) {
+		m_pSub->Update();
+		v_Monster[3] = dynamic_cast<SubBoss*>(m_pSub)->Get_Data();
+		if (m_pSub->iHp <= 0) {
+			Safe_Delete(m_pSub);
+			waveNum++;
+		}
+	}
+	if (m_pbittle != nullptr) {
+		m_pbittle->Update();
+		v_Monster[4] = dynamic_cast<Bittle*>(m_pbittle)->Get_Data(1);
+		if (m_pbittle->iHp <= 0) {
+			Safe_Delete(m_pbittle);
+		}
+	}
+	////////////////////////////////////////////////////////////////////////////////
+	if (waveNum == 2) {
+		if (m_pbittle2 == nullptr) {
+			m_pbittle2 = new Bittle(8000.f, 1600.f);
+			// m_pbittle2->Initialize();
+			v_Monster.push_back(dynamic_cast<Bittle*>(m_pbittle2)->Get_Data(2));
+			dynamic_cast<Bittle*>(m_pbittle2)->Set_Info(m_pPlayer);
+			dynamic_cast<Bittle*>(m_pbittle2)->Set_Info2(m_pPlayer2);
+			dynamic_cast<Player*>(m_pPlayer)->Set_Infobit2(m_pbittle2);
+			dynamic_cast<Player*>(m_pPlayer2)->Set_Infobit2(m_pbittle2);
+		}
+		if (m_pbittle3 == nullptr) {
+			m_pbittle3 = new Bittle(7400.f, 1500.f);
+			// m_pbittle3->Initialize();
+			v_Monster.push_back(dynamic_cast<Bittle*>(m_pbittle3)->Get_Data(3));
+			dynamic_cast<Bittle*>(m_pbittle3)->Set_Info(m_pPlayer);
+			dynamic_cast<Bittle*>(m_pbittle3)->Set_Info2(m_pPlayer2);
+			dynamic_cast<Player*>(m_pPlayer)->Set_Infobit3(m_pbittle3);
+			dynamic_cast<Player*>(m_pPlayer2)->Set_Infobit3(m_pbittle3);
+		}
 
-	//	if (m_pbittle4 == nullptr) {
-	//		m_pbittle4 = new Bittle(6200.f, 1300.f);
-	//		numOfMonster++;
-	//		//m_pbittle->Initialize();
-	//		dynamic_cast<Bittle*>(m_pbittle4)->Set_Info(m_pPlayer);
-	//		dynamic_cast<Bittle*>(m_pbittle4)->Set_Info2(m_pPlayer2);
-	//		dynamic_cast<Player*>(m_pPlayer)->Set_Infobit4(m_pbittle4);
-	//		dynamic_cast<Player*>(m_pPlayer2)->Set_Infobit4(m_pbittle4);
-	//	}
-	//	wave += 1;
-	//}
+		if (m_pbittle4 == nullptr) {
+			m_pbittle4 = new Bittle(6200.f, 1300.f);
+			// m_pbittle4->Initialize();
+			v_Monster.push_back(dynamic_cast<Bittle*>(m_pbittle4)->Get_Data(4));
+			dynamic_cast<Bittle*>(m_pbittle4)->Set_Info(m_pPlayer);
+			dynamic_cast<Bittle*>(m_pbittle4)->Set_Info2(m_pPlayer2);
+			dynamic_cast<Player*>(m_pPlayer)->Set_Infobit4(m_pbittle4);
+			dynamic_cast<Player*>(m_pPlayer2)->Set_Infobit4(m_pbittle4);
+		}
+		waveNum++;
+	}
 
-	//if (m_pbittle2 != nullptr) {
-	//	m_pbittle2->Update();
-	//	v_Monster[5] = dynamic_cast<Bittle*>(m_pbittle2)->Get_Data();
-	//	if (m_pbittle2->iHp <= 0) {
-	//		Safe_Delete(m_pbittle2);
-	//	}
-	//}
-	//if (m_pbittle3 != nullptr) {
-	//	m_pbittle3->Update();
-	//	v_Monster[6] = dynamic_cast<Bittle*>(m_pbittle3)->Get_Data();
-	//	if (m_pbittle3->iHp <= 0) {
-	//		Safe_Delete(m_pbittle3);
-	//	}
-	//}
-	//if (m_pbittle4 != nullptr) {
-	//	m_pbittle4->Update();
-	//	v_Monster[7] = dynamic_cast<Bittle*>(m_pbittle4)->Get_Data();
-	//	if (m_pbittle4->iHp <= 0) {
-	//		Safe_Delete(m_pbittle4);
-	//	}
-	//}
-	//if (m_pHushKni != nullptr) {
-	//	m_pHushKni->Update();
-	//	v_Monster[8] = dynamic_cast<HushKnight*>(m_pHushKni)->Get_Data();
-	//	if (m_pHushKni->iHp <= 0) {
-	//		Safe_Delete(m_pHushKni);
-	//	}
-	//}
+	if (m_pbittle2 != nullptr) {
+		m_pbittle2->Update();
+		v_Monster[5] = dynamic_cast<Bittle*>(m_pbittle2)->Get_Data(2);
+		if (m_pbittle2->iHp <= 0) {
+			Safe_Delete(m_pbittle2);
+		}
+	}
+	if (m_pbittle3 != nullptr) {
+		m_pbittle3->Update();
+		v_Monster[6] = dynamic_cast<Bittle*>(m_pbittle3)->Get_Data(3);
+		if (m_pbittle3->iHp <= 0) {
+			Safe_Delete(m_pbittle3);
+		}
+	}
+	if (m_pbittle4 != nullptr) {
+		m_pbittle4->Update();
+		v_Monster[7] = dynamic_cast<Bittle*>(m_pbittle4)->Get_Data(4);
+		if (m_pbittle4->iHp <= 0) {
+			Safe_Delete(m_pbittle4);
+		}
+	}
+	if (m_pHushKni != nullptr) {
+		m_pHushKni->Update();
+		v_Monster[8] = dynamic_cast<HushKnight*>(m_pHushKni)->Get_Data();
+		if (m_pHushKni->iHp <= 0) {
+			Safe_Delete(m_pHushKni);
+			waveNum++;
+		}
+	}
 
-	//if (wave == 3 && Wave2clear==true) {
-	//	dynamic_cast<Player*>(m_pPlayer)->Set_Wave(wave);
-	//	dynamic_cast<Player*>(m_pPlayer)->SoundON();
-	//	if (m_pSub == nullptr) {
-	//		m_pSub = new SubBoss;
-	//		m_pSub->Initialize();
-	//		dynamic_cast<SubBoss*>(m_pSub)->Set_Info(m_pPlayer);
-	//		dynamic_cast<SubBoss*>(m_pSub)->Set_Info2(m_pPlayer2);
-	//		dynamic_cast<Player*>(m_pPlayer)->Set_InfoSubBoss(m_pSub);
-	//		dynamic_cast<Player*>(m_pPlayer2)->Set_InfoSubBoss(m_pSub);
-
-	//		if (m_pHushKni == nullptr) {
-	//			m_pHushKni = new HushKnight(8000.f,1100.f);
-	//			m_pHushKni->Initialize();
-	//			numOfMonster++;
-	//			dynamic_cast<HushKnight*>(m_pHushKni)->Set_Info(m_pPlayer);
-	//			dynamic_cast<Player*>(m_pPlayer)->Set_InfoHushK(m_pHushKni);
-	//			dynamic_cast<HushKnight*>(m_pHushKni)->Set_Info2(m_pPlayer2);
-	//			dynamic_cast<Player*>(m_pPlayer2)->Set_InfoHushK(m_pHushKni);
-	//		}
-	//	}
-	//	
-	//	wave += 1;
-	//	
-	//}
-	//
+	if (waveNum == 3 && Wave2clear == true) {
+			if (m_pHushKni == nullptr) {
+				m_pHushKni = new HushKnight(8000.f, 1100.f);
+				m_pHushKni->Initialize();
+				v_Monster.push_back(dynamic_cast<HushKnight*>(m_pHushKni)->Get_Data());
+				dynamic_cast<HushKnight*>(m_pHushKni)->Set_Info(m_pPlayer);
+				dynamic_cast<HushKnight*>(m_pHushKni)->Set_Info2(m_pPlayer2);
+				dynamic_cast<Player*>(m_pPlayer)->Set_InfoHushK(m_pHushKni);
+				dynamic_cast<Player*>(m_pPlayer2)->Set_InfoHushK(m_pHushKni);
+			}
+		waveNum++;
+	}
+	
 	///////////////////////////////////////////////////////////
 
 	PlayerHp = dynamic_cast<Player*>(m_pPlayer)->GetHp();
-
+	if (waveNum != 1)
+		dynamic_cast<Player*>(m_pPlayer)->Set_Wave(waveNum);
 	
 	if (PlayerHp < 0) {
 		
@@ -263,7 +235,7 @@ void CStage1::Update() {
 void CStage1::LateUpdate()
 {
 	m_pPlayer->LateUpdate();
-	//m_pPlayer2->LateUpdate();
+	m_pPlayer2->LateUpdate();
 
 	if (m_pHush != nullptr) {
 		m_pHush->LateUpdate();
@@ -292,12 +264,11 @@ void CStage1::LateUpdate()
 	if (m_pHushKni != nullptr) {
 		m_pHushKni->LateUpdate();
 	}
-
-	if (m_pbittle4 == nullptr && m_pbittle3 == nullptr && m_pbittle2 == nullptr && wave == 3) {
+	
+	if (m_pbittle4 == nullptr && m_pbittle3 == nullptr && m_pbittle2 == nullptr && waveNum == 3) {
 		Wave2clear = true;
 	}
-	if (wave == 5 && m_pHushKni == nullptr && m_pSub == nullptr) {
-		
+	if (waveNum == 5 && m_pHushKni == nullptr) {
 	}
 
 }
@@ -305,7 +276,7 @@ void CStage1::LateUpdate()
 void CStage1::Render(HDC hDC)
 {
 	m_pPlayer->UpdateRect();
-	//m_pPlayer2->UpdateRect();
+	m_pPlayer2->UpdateRect();
 
 	if (m_pHush != nullptr) {
 		m_pHush->UpdateRect();
@@ -368,7 +339,7 @@ void CStage1::Render(HDC hDC)
 		m_pHushKni->Render(hDC);
 	}
 	m_pPlayer->Render(hDC);
-	//m_pPlayer2->Render(hDC);
+	m_pPlayer2->Render(hDC);
 	HDC mMemDC = CBitmapMgr::Get_Instance()->FindImage(L"mapRoad");
 	HDC hHpDC = CBitmapMgr::Get_Instance()->FindImage(L"HPbar");
 	HDC hHPiconDC = CBitmapMgr::Get_Instance()->FindImage(L"HPicon");

@@ -338,7 +338,7 @@ void Bittle::findPlayer() {
 	else {
 		followOn = FALSE;
 	}
-	if (numOfPlayer == 2) {
+	if (numOfPlayer == 2 && !followOn) {
 		p = m_pPlayer2->Get_Rect();
 		p.left = p.left + 100;
 		p.right = p.right - 104;
@@ -382,7 +382,7 @@ void Bittle::Set_time(DWORD Hittime)
 	time = Hittime;
 }
 
-MonsterData Bittle::Get_Data()
+MonsterData Bittle::Get_Data(int num)
 {
 	if (this->iHp <= 0)
 		setDead(true);
@@ -391,6 +391,13 @@ MonsterData Bittle::Get_Data()
 	temp.isDead = m_bIsDead;
 	temp.monsterState = MONSTERSTATE(m_eNextState);
 	temp.monsterDir = MONSTERDIRECTION(m_eDirc);
-	temp.monsterType = HUSH;
+	if (num == 1)
+		temp.monsterType = BITTLE;
+	else if (num == 2)
+		temp.monsterType = BITTLE2;
+	else if (num == 3)
+		temp.monsterType = BITTLE3;
+	else if (num == 4)
+		temp.monsterType = BITTLE4;
 	return temp;
 }

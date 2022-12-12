@@ -105,7 +105,13 @@ void Player::Initialize()
 int Player::Update()
 {
 	RECT rcTemp;
-
+	if (b_IsChange == false) {
+		if (b_canChange == true) {
+			if (m_tInfo.fX > 8700) {
+				b_canChange = false;
+			}
+		}
+	}
 	WaitForSingleObject(h_WriteDataEvent, INFINITE); // 읽기 완료 대기
 	SetEvent(h_SendDataEvent);
 
@@ -285,77 +291,74 @@ int Player::Update()
 	}
 
 	////////////////////////////////////////////몬스터 플레이어 충돌///////////////////////////////////////
-	//if (Attacked == false) {
-	//	if (m_wave == 0) {
+	if (Attacked == false) {
+		if (m_wave == 0) {
 
-	//		if (Check_Collision(this, pFly)) {
-	//			Hp -= 1;
-	//			Attacked = true;
-	//		}
-	//		if (Check_Collision(this, pBug)) {
-	//			Hp -= 1;
-	//			Attacked = true;
-	//		}
-	//		if (Check_Collision(this, pbittle)) {
-	//			Hp -= 1;
-	//			Attacked = true;
-	//		}
-	//		if (Check_Collision(this, pHusk)) {
-	//			Hp -= 1;
-	//			Attacked = true;
-	//		}
-	//		if (Check_Collision(this, pSubBoss)) {
-	//			Hp -= 1;
-	//			Attacked = true;
-	//		}
-	//		if (pSubBoss != nullptr) {
-	//			bool t = pSubBoss->effectOn;
-	//			if (t) {
-	//				RECT rcTemp;
-	//				RECT a = (pSubBoss)->drawEffect;
+			if (Check_Collision(this, pFly)) {
+				Hp -= 1;
+				Attacked = true;
+			}
+			if (Check_Collision(this, pBug)) {
+				Hp -= 1;
+				Attacked = true;
+			}
+			if (Check_Collision(this, pbittle)) {
+				Hp -= 1;
+				Attacked = true;
+			}
+			if (Check_Collision(this, pHusk)) {
+				Hp -= 1;
+				Attacked = true;
+			}
+			if (Check_Collision(this, pSubBoss)) {
+				Hp -= 1;
+				Attacked = true;
+			}
+			if (pSubBoss != nullptr) {
+				bool t = pSubBoss->effectOn;
+				if (t) {
+					RECT rcTemp;
+					RECT a = (pSubBoss)->drawEffect;
 
-	//				if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
-	//					Hp -= 1;
-	//					Attacked = true;
-	//				}
-	//			}
-	//		}
-	//	}
-	//	/////////////////////////////////1////////////////////////////////////
-	//	if (m_wave == 2) {
-	//		if (Check_Collision(this, pbittle2)) {
-	//			Hp -= 1;
-	//			Attacked = true;
-	//		}
-	//		if (Check_Collision(this, pbittle3)) {
-	//			Hp -= 1;
-	//			Attacked = true;
-	//		}
-	//		if (Check_Collision(this, pbittle4)) {
-	//			Hp -= 1;
-	//			Attacked = true;
-	//		}
-
-	//	}
-	//	if (m_wave == 3) {
-	//		if (Check_Collision(this, pHushK)) {
-	//			Hp -= 1;
-	//			Attacked = true;
-	//		}
-	//		bool t = pSubBoss->effectOn;
-	//		if (t) {
-	//			RECT rcTemp;
-	//			RECT a = (pSubBoss)->drawEffect;
-
-	//			if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
-	//				Hp -= 1;
-	//				Attacked = true;
-	//			}
-	//		}
-
-	//	}
+					if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
+						Hp -= 1;
+						Attacked = true;
+					}
+				}
+			}
+		}
+		/////////////////////////////////1////////////////////////////////////
+		if (m_wave == 3) {
+			if (Check_Collision(this, pbittle2)) {
+				Hp -= 1;
+				Attacked = true;
+			}
+			if (Check_Collision(this, pbittle3)) {
+				Hp -= 1;
+				Attacked = true;
+			}
+			if (Check_Collision(this, pbittle4)) {
+				Hp -= 1;
+				Attacked = true;
+			}
+		}
+		if (m_wave == 4){
+			bool t = pSubBoss->effectOn;
+			if (Check_Collision(this, pHushK)) {
+				Hp -= 1;
+				Attacked = true;
+			}
+			if (t) {
+				RECT rcTemp;
+				RECT a = (pSubBoss)->drawEffect;
+				if (IntersectRect(&rcTemp, &a, &this->HitBox)) {
+					Hp -= 1;
+					Attacked = true;
+				}
+			}
+		}
 	//	///////////////////////////////////////////////////////////
-	//}
+	}
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -494,7 +497,7 @@ int Player::Update()
 
 	////////////////////////등장사운드///////////////////////////////////////
 	
-	if ( m_wave == 3 &&Sound_On==true) {
+	if ( m_wave == 3 &&Sound_On == true) {
 
 		CSoundMgr::Get_Instance()->PlaySound(L"a.monsterEmer.wav", CSoundMgr::MONSTER);
 		Sound_On = false;

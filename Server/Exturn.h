@@ -10,3 +10,4 @@ extern PlayerData g_Player;
 extern PlayerData g_Player2;
 extern vector<MonsterData> v_Monster;
 extern int numOfMonster;
+extern int waveNum;
