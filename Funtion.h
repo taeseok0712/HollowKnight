@@ -27,11 +27,12 @@ void Safe_Delete(T& rObj)
 		delete rObj;
 		rObj = nullptr;
 	}
-}
+};
 
 template<typename T>
 bool CompareY(T src, T dst)
 {
 	return src->Get_Info().fY < dst->Get_Info().fY;
 
-}
+};
+

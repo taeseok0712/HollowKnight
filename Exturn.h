@@ -8,6 +8,16 @@ extern HWND g_hWND;
 extern HANDLE h_SendDataEvent;
 extern HANDLE h_WriteDataEvent;
 extern HANDLE h_InitMonsterEvent;
+extern HANDLE h_ConnectServerEvent;
+
+
+
+extern SCENEID CUR_SCENE;
+extern string SERVER_IP;
+extern string NickName;
+
+//extern SCENEID SID;
+
 extern PlayerData playerDataPacket;
 
 extern PlayerData OtherPlayerData;

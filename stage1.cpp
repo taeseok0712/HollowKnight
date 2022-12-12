@@ -15,7 +15,7 @@ HANDLE h_InitMonsterEvent;
 CStage1::CStage1()
 {
 	wave = 1;
-
+	
 	if (m_pPlayer == nullptr) {
 		m_pPlayer = new Player;
 		m_pPlayer->Initialize();
@@ -60,15 +60,15 @@ CStage1::CStage1()
 		dynamic_cast<Player*>(m_pPlayer)->Set_InfoSubBoss(m_pSub);
 	}
 	*/
-	
-	
-	
-		
+
+
+
+
 	if (m_pbittle == nullptr)
 	{
 		m_pbittle = new Bittle;
 		m_pbittle->Initialize();
-		
+
 		//dynamic_cast<Bittle*>(m_pbittle)->Set_Info(m_pPlayer);
 		//dynamic_cast<Player*>(m_pPlayer)->Set_Infobit(m_pbittle);
 
@@ -125,7 +125,7 @@ void CStage1::Initialize()
 void CStage1::Update() {
 	m_pPlayer->Update();
 	m_OtherPlayer->Update();
-
+	
 	WaitForSingleObject(h_InitMonsterEvent, INFINITY);
 	for (auto& a : v_Monster)
 	{
@@ -229,7 +229,7 @@ void CStage1::LateUpdate()
 void CStage1::Render(HDC hDC)
 {
 	m_pPlayer->UpdateRect();
-	
+	//TextOut(hDC, m_pPlayer->Get_Info().fX, m_pPlayer->Get_Info().fY, (LPWSTR)(LPCWSTR)NickName.c_str(), NickName.size());
 	if (m_pHush != nullptr) {
 		m_pHush->UpdateRect();
 	}

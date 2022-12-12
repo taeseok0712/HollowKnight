@@ -21,5 +21,7 @@ private:
 	RECT m_RExit;
 	int m_iTochange;
 	int m_iTochange2;
+
+	
 };
 

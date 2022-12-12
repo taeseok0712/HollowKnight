@@ -54,8 +54,8 @@ void OtherPlayer::Initialize()
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/00. idle.bmp", L"idle");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/01. move.bmp", L"move");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/02. jump_start.bmp", L"jumpstart");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/04. jump_falling.bmp", L" jump_falling");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/05. jump_landing.bmp", L" jump_landing");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/04. jump_falling.bmp", L"jump_falling");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/05. jump_landing.bmp", L"jump_landing");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/06. att_normal_1.bmp", L"attack");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/09. att_down_to_top.bmp", L"attack_up");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/08. att_top_to_down.bmp", L"attack_down");
@@ -612,10 +612,10 @@ void OtherPlayer::SetState()
 		m_pFrameKey = L"jumpstart";
 		break;
 	case OtherPlayer::STATE_FALL:
-		m_pFrameKey = L" jump_falling";
+		m_pFrameKey = L"jump_falling";
 		break;
 	case OtherPlayer::STATE_LAND:
-		m_pFrameKey = L" jump_landing";
+		m_pFrameKey = L"jump_landing";
 		break;
 	case OtherPlayer::STATE_DEAD:
 		m_pFrameKey = L"dead";

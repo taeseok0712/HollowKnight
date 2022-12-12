@@ -24,6 +24,7 @@ namespace GroupID
 
 
 
+
 enum Direction { DR_LEFT, DR_RIGHT, DR_UP, DR_DOWN };
 
 //µô·¹ÀÌ¿ë

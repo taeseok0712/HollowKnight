@@ -26,7 +26,17 @@ PlayerData g_Player2;
 
 HANDLE h_InitPlayerEvent;
 
+SCENEID CUR_SCENE = (SCENEID)SCENE_MENU;
+
 vector<MonsterData> v_Monster;
+
+void RecvSceneId(SOCKET sock)
+{
+	int retval;
+	retval = recv(sock, (char*)&CUR_SCENE, sizeof(SCENEID), 0);//클라이언트 플레이어 데이터 전송
+
+};
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine, int nCmdShow)
 {

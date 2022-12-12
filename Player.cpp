@@ -13,8 +13,8 @@ Player::Player() :m_pFrameKey(L"")
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/00. idle.bmp", L"idle");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/01. move.bmp", L"move");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/02. jump_start.bmp", L"jumpstart");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/04. jump_falling.bmp", L" jump_falling");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/05. jump_landing.bmp", L" jump_landing");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/04. jump_falling.bmp", L"jump_falling");
+	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/05. jump_landing.bmp", L"jump_landing");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/06. att_normal_1.bmp", L"attack");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/09. att_down_to_top.bmp", L"attack_up");
 	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/08. att_top_to_down.bmp", L"attack_down");
@@ -50,6 +50,26 @@ Player::Player() :m_pFrameKey(L"")
 	SetRect(&wall[19], 3950, 762, 4115, 817); // 발판
 	SetRect(&wall[20], 4344, 631, 4473, 810); // 발판
 	SetRect(&wall[21], 4715, 695, 4883, 753); // 발판
+
+	m_tInfo.fX = 800.f;
+	m_tInfo.fY = 500.f;
+	m_tInfo.fCX = 256.f;
+	m_tInfo.fCY = 128.f;
+	CanHit = true;
+	Sound_On = false;
+	Hp = 6;
+
+	m_fJumpAccel = 0.2f;
+	m_fJumpPower = 20.f;
+	m_eDirc = DR_RIGHT;
+	m_eNextState = STATE_FALL;
+	m_pFrameKey = L"jump_falling";
+	Attck = L"side";
+	m_fSpeed = 10.f;
+	Scrollspeed_X = 10.f;
+	b_canChange = true;
+	b_IsChange = false;
+
 	ZeroMemory(&m_tPosin, sizeof(POINT));
 }
 
@@ -60,41 +80,7 @@ Player::~Player()
 
 void Player::Initialize()
 {
-	m_tInfo.fX = 800.f;
-	m_tInfo.fY = 500.f;
-	m_tInfo.fCX = 256.f;
-	m_tInfo.fCY = 128.f;
-	CanHit = true;
-	Sound_On = false;
-	Hp = 6;
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/00. idle.bmp", L"idle");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/01. move.bmp", L"move");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/02. jump_start.bmp", L"jumpstart");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/04. jump_falling.bmp", L" jump_falling");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/05. jump_landing.bmp", L" jump_landing");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/06. att_normal_1.bmp", L"attack");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/09. att_down_to_top.bmp", L"attack_up");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/08. att_top_to_down.bmp", L"attack_down");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/10. attacked.bmp", L"attacked");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/motion/11. hero_dead.bmp", L"dead");
 
-
-	////이펙트/////
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/effect/Att_side.bmp", L"side");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/effect/Attacked.bmp", L"attackedEff");
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/effect/Att_UD.bmp", L"up");
-
-	CBitmapMgr::Get_Instance()->InsertBmp(L"../Image/Hero/Player.bmp", L"Player");
-	m_fJumpAccel = 0.2f;
-	m_fJumpPower = 20.f;
-	m_eDirc = DR_RIGHT;
-	m_eNextState = STATE_FALL;
-	m_pFrameKey = L" jump_falling";
-	Attck = L"side";
-	m_fSpeed = 10.f;
-	Scrollspeed_X = 10.f;
-	b_canChange = true;
-	b_IsChange = false;
 	CSoundMgr::Get_Instance()->PlayBGM(L"S19 Crossroads Main.wav");
 
 	
@@ -634,7 +620,7 @@ void Player::IsJumping()
 		if ((m_fJumpPower * m_fJumpAccel <= GRAVITY * m_fJumpAccel * m_fJumpAccel * 0.5f) || drop) {
 			
 			m_tInfo.fY += FSpeed + (GRAVITY * m_fJumpAccel) * 0.5f;
-			m_pFrameKey = L" jump_falling";
+			m_pFrameKey = L"jump_falling";
 			m_eNextState = STATE_FALL;
 
 			if (IsColl == true)
@@ -652,7 +638,7 @@ void Player::IsJumping()
 			//m_tInfo.fY = wall[Collnum].top - 60;
 
 			m_bIsJump = false;
-			m_pFrameKey = L" jump_landing";
+			m_pFrameKey = L"jump_landing";
 			m_eNextState = STATE_LAND;
 			m_fJumpAccel = 0.f;
 		}
@@ -677,7 +663,7 @@ void Player::IsJumping()
 			if (isLand == false) {
 				if (m_eCurState == STATE_FALL && m_eNextState != STATE_LAND) {
 
-					m_pFrameKey = L" jump_landing";
+					m_pFrameKey = L"jump_landing";
 					m_eNextState = STATE_LAND;
 					m_fJumpAccel = 0.f;
 					isLand = true;

@@ -6,6 +6,7 @@
 
 CLobby::CLobby()
 {
+
 }
 
 

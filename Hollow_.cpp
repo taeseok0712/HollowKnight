@@ -5,10 +5,12 @@
 #else
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 #endif
+
 #include "framework.h"
 #include "Hollow_.h"
 #include "Maingame.h"
 #include "Common.h"
+
 
 #define SERVERIP   "127.0.0.1"
 #define SERVERPORT 9000
@@ -38,6 +40,15 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름�
 PlayerData playerDataPacket;
 HANDLE h_SendDataEvent;
 HANDLE h_WriteDataEvent;
+HANDLE h_ConnectServerEvent;
+
+//서버 접속용
+SCENEID CUR_SCENE;
+string SERVER_IP = "127.0.0.1";
+string NickName;
+
+
+
 PlayerData OtherPlayerData;
 std::vector<MonsterData> v_Monster;
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
@@ -45,6 +56,39 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+
+void SendPlayerInfo(SOCKET sock)
+{
+    int retval;
+    retval = send(sock, (char*)&playerDataPacket, sizeof(PlayerData), 0);//클라이언트 플레이어 데이터 전송
+
+};
+
+void RecvMonsterData(SOCKET sock, bool& b_Init)
+{
+    int MonsterNum;
+    MonsterData Mdt;
+    int retval;
+    retval = recv(sock, (char*)&MonsterNum, sizeof(int), 0); //몬스터 갯수 받아오기
+
+    for (int i = 0; i < MonsterNum; ++i)
+    {
+        if (!b_Init) {
+            retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0); //몬스터 데이터 받기
+            v_Monster.push_back(Mdt); //받은 데이터를 넣어준다
+            if (i == MonsterNum - 1) {//다넣으면 더이상 넣지 않는다
+                b_Init = true;
+                SetEvent(h_InitMonsterEvent);
+            }
+        }
+        else {
+            retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0);
+            v_Monster[i] = Mdt; //서버로부터 몬스터 데이터를 받아와 갱신해준다.
+        }
+    }
+};
+
+
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -68,7 +112,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     h_WriteDataEvent = CreateEvent(NULL, FALSE, TRUE, NULL);
     h_SendDataEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
     h_InitMonsterEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-
+    h_ConnectServerEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
     // 소켓 통신 스레드 생성
     CreateThread(NULL, 0, ClientMain, NULL, 0, NULL);
 
@@ -82,6 +126,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     {
         return FALSE;
     }
+ 
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_HOLLOW));
 
@@ -163,6 +208,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
+
 	hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 	RECT rc = { 0, 0, 1600, 900 };
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE); //출력 영역 크기를 조절하는 함수. 
@@ -242,13 +288,13 @@ DWORD WINAPI ClientMain(LPVOID arg)
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == INVALID_SOCKET) err_quit("socket()");
 
-    bool PushMonsetDt = false;
+   // WaitForSingleObject(h_ConnectServerEvent, INFINITE); //클라이언트에 접속할 서버ip주소와 자신의 닉네임 입력 전까진 대기시키기
 
 	// connect()
 	struct sockaddr_in serveraddr;
 	memset(&serveraddr, 0, sizeof(serveraddr));
 	serveraddr.sin_family = AF_INET;
-	serveraddr.sin_addr.s_addr = inet_addr(SERVERIP);
+	serveraddr.sin_addr.s_addr = inet_addr(SERVER_IP.c_str());
 	serveraddr.sin_port = htons(SERVERPORT);
 	retval = connect(sock, (struct sockaddr*)&serveraddr, sizeof(serveraddr));
 	if (retval == SOCKET_ERROR) err_quit("connect()");
@@ -258,36 +304,19 @@ DWORD WINAPI ClientMain(LPVOID arg)
 
     PlayerData pd = {}; //다른 플레이어 데이터용
     int GetSize = 0;
-    int MonsterNum;
-    MonsterData Mdt;
+   
+    
     bool b_Init = false;
     while (1) {
         WaitForSingleObject(h_SendDataEvent, INFINITE);
-        retval = send(sock, (char*)&playerDataPacket, sizeof(PlayerData), 0);//클라이언트 플레이어 데이터 전송
-
+        SendPlayerInfo(sock);
         //타 클라 플레이어 데이터 수신
        // retval = recv(sock, (char*)&OtherPlayerData, sizeof(PlayerData), 0);//클라이언트 플레이어 데이터 전송
 
         //몬스터 정보 수신
 
-        retval = recv(sock, (char*)&MonsterNum, sizeof(int), 0); //몬스터 갯수 받아오기
         
-        for (int i = 0; i < MonsterNum; ++i)
-        {
-            if (!b_Init) {
-                retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0); //몬스터 데이터 받기
-                v_Monster.push_back(Mdt); //받은 데이터를 넣어준다
-                if (i == MonsterNum-1) {//다넣으면 더이상 넣지 않는다
-                    b_Init = true;
-                    SetEvent(h_InitMonsterEvent);
-                }
-            }
-            else {
-                retval = recv(sock, (char*)&Mdt, sizeof(MonsterData), 0);
-                v_Monster[i] = Mdt; //서버로부터 몬스터 데이터를 받아와 갱신해준다.
-            }
-         }
-        
+        RecvMonsterData(sock, b_Init);
 
         SetEvent(h_WriteDataEvent);
         
