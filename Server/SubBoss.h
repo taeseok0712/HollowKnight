@@ -19,7 +19,7 @@ public:
 	virtual void Initialize() override;
 	virtual int Update() override;
 	virtual void LateUpdate() override;
-	virtual void Render(HDC hdc) override;
+	virtual void Render(HDC hdc) override { CObj::UpdateRect(); };
 	virtual void Release() override;
 public:
 	void FrameChange();

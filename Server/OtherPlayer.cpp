@@ -257,7 +257,7 @@ int OtherPlayer::Update()
 void OtherPlayer::LateUpdate()
 {
 	CObj::FrameMove();
-	//IsJumping();
+	// IsJumping();
 	FrameChange();
 }
 
@@ -597,7 +597,7 @@ void OtherPlayer::SetState()
 		m_pFrameKey = L"jumpstart";
 		break;
 	case OtherPlayer::STATE_FALL:
-		m_pFrameKey = L"jump_falling";
+		m_pFrameKey = L" jump_falling";
 		break;
 	case OtherPlayer::STATE_LAND:
 		m_pFrameKey = L" jump_landing";

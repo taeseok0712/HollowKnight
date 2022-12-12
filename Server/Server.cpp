@@ -26,13 +26,14 @@ PlayerData g_Player2;
 PlayerData Client1Player;
 PlayerData Client2Player;
 
+CRITICAL_SECTION cs;
+
+
 vector<MonsterData> v_Monster;
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine, int nCmdShow)
 {
 	hInst = hInstance;
-
-	// 소켓 통신 스레드 생성
 
 	// 윈도우 클래스 등록
 	WNDCLASS wndclass;
@@ -67,7 +68,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	CMainGame MainGame;
 	MainGame.Initialize();
 	DWORD dwOldTime = GetTickCount();
-
+	// 소켓 통신 스레드 생성
 	CreateThread(NULL, 0, ServerMain, NULL, 0, NULL);
 
 	while (WM_QUIT != msg.message)
@@ -85,7 +86,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 				MainGame.Update();
 				MainGame.LateUpdate();
-				MainGame.Render();
+				// MainGame.Render();
 				dwOldTime = GetTickCount();
 			}
 		}

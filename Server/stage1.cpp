@@ -116,6 +116,8 @@ void CStage1::Update() {
 		m_pHush->Update();
 		v_Monster[0] = dynamic_cast<Husk*>(m_pHush)->Get_Data();
 		if (m_pHush->iHp <= 0) {
+			m_pHush->setDead(true);
+			v_Monster[0] = dynamic_cast<Husk*>(m_pHush)->Get_Data();
 			Safe_Delete(m_pHush);
 		}
 	}
@@ -322,75 +324,75 @@ void CStage1::Render(HDC hDC)
 	if (m_pHushKni != nullptr) {
 		m_pHushKni->UpdateRect();
 	}
-	int iScrollX = CMyScrollMgr::Get_ScrollX();
-	int iScrollY = CMyScrollMgr::Get_ScrollY();
-	HDC mMemDC2 = CBitmapMgr::Get_Instance()->FindImage(L"mapBack");
+	//int iScrollX = CMyScrollMgr::Get_ScrollX();
+	//int iScrollY = CMyScrollMgr::Get_ScrollY();
+	//HDC mMemDC2 = CBitmapMgr::Get_Instance()->FindImage(L"mapBack");
 	
-	BitBlt(hDC, 0, 0, WINCX, WINCY, mMemDC2, 0, 0, SRCCOPY);
+	// BitBlt(hDC, 0, 0, WINCX, WINCY, mMemDC2, 0, 0, SRCCOPY);
 
-	if (m_pHush != nullptr) {
-		m_pHush->Render(hDC);
-	}
-	if (m_pFly != nullptr) {
-		m_pFly->Render(hDC);
-	}
-	if (m_pBug != nullptr) {
-		m_pBug->Render(hDC);
-	}
-	if (m_pSub != nullptr) {
-		m_pSub->Render(hDC);
-	}
-	if (m_pbittle != nullptr) {
-		m_pbittle->Render(hDC);
-	}
-	if (m_pbittle2 != nullptr) {
-		m_pbittle2->Render(hDC);
-	}
-	if (m_pbittle3 != nullptr) {
-		m_pbittle3->Render(hDC);
-	}
-	if (m_pbittle4 != nullptr) {
-		m_pbittle4->Render(hDC);
-	}
-	if (m_pHushKni != nullptr) {
-		m_pHushKni->Render(hDC);
-	}
-	m_pPlayer->Render(hDC);
-	m_pPlayer2->Render(hDC);
-	HDC mMemDC = CBitmapMgr::Get_Instance()->FindImage(L"mapRoad");
-	HDC hHpDC = CBitmapMgr::Get_Instance()->FindImage(L"HPbar");
-	HDC hHPiconDC = CBitmapMgr::Get_Instance()->FindImage(L"HPicon");
-	HDC PowerGage = CBitmapMgr::Get_Instance()->FindImage(L"PowerGage");
-	TransparentBlt(hDC,
-		0, 0,
-		1600, 900,
-		mMemDC,
-		-iScrollX, -iScrollY,// 출력할 그림의 시작 좌표. 
-		1600, 900,//그림의 전체 가로세로 크기 
-		RGB(255, 0, 0));
-	GdiTransparentBlt(hDC,
-		10, 10,
-		500, 200,
-		hHpDC,
-		0, 0,// 출력할 그림의 시작 좌표. 
-		500, 200,//그림의 전체 가로세로 크기 
-		RGB(255, 0, 0));
-	for (int i = 0; i < PlayerHp; ++i) {
-		GdiTransparentBlt(hDC,
-			175+(50*i), 100,
-			75,75,
-			hHPiconDC,
-			0, 0,// 출력할 그림의 시작 좌표. 
-			100, 100,//그림의 전체 가로세로 크기 
-			RGB(255, 0, 0));
-	}
-	GdiTransparentBlt(hDC,
-		60, 70,
-		125, 110,
-		PowerGage,
-		0, 115,// 출력할 그림의 시작 좌표. 
-		55, 45,//그림의 전체 가로세로 크기 
-		RGB(255, 0, 0));
+	//if (m_pHush != nullptr) {
+	//	m_pHush->Render(hDC);
+	//}
+	//if (m_pFly != nullptr) {
+	//	m_pFly->Render(hDC);
+	//}
+	//if (m_pBug != nullptr) {
+	//	m_pBug->Render(hDC);
+	//}
+	//if (m_pSub != nullptr) {
+	//	m_pSub->Render(hDC);
+	//}
+	//if (m_pbittle != nullptr) {
+	//	m_pbittle->Render(hDC);
+	//}
+	//if (m_pbittle2 != nullptr) {
+	//	m_pbittle2->Render(hDC);
+	//}
+	//if (m_pbittle3 != nullptr) {
+	//	m_pbittle3->Render(hDC);
+	//}
+	//if (m_pbittle4 != nullptr) {
+	//	m_pbittle4->Render(hDC);
+	//}
+	//if (m_pHushKni != nullptr) {
+	//	m_pHushKni->Render(hDC);
+	//}
+	//m_pPlayer->Render(hDC);
+	//m_pPlayer2->Render(hDC);
+	//HDC mMemDC = CBitmapMgr::Get_Instance()->FindImage(L"mapRoad");
+	//HDC hHpDC = CBitmapMgr::Get_Instance()->FindImage(L"HPbar");
+	//HDC hHPiconDC = CBitmapMgr::Get_Instance()->FindImage(L"HPicon");
+	//HDC PowerGage = CBitmapMgr::Get_Instance()->FindImage(L"PowerGage");
+	//TransparentBlt(hDC,
+	//	0, 0,
+	//	1600, 900,
+	//	mMemDC,
+	//	-iScrollX, -iScrollY,// 출력할 그림의 시작 좌표. 
+	//	1600, 900,//그림의 전체 가로세로 크기 
+	//	RGB(255, 0, 0));
+	//GdiTransparentBlt(hDC,
+	//	10, 10,
+	//	500, 200,
+	//	hHpDC,
+	//	0, 0,// 출력할 그림의 시작 좌표. 
+	//	500, 200,//그림의 전체 가로세로 크기 
+	//	RGB(255, 0, 0));
+	//for (int i = 0; i < PlayerHp; ++i) {
+	//	GdiTransparentBlt(hDC,
+	//		175+(50*i), 100,
+	//		75,75,
+	//		hHPiconDC,
+	//		0, 0,// 출력할 그림의 시작 좌표. 
+	//		100, 100,//그림의 전체 가로세로 크기 
+	//		RGB(255, 0, 0));
+	//}
+	//GdiTransparentBlt(hDC,
+	//	60, 70,
+	//	125, 110,
+	//	PowerGage,
+	//	0, 115,// 출력할 그림의 시작 좌표. 
+	//	55, 45,//그림의 전체 가로세로 크기 
+	//	RGB(255, 0, 0));
 }
 
 void CStage1::Release()

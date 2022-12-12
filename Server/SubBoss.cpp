@@ -356,47 +356,48 @@ void SubBoss::LateUpdate() {
 
 	RECT rcTemp;
 }
-void SubBoss::Render(HDC hdc) {
-	CObj::UpdateRect();
-	int iScroX = CMyScrollMgr::Get_ScrollX();
-	int iScroY = CMyScrollMgr::Get_ScrollY();
-	HDC hMemDC = CBitmapMgr::Get_Instance()->FindImage(m_pFrameKey);
-	HDC hMemDC2 = CBitmapMgr::Get_Instance()->FindImage(L"effecting");
-	if (iHp > 0) {
-		GdiTransparentBlt(hdc,
-			m_tRect.left + iScroX, m_tRect.top + iScroY,
-			m_tInfo.fCX, m_tInfo.fCY,
-			hMemDC,
-			m_eDirc * m_tInfo.fCX, m_tFrame.iFrameStart * m_tInfo.fCY,// 출력할 그림의 시작 좌표. 
-			m_tInfo.fCX, m_tInfo.fCY,//그림의 전체 가로세로 크기 
-			RGB(255, 0, 0));
-	}
-
-	//HPEN hPen, oldPen;
-	//hPen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
-	//oldPen = (HPEN)SelectObject(hdc, hPen);
-	//SelectObject(hdc, GetStockObject(NULL_BRUSH));
-
-
-	//Rectangle(hdc, HitBox.left + iScroX, HitBox.top + iScroY, HitBox.right + iScroX, HitBox.bottom + iScroY);
-	//Rectangle(hdc, drawEffect.left + iScroX, drawEffect.top + iScroY, drawEffect.right + iScroX, drawEffect.bottom + iScroY);
-	//Rectangle(hdc, playerAttackBox.left + iScroX, playerAttackBox.top + iScroY, playerAttackBox.right + iScroX, playerAttackBox.bottom + iScroY);
-	//SelectObject(hdc, oldPen);
-	//DeleteObject(hPen);
-
-
-
-	if (effectOn) {
-		GdiTransparentBlt(hdc,
-			drawEffect.left + iScroX, drawEffect.top + iScroY,
-			(drawEffect.right - drawEffect.left), (drawEffect.bottom - drawEffect.top),
-			hMemDC2,
-			effectDir * 128, (m_tFrame.iFrameStart - 6) * 256,// 출력할 그림의 시작 좌표. 
-			128, 256,//그림의 전체 가로세로 크기 
-			RGB(255, 0, 0));
-
-	}
-}
+//
+//void SubBoss::Render(HDC hdc) {
+//	CObj::UpdateRect();
+//	int iScroX = CMyScrollMgr::Get_ScrollX();
+//	int iScroY = CMyScrollMgr::Get_ScrollY();
+//	HDC hMemDC = CBitmapMgr::Get_Instance()->FindImage(m_pFrameKey);
+//	HDC hMemDC2 = CBitmapMgr::Get_Instance()->FindImage(L"effecting");
+//	if (iHp > 0) {
+//		GdiTransparentBlt(hdc,
+//			m_tRect.left + iScroX, m_tRect.top + iScroY,
+//			m_tInfo.fCX, m_tInfo.fCY,
+//			hMemDC,
+//			m_eDirc * m_tInfo.fCX, m_tFrame.iFrameStart * m_tInfo.fCY,// 출력할 그림의 시작 좌표. 
+//			m_tInfo.fCX, m_tInfo.fCY,//그림의 전체 가로세로 크기 
+//			RGB(255, 0, 0));
+//	}
+//
+//	//HPEN hPen, oldPen;
+//	//hPen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
+//	//oldPen = (HPEN)SelectObject(hdc, hPen);
+//	//SelectObject(hdc, GetStockObject(NULL_BRUSH));
+//
+//
+//	//Rectangle(hdc, HitBox.left + iScroX, HitBox.top + iScroY, HitBox.right + iScroX, HitBox.bottom + iScroY);
+//	//Rectangle(hdc, drawEffect.left + iScroX, drawEffect.top + iScroY, drawEffect.right + iScroX, drawEffect.bottom + iScroY);
+//	//Rectangle(hdc, playerAttackBox.left + iScroX, playerAttackBox.top + iScroY, playerAttackBox.right + iScroX, playerAttackBox.bottom + iScroY);
+//	//SelectObject(hdc, oldPen);
+//	//DeleteObject(hPen);
+//
+//
+//
+//	if (effectOn) {
+//		GdiTransparentBlt(hdc,
+//			drawEffect.left + iScroX, drawEffect.top + iScroY,
+//			(drawEffect.right - drawEffect.left), (drawEffect.bottom - drawEffect.top),
+//			hMemDC2,
+//			effectDir * 128, (m_tFrame.iFrameStart - 6) * 256,// 출력할 그림의 시작 좌표. 
+//			128, 256,//그림의 전체 가로세로 크기 
+//			RGB(255, 0, 0));
+//
+//	}
+//}
 
 void SubBoss::Release() {
 
@@ -451,7 +452,7 @@ void SubBoss::findPlayer() {
 	else {
 		followOn = FALSE;
 	}
-	if (numOfPlayer == 2) {
+	if (numOfPlayer == 2 && !followOn) {
 		p = m_pPlayer2->Get_Rect();
 		p.left = p.left + 100;
 		p.right = p.right - 104;
