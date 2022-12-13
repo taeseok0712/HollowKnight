@@ -204,6 +204,7 @@ void CStage1::Update() {
 		v_Monster[8] = dynamic_cast<HushKnight*>(m_pHushKni)->Get_Data();
 		if (m_pHushKni->iHp <= 0) {
 			Safe_Delete(m_pHushKni);
+			waveNum++;
 		}
 	}
 
